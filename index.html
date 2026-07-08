@@ -8,7 +8,9 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
   :root{
-    --navy:#2f3a22; --navy2:#45532f; --olive:#6f8138; --sage:#c3cba6;
+    --navy:#26221c; --navy2:#3a342b; --olive:#6f8138; --sage:#c3cba6;
+    --accent-ink:#8f4e13;
+    --c-agri:#6f8138; --c-macro:#a97c14; --c-logi:#5b6068; --c-cons:#a5402a; --c-tech:#8a5a2b;
     --ink:#241f16; --body:#332d22; --paper:#fbf8f1; --wash:#f0ebdd;
     --rule:#ddd5c2; --rule-dk:#c4bba3; --muted:#6b6350; --faint:#a49a82;
     --accent:#b5651d; --wheat:#cf9f1f; --leaf:#4f6b2f; --red:#a5402a;
@@ -31,13 +33,23 @@
 
   /* hero */
   .hero{padding:74px 0 54px;border-bottom:1px solid var(--rule);}
-  .hero .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent);margin-bottom:22px;}
+  .hero .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent-ink);margin-bottom:22px;}
   .hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:52px;line-height:1.04;letter-spacing:-.025em;color:var(--navy);margin-bottom:24px;max-width:16ch;}
   .hero p{font-size:20px;line-height:1.5;color:#4a4234;max-width:60ch;}
   .hero p em{font-style:italic;color:var(--navy2);}
 
+  /* beats */
+  .beats{display:grid;grid-template-columns:1fr 1fr;gap:18px 40px;padding:34px 0 44px;border-bottom:1px solid var(--rule);}
+  .beat{font-family:'Inter',sans-serif;border-left:3px solid var(--rule);padding-left:14px;}
+  .beat.b-agri{border-color:var(--c-agri);} .beat.b-macro{border-color:var(--c-macro);}
+  .beat.b-logi{border-color:var(--c-logi);} .beat.b-cons{border-color:var(--c-cons);}
+  .beat.b-tech{border-color:var(--c-tech);}
+  .beat b{display:block;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .beat span{font-size:13.5px;color:var(--muted);line-height:1.5;}
+  @media (max-width:600px){.beats{grid-template-columns:1fr;}}
+
   /* article list */
-  .section-label{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:52px 0 8px;display:flex;align-items:center;gap:10px;}
+  .section-label{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);margin:52px 0 8px;display:flex;align-items:center;gap:10px;}
   .section-label::before{content:"";width:22px;height:2px;background:var(--accent);}
 
   .post{
@@ -47,10 +59,10 @@
   }
   .post:hover{padding-left:12px;}
   .post-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;}
-  .post-meta .tag{color:var(--accent);font-weight:600;}
+  .post-meta .tag{color:var(--accent-ink);font-weight:600;}
   .post h2{font-family:'Fraunces',serif;font-weight:600;font-size:32px;line-height:1.14;letter-spacing:-.02em;color:var(--navy);margin-bottom:12px;}
   .post p{font-size:18px;line-height:1.5;color:var(--body);max-width:64ch;}
-  .post .more{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--accent);margin-top:14px;display:inline-flex;align-items:center;gap:6px;}
+  .post .more{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--accent-ink);margin-top:14px;display:inline-flex;align-items:center;gap:6px;}
   .post .badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--paper);background:var(--leaf);padding:3px 8px;border-radius:3px;vertical-align:2px;}
 
   /* upcoming placeholder */
@@ -87,31 +99,37 @@
   <div class="wrap">
 
     <section class="hero">
-      <div class="kicker">Agriculture · Macroeconomic Policy</div>
-      <h1>Data-first notes on Pakistan's economy</h1>
-      <p>Independent analysis of the numbers behind the headlines, with a standing interest in agriculture, energy, and the gap between what policy <em>announces</em> and what it <em>delivers</em>.</p>
+      <div class="kicker">Macroeconomy · Policy · Business</div>
+      <h1>Notes on Pakistan's economy, from inside it</h1>
+      <p>Two decades of building and running businesses in agriculture, logistics, food, and technology, and the analysis that comes from that seat: data-first, primary sources, and a standing interest in the gap between what policy <em>announces</em> and what it <em>delivers</em>.</p>
     </section>
 
     <div class="section-label">Latest</div>
 
     <a class="post" href="articles/pakistan-agriculture-fy26.html">
-      <div class="post-meta"><span class="tag">Agriculture</span><span>July 2026</span><span>13 min read</span><span class="badge">Interactive</span></div>
+      <div class="post-meta"><span class="tag" style="color:var(--c-agri)">Agriculture</span><span>July 2026</span><span>13 min read</span><span class="badge">Interactive</span></div>
       <h2>The third of a harvest we never take</h2>
       <p>Pakistan grew 3.7% in FY26 and called it a recovery. Agriculture grew 2.9%, the widest miss of any sector, and the reason is not the weather. It is the gap between what our farms produce and what the same seed and soil already yield on the country's best fields, a prize worth close to a tenth of GDP, and the first reform in years to name it.</p>
       <span class="more">Read the interactive analysis →</span>
     </a>
 
-    <div class="section-label">In the works</div>
+    <div class="section-label">What to expect here</div>
+    <div class="beats">
+      <div class="beat b-agri"><b>Agriculture &amp; food systems</b><span>Yield gaps, input markets, water, and the farm economics behind the headline numbers.</span></div>
 
-    <div class="upcoming">
-      <div class="post-meta"><span class="tag">Coming next</span></div>
-      <h2>The next monthly note is in progress.</h2>
+      <div class="beat b-tech"><b>Startups &amp; technology</b><span>Pakistan's founders and what the pitch decks reveal about the real economy.</span></div>
+
+      <div class="beat b-logi"><b>Logistics &amp; supply chains</b><span>Freight economics and the last mile, from someone who has run the trucks.</span></div>
+
+      <div class="beat b-macro"><b>Macro &amp; energy policy</b><span>The Economic Survey, budgets, tariffs, and fuel and power pricing, read against delivery.</span></div>
+
+      <div class="beat b-cons"><b>Consumer &amp; franchise economics</b><span>Food brands, retail, and what it actually costs to operate in Pakistan.</span></div>
     </div>
+
 
     <section class="about">
       <h3>About</h3>
-      <p>Asad Abdulla writes independent, data-first analysis of Pakistan's agriculture and macroeconomic policy. The work favours primary sources, transparent assumptions, and charts you can interrogate yourself over confident predictions.</p>
-      <p>Find these notes and the daily commentary on <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>. Views are my own.</p>
+      <p>Asad Abdulla writes independent, data-first analysis of Pakistan's economy. Full profile and daily commentary on <a href="https://www.linkedin.com/in/asad-abdulla/" target="_blank" rel="noopener">LinkedIn</a>. Views are my own.</p>
     </section>
 
     <footer>
