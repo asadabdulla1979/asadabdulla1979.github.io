@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asad Abdulla · Macro Notes</title>
+<meta name="description" content="Independent analysis of Pakistan's agriculture and macroeconomic policy.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{
+    --navy:#2f3a22; --navy2:#45532f; --olive:#6f8138; --sage:#c3cba6;
+    --ink:#241f16; --body:#332d22; --paper:#fbf8f1; --wash:#f0ebdd;
+    --rule:#ddd5c2; --rule-dk:#c4bba3; --muted:#6b6350; --faint:#a49a82;
+    --accent:#b5651d; --wheat:#cf9f1f; --leaf:#4f6b2f; --red:#a5402a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{
+    background:var(--paper);color:var(--body);
+    font-family:'Source Serif 4',Georgia,serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 32px;}
+
+  /* masthead */
+  .mast{border-bottom:2px solid var(--navy);margin-bottom:0;}
+  .mast-inner{max-width:860px;margin:0 auto;padding:26px 32px;display:flex;justify-content:space-between;align-items:baseline;}
+  .mast .id{font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:var(--navy);letter-spacing:-.01em;}
+  .mast .id span{color:var(--accent);}
+  .mast .nav{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+
+  /* hero */
+  .hero{padding:74px 0 54px;border-bottom:1px solid var(--rule);}
+  .hero .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent);margin-bottom:22px;}
+  .hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:52px;line-height:1.04;letter-spacing:-.025em;color:var(--navy);margin-bottom:24px;max-width:16ch;}
+  .hero p{font-size:20px;line-height:1.5;color:#4a4234;max-width:60ch;}
+  .hero p em{font-style:italic;color:var(--navy2);}
+
+  /* article list */
+  .section-label{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:52px 0 8px;display:flex;align-items:center;gap:10px;}
+  .section-label::before{content:"";width:22px;height:2px;background:var(--accent);}
+
+  .post{
+    display:block;text-decoration:none;color:inherit;
+    padding:32px 0;border-bottom:1px solid var(--rule);
+    transition:padding-left .18s ease;
+  }
+  .post:hover{padding-left:12px;}
+  .post-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;}
+  .post-meta .tag{color:var(--accent);font-weight:600;}
+  .post h2{font-family:'Fraunces',serif;font-weight:600;font-size:32px;line-height:1.14;letter-spacing:-.02em;color:var(--navy);margin-bottom:12px;}
+  .post p{font-size:18px;line-height:1.5;color:var(--body);max-width:64ch;}
+  .post .more{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--accent);margin-top:14px;display:inline-flex;align-items:center;gap:6px;}
+  .post .badge{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--paper);background:var(--leaf);padding:3px 8px;border-radius:3px;vertical-align:2px;}
+
+  /* upcoming placeholder */
+  .upcoming{padding:30px 0;border-bottom:1px solid var(--rule);opacity:.62;}
+  .upcoming h2{font-family:'Fraunces',serif;font-weight:500;font-size:24px;color:var(--muted);margin-bottom:6px;font-style:italic;}
+  .upcoming .post-meta{margin-bottom:8px;}
+
+  /* about */
+  .about{padding:56px 0;border-bottom:1px solid var(--rule);}
+  .about h3{font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:var(--navy);margin-bottom:16px;}
+  .about p{font-size:17px;line-height:1.6;color:var(--body);max-width:64ch;margin-bottom:14px;}
+  .about a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule-dk);}
+  .about a:hover{border-color:var(--accent);}
+
+  footer{padding:40px 0 64px;font-family:'Inter',sans-serif;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  footer .mono{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.05em;}
+
+  @media (max-width:600px){
+    .hero h1{font-size:38px;}
+    .post h2{font-size:26px;}
+    .mast .nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="mast">
+    <div class="mast-inner">
+      <div class="id">Asad Abdulla<span> · </span>Macro Notes</div>
+      <div class="nav">Independent Analysis · Pakistan</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="kicker">Agriculture · Macroeconomic Policy</div>
+      <h1>Data-first notes on Pakistan's economy</h1>
+      <p>Independent analysis of the numbers behind the headlines, with a standing interest in agriculture, energy, and the gap between what policy <em>announces</em> and what it <em>delivers</em>.</p>
+    </section>
+
+    <div class="section-label">Latest</div>
+
+    <a class="post" href="articles/pakistan-agriculture-fy26.html">
+      <div class="post-meta"><span class="tag">Agriculture</span><span>July 2026</span><span>13 min read</span><span class="badge">Interactive</span></div>
+      <h2>The third of a harvest we never take</h2>
+      <p>Pakistan grew 3.7% in FY26 and called it a recovery. Agriculture grew 2.9%, the widest miss of any sector, and the reason is not the weather. It is the gap between what our farms produce and what the same seed and soil already yield on the country's best fields, a prize worth close to a tenth of GDP, and the first reform in years to name it.</p>
+      <span class="more">Read the interactive analysis →</span>
+    </a>
+
+    <div class="section-label">In the works</div>
+
+    <div class="upcoming">
+      <div class="post-meta"><span class="tag">Coming next</span></div>
+      <h2>The next monthly note is in progress.</h2>
+    </div>
+
+    <section class="about">
+      <h3>About</h3>
+      <p>Asad Abdulla writes independent, data-first analysis of Pakistan's agriculture and macroeconomic policy. The work favours primary sources, transparent assumptions, and charts you can interrogate yourself over confident predictions.</p>
+      <p>Find these notes and the daily commentary on <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>. Views are my own.</p>
+    </section>
+
+    <footer>
+      <span>© 2026 Asad Abdulla · Macro Notes</span>
+      <span class="mono">Built as independent analysis · Views are my own</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>

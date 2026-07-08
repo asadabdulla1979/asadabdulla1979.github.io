@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The third of a harvest we never take · Asad Abdulla</title>
+<meta name="description" content="Pakistan's farms produce barely a third of what the same seed and soil already yield on the country's best fields. An interactive analysis of the yield gap, the wheat deregulation, and the June 2026 reform.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The third of a harvest we never take">
+<meta property="og:description" content="Pakistan's yield gap is worth up to a tenth of GDP. An interactive analysis of agriculture in FY26 and the reform that finally names the problem.">
+<meta property="og:site_name" content="Asad Abdulla · Macro Notes">
+
+<meta property="og:image" content="https://asadabdulla1979.github.io/og-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    /* earthy: greens, browns, yellows, reds, greys */
+    --navy:#2f3a22;        /* dark olive-green, primary structural */
+    --navy-2:#45532f;      /* mid olive */
+    --blue:#6f8138;        /* olive-green, primary data */
+    --blue-lt:#c3cba6;     /* pale sage tint */
+    --ink:#241f16;         /* near-black warm brown */
+    --body:#332d22;        /* warm dark brown text */
+    --paper:#fbf8f1;       /* warm ivory */
+    --wash:#f0ebdd;        /* warm sand panel */
+    --rule:#ddd5c2;        /* warm grey rule */
+    --rule-dk:#c4bba3;
+    --muted:#6b6350;       /* warm grey */
+    --faint:#a49a82;
+    --accent:#b5651d;      /* burnt sienna / earth accent */
+    --accent-lt:#e3c48c;
+    --green:#4f6b2f;       /* deep leaf green, positive series */
+    --green-lt:#a9bd85;
+    --red:#a5402a;         /* brick red */
+    --red-lt:#d9a98f;
+    --wheat:#cf9f1f;       /* wheat gold */
+    --brown:#8a5a2b;       /* soil brown */
+    --brown-lt:#c39a68;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:#d8d0c0;
+    font-family:'Source Serif 4',Georgia,serif;
+    color:var(--body);
+    -webkit-font-smoothing:antialiased;
+    padding:36px 16px;line-height:1.6;
+  }
+  .sans{font-family:'Inter',-apple-system,system-ui,sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:800px;margin:0 auto;background:var(--paper);box-shadow:0 24px 70px rgba(10,31,51,.26);}
+  .col{padding:0 76px;}
+
+  /* masthead */
+  .mast{background:var(--navy);color:#fff;padding:14px 76px;display:flex;justify-content:space-between;align-items:center;}
+  .mast .id{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;}
+  .mast .id .dot{color:var(--accent);}
+  .mast .meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--blue-lt);text-transform:uppercase;}
+
+  /* header */
+  .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent);margin:52px 0 22px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:54px;line-height:1.02;letter-spacing:-.025em;color:var(--navy);margin-bottom:26px;}
+  .standfirst{font-family:'Source Serif 4',serif;font-size:21px;line-height:1.5;color:#4a4234;margin-bottom:34px;max-width:94%;}
+  .standfirst em{font-style:italic;color:var(--navy-2);font-weight:500;}
+  .byline{font-family:'Inter',sans-serif;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);padding:14px 0;display:flex;justify-content:space-between;align-items:center;}
+  .byline .who{font-size:13.5px;color:var(--ink);font-weight:700;}
+  .byline .who span{display:block;font-size:11.5px;color:var(--muted);font-weight:400;margin-top:2px;}
+  .byline .when{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-align:right;line-height:1.6;letter-spacing:.03em;}
+
+  /* metric band */
+  .band{display:grid;grid-template-columns:repeat(4,1fr);background:var(--navy);margin-top:34px;}
+  .metric{padding:22px 22px 20px;border-right:1px solid rgba(255,255,255,.1);}
+  .metric:last-child{border-right:none;}
+  .metric .lab{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;font-weight:500;color:var(--blue-lt);margin-bottom:11px;line-height:1.3;}
+  .metric .val{font-family:'Fraunces',serif;font-weight:600;font-size:34px;line-height:.9;letter-spacing:-.02em;color:#fff;}
+  .metric .val .u{font-size:20px;font-weight:500;}
+  .metric .chg{font-family:'IBM Plex Mono',monospace;font-size:10px;margin-top:11px;color:var(--faint);}
+  .band-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);background:var(--navy);padding:0 22px 16px;letter-spacing:.04em;text-transform:uppercase;}
+
+  /* body */
+  .body-wrap{padding-top:46px;}
+  p{font-size:18.5px;margin-bottom:22px;color:var(--body);}
+  .lede::first-letter{font-family:'Fraunces',serif;font-weight:600;float:left;font-size:82px;line-height:.72;padding:9px 13px 0 0;color:var(--navy);}
+  .h2-num{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--accent);letter-spacing:.1em;margin-top:50px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .h2-num::before{content:"";width:24px;height:2px;background:var(--accent);}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:29px;letter-spacing:-.02em;color:var(--navy);line-height:1.18;margin:8px 0 14px;}
+  strong{font-weight:600;color:var(--ink);}
+  em{font-style:italic;}
+  blockquote{font-family:'Fraunces',serif;font-weight:500;font-style:italic;font-size:28px;line-height:1.3;color:var(--navy);margin:42px 0;padding:4px 0 4px 28px;border-left:3px solid var(--accent);}
+
+  /* exhibits */
+  .exhibit{margin:44px 0;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);}
+  .ex-head{padding:14px 0 16px;}
+  .ex-num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+  .ex-title{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;color:var(--navy);line-height:1.25;letter-spacing:-.01em;}
+  .ex-sub{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--muted);margin-top:4px;}
+  .ex-body{padding:8px 0 6px;}
+  .exhibit svg{display:block;width:100%;height:auto;}
+  .ex-foot{font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.55;color:var(--muted);padding:14px 0 16px;border-top:1px solid var(--rule);}
+  .ex-foot b{color:var(--ink);font-weight:600;}
+  .ex-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);display:block;margin-top:8px;letter-spacing:.04em;text-transform:uppercase;}
+  .ex-legend{display:flex;gap:20px;flex-wrap:wrap;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);padding:6px 0 2px;}
+  .ex-legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px;}
+
+  /* scorecard (overhaul) */
+  .scorecard{margin:44px 0;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);}
+  .sc-row{display:grid;grid-template-columns:30px 1fr 150px;gap:18px;align-items:start;padding:18px 0;border-bottom:1px solid var(--rule);}
+  .sc-row:last-child{border-bottom:none;}
+  .sc-n{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--accent);padding-top:2px;}
+  .sc-q{font-family:'Inter',sans-serif;}
+  .sc-q b{font-size:14.5px;color:var(--ink);font-weight:600;display:block;margin-bottom:4px;}
+  .sc-q span{font-size:13px;color:var(--muted);line-height:1.5;}
+  .sc-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;text-align:right;padding-top:3px;}
+  .sc-tag.test{color:var(--accent);}
+  .sc-maps{font-family:'Inter',sans-serif;font-size:10.5px;color:var(--faint);text-align:right;margin-top:3px;text-transform:none;letter-spacing:0;font-weight:400;}
+
+  /* announcement strip */
+  .announce{background:var(--wash);border-left:3px solid var(--accent);padding:20px 24px;margin:38px 0;}
+  .announce .at{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;}
+  .announce ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9px 24px;}
+  .announce li{font-family:'Inter',sans-serif;font-size:13px;color:var(--body);padding-left:18px;position:relative;line-height:1.4;}
+  .announce li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:700;}
+  .announce li b{color:var(--ink);font-weight:600;}
+  .announce .asrc{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:14px;letter-spacing:.04em;text-transform:uppercase;}
+
+  .endnote{font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.6;color:var(--muted);background:var(--wash);padding:22px 26px;margin-top:48px;border-left:3px solid var(--navy);}
+  .endnote b{color:var(--navy);}
+  .closing-rule{height:54px;}
+
+  /* ===== interactive controls ===== */
+  .ctrl{font-family:'Inter',sans-serif;padding:4px 0 18px;}
+  .ctrl-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+  .ctrl-label{font-size:12px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;}
+  .ctrl-readout{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);font-weight:600;background:var(--wash);padding:3px 9px;border:1px solid var(--rule-dk);}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;background:linear-gradient(90deg,var(--brown),var(--wheat));border-radius:3px;outline:none;margin:8px 0 4px;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  .range-ticks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:2px;}
+  .toggle-set{display:inline-flex;border:1px solid var(--rule-dk);border-radius:4px;overflow:hidden;}
+  .toggle-set button{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;padding:6px 14px;background:var(--paper);color:var(--muted);border:none;cursor:pointer;border-right:1px solid var(--rule-dk);transition:all .15s;}
+  .toggle-set button:last-child{border-right:none;}
+  .toggle-set button.on{background:var(--navy);color:var(--paper);}
+  .live-note{font-family:'Inter',sans-serif;font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px;padding:10px 14px;background:var(--wash);border-left:2px solid var(--accent);}
+  .live-note b{color:var(--ink);}
+  .hoverable{cursor:default;transition:opacity .15s;}
+  .hoverable:hover{opacity:.82;}
+  .interactive-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;border:1px solid var(--accent);border-radius:3px;padding:2px 6px;display:inline-block;margin-left:8px;vertical-align:2px;}
+  @media print{ .ctrl{display:none;} }
+
+  /* ===== listen bar (voice-over player) ===== */
+  .listen{display:flex;align-items:center;gap:16px;margin-top:26px;padding:14px 18px;background:var(--wash);border-left:3px solid var(--accent);}
+  .listen[hidden]{display:none;}
+  .listen-btn{flex:none;width:44px;height:44px;border-radius:50%;border:none;background:var(--navy);color:var(--paper);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:3px;transition:background .15s;}
+  .listen-btn:hover{background:var(--navy2);}
+  .listen-btn.playing{padding-left:0;}
+  .listen-body{flex:1;min-width:0;}
+  .listen-label{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  .listen-label span{font-weight:400;color:var(--muted);}
+  .listen-track{height:5px;background:var(--rule-dk);border-radius:3px;cursor:pointer;position:relative;}
+  .listen-fill{height:100%;width:0;background:var(--olive, #6f8138);background:#6f8138;border-radius:3px;pointer-events:none;}
+  .listen-time{flex:none;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);letter-spacing:.03em;min-width:76px;text-align:right;}
+  @media (max-width:640px){
+    .listen{gap:12px;padding:12px 14px;}
+    .listen-btn{width:38px;height:38px;font-size:13px;}
+    .listen-time{min-width:64px;font-size:10.5px;}
+  }
+
+  @media (max-width:640px){
+    body{padding:0;}
+    .wrap{box-shadow:none;}
+    .col{padding:0 22px;}
+    .mast{padding:12px 22px;flex-direction:column;align-items:flex-start;gap:3px;}
+    h1{font-size:36px;}
+    .standfirst{font-size:17.5px;max-width:100%;}
+    .band{grid-template-columns:1fr 1fr;}
+    .metric{border-bottom:1px solid rgba(255,255,255,.1);}
+    .band-src{padding:0 22px 14px;}
+    p{font-size:17px;}
+    h2{font-size:24px;}
+    blockquote{font-size:21px;padding-left:18px;}
+    .lede::first-letter{font-size:56px;}
+    .announce ul{grid-template-columns:1fr;}
+    .sc-row{grid-template-columns:24px 1fr;}
+    .sc-tag{grid-column:2;text-align:left;padding-top:8px;}
+    .sc-maps{text-align:left;}
+    .h2-num{margin-top:38px;}
+  }
+  @media print{ body{background:#fff;padding:0;} .wrap{max-width:100%;box-shadow:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mast">
+    <div class="id">Asad Abdulla<span class="dot"> · </span><span style="font-weight:400;color:#c3cba6;">Macro Notes</span></div>
+    <div class="meta">July 2026 · 13 min read</div>
+  </div>
+
+  <div class="col">
+    <div class="kicker">Pakistan Agriculture · The FY26 Survey &amp; the Reform Ahead</div>
+    <h1>The third of a harvest<br>we never take</h1>
+    <p class="standfirst">Pakistan's farms produce barely a third of what the same seed and soil already yield on the country's best fields. That gap, not the weather, is agriculture's real story, and last week's reform announcement is the first in years to <em>name it</em>.</p>
+
+    <div class="listen" id="listen-bar" hidden>
+      <button class="listen-btn" id="listen-btn" aria-label="Play narration">&#9654;</button>
+      <div class="listen-body">
+        <div class="listen-label">Listen to this analysis <span>· read by Asad Abdulla</span></div>
+        <div class="listen-track" id="listen-track"><div class="listen-fill" id="listen-fill"></div></div>
+      </div>
+      <div class="listen-time" id="listen-time">0:00</div>
+      <audio id="narration" preload="metadata">
+        <source src="pakistan-agriculture-fy26.mp3" type="audio/mpeg">
+        <source src="pakistan-agriculture-fy26.m4a" type="audio/mp4">
+      </audio>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="metric">
+      <div class="lab">Agri growth FY26</div>
+      <div class="val">2.9<span class="u">%</span></div>
+      <div class="chg">vs 4.5% target</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Wheat yield gap</div>
+      <div class="val">⅓</div>
+      <div class="chg">of proven potential</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Smallholders</div>
+      <div class="val">97<span class="u">%</span></div>
+      <div class="chg">farm under 12.5 acres</div>
+    </div>
+    <div class="metric">
+      <div class="lab">The prize, at potential</div>
+      <div class="val">~10<span class="u">%</span></div>
+      <div class="chg">of GDP, aspirational</div>
+    </div>
+  </div>
+  <div class="band-src">Source: PES 2025–26 · Agriculture Census 2024 · PARC · PBS</div>
+
+  <div class="col body-wrap">
+
+    <p class="lede">When the Economic Survey landed this month, the number everyone repeated was 3.7%, the fastest GDP growth in four years. Agriculture barely featured in the celebration, which is fitting, because agriculture barely featured in the growth. The sector managed 2.89% against a 4.5% target, the widest miss of any part of the economy. The easy explanation is the 2025 floods. The honest explanation is harder, and it is the reason I want to spend this note on the farm rather than the headline.</p>
+
+    <p>Here is the uncomfortable truth the floods conveniently hide: even in a good year, Pakistani agriculture runs far below its own ceiling. The distance between what an average field produces and what the best fields already produce, using the same varieties, is the largest unclaimed prize in the economy. And for the first time in years, the reform package announced on 29 June points directly at it.</p>
+
+    <div class="h2-num">SECTION 01</div>
+    <h2>An average held up by animals</h2>
+
+    <p>Start with what the 2.89% is made of, because the composition matters more than the number. Livestock grew a healthy 3.75% and now accounts for roughly two-thirds of the entire agricultural sector (Exhibit 1). Crops, the part most people picture when they think of farming, grew far more weakly, and important crops crawled forward by just 0.65% with cotton and maize contracting. The sector is being carried by animals while its fields stall. And livestock has its own version of the gap: average milk yields run around 1,500 litres per lactation against a global average above 2,200, a story for another note.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 1</div>
+        <div class="ex-title">Livestock is now the sector. Crops are the passenger.</div>
+        <div class="ex-sub">Share of the ~$98bn agricultural sector, 2024</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 118" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <!-- stacked: livestock 63.6, crops 32.6, other 3.8 -->
+          <rect x="0" y="28" width="412" height="52" fill="#2f3a22"/>
+          <rect x="412" y="28" width="211" height="52" fill="#cf9f1f"/>
+          <rect x="623" y="28" width="25" height="52" fill="#a9bd85"/>
+          <text x="206" y="50" font-size="14" fill="#fff" text-anchor="middle" font-weight="600">Livestock</text>
+          <text x="206" y="68" font-size="12.5" fill="#c3cba6" text-anchor="middle">63.6% · ~$63bn</text>
+          <text x="517" y="50" font-size="13" fill="#241f16" text-anchor="middle" font-weight="600">Crops</text>
+          <text x="517" y="68" font-size="11.5" fill="#6b5410" text-anchor="middle">32.6% · ~$32bn</text>
+          <text x="0" y="104" font-size="11" fill="#6b6350">Forestry &amp; fishing make up the small remainder.</text>
+          <text x="648" y="20" font-size="10.5" fill="#6b6350" text-anchor="end" font-family="IBM Plex Mono,monospace">100% · ~$98bn</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>Two-thirds of "agriculture" is now livestock.</b> That is not inherently bad, dairy and meat are rising-value businesses, but it means the crop economy, where most smallholders actually work, is the part lagging, and the part the yield gap punishes.
+        <span class="ex-src">Source: Agriculture Census 2024; PBS · USD at ~281 PKR</span></div>
+    </div>
+
+    <div class="h2-num">SECTION 02</div>
+    <h2>The yield gap is the prize hiding in plain sight</h2>
+
+    <p>Now the central fact of this whole note. Take wheat, the crop on which four in five farms depend. The national average yield sits near <strong>3.2 tonnes per hectare</strong>. The genetic potential of the semi-dwarf varieties already growing in Pakistani soil is around <strong>8.0</strong>, and progressive growers on irrigated land routinely harvest 5 to 7. The frontier is not a mystery and the seed is not missing. The median farm captures little more than a third of what the best farms, using the same varieties, already achieve (Exhibit 2).</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 2 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">Same seed, same soil, a third of the harvest</div>
+        <div class="ex-sub">Wheat yield, tonnes per hectare. Move the slider to close the gap toward the proven frontier.</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 176" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="yg-svg">
+          <line x1="200" y1="14" x2="200" y2="140" stroke="#c4bba3" stroke-width="1.5"/>
+          <!-- national average (static ref) -->
+          <rect x="200" y="20" width="168" height="26" fill="#b5651d"/>
+          <text x="194" y="37" font-size="12.5" fill="#332d22" text-anchor="end">National average now</text>
+          <text x="374" y="37" font-size="12" fill="#b5651d" font-weight="700">3.2</text>
+          <!-- progressive growers -->
+          <rect x="200" y="52" width="315" height="26" fill="#6f8138"/>
+          <text x="194" y="69" font-size="12.5" fill="#332d22" text-anchor="end">Progressive growers</text>
+          <text x="521" y="69" font-size="12" fill="#6f8138" font-weight="700">5–7</text>
+          <!-- genetic potential -->
+          <rect x="200" y="84" width="420" height="26" fill="#2f3a22"/>
+          <text x="194" y="101" font-size="12.5" fill="#241f16" text-anchor="end" font-weight="700">Genetic potential</text>
+          <text x="626" y="101" font-size="12" fill="#2f3a22" font-weight="700">8.0</text>
+          <!-- LIVE bar: closed-gap yield -->
+          <rect x="200" y="116" width="168" height="26" fill="#cf9f1f" id="yg-bar"/>
+          <text x="194" y="133" font-size="12.5" fill="#241f16" text-anchor="end" font-weight="700">If we close the gap</text>
+          <text x="363" y="133" font-size="12" fill="#8a6b10" font-weight="700" id="yg-val" font-family="IBM Plex Mono,monospace">3.2</text>
+          <text x="200" y="162" font-size="10" fill="#a49a82" font-family="IBM Plex Mono,monospace">0</text>
+          <text x="620" y="162" font-size="10" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">8 t/ha</text>
+        </svg>
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <span class="ctrl-label">Close the yield gap by</span>
+            <span class="ctrl-readout" id="yg-pct">0%</span>
+          </div>
+          <input type="range" id="yg-slider" min="0" max="100" step="5" value="0">
+          <div class="range-ticks"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+        </div>
+        <div class="live-note" id="yg-note"></div>
+      </div>
+      <div class="ex-foot"><b>Closing even half this gap would beat any realistic expansion of farmland.</b> Lifting the wheat average to 5 t/ha is worth roughly <b>$5bn</b> a year; reaching the full frontier, about <b>$14bn</b>, in wheat alone. This is a diffusion problem, not a research one; the science exists, it simply does not reach the median acre.
+        <span class="ex-src">Source: PARC; USDA; field-yield literature · output figures illustrative, USD at ~281 PKR</span></div>
+    </div>
+
+    <blockquote>The frontier is already growing in Pakistani soil. The whole task of reform is to move it from the best farms to the median one.</blockquote>
+
+    <div class="h2-num">SECTION 03</div>
+    <h2>We have been planting thirstier crops in drier places</h2>
+
+    <p>Behind the gap sits a slow distortion in what the country grows. Over the last fifteen years, as the Agriculture Census 2024 documents, the cropping mix drifted in the wrong direction (Exhibit 3). Cotton, our great export cash crop and the feedstock of a textile industry that earns most of the country's foreign exchange, has nearly halved its share of cropped area. Sugarcane, one of the thirstiest crops grown anywhere, held its ground, and maize expanded. We moved acreage toward water-hungry crops at exactly the moment water was becoming scarcer.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 3</div>
+        <div class="ex-title">Cotton's retreat is the story in the cropping mix</div>
+        <div class="ex-sub">Share of cropped area, 2010 vs 2024 (%)</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="120" y1="14" x2="120" y2="200" stroke="#c4bba3" stroke-width="1.5"/>
+          <!-- scale 0..44 over 480px : 10.9px/% ; paired bars per crop -->
+          <!-- Wheat 42.0 -> 43.3 -->
+          <g>
+            <rect x="120" y="20" width="457.8" height="14" fill="#c3cba6"/>
+            <rect x="120" y="36" width="472" height="14" fill="#2f3a22"/>
+            <text x="114" y="38" font-size="12" fill="#332d22" text-anchor="end">Wheat</text>
+            <text x="486" y="46" font-size="10.5" fill="#2f3a22" font-weight="600">43.3</text>
+          </g>
+          <!-- Cotton 14.0 -> 7.9 (the collapse) -->
+          <g>
+            <rect x="120" y="62" width="152.6" height="14" fill="#d9a98f"/>
+            <rect x="120" y="78" width="86.1" height="14" fill="#a5402a"/>
+            <text x="114" y="80" font-size="12" fill="#332d22" text-anchor="end" font-weight="600">Cotton</text>
+            <text x="280" y="72" font-size="10.5" fill="#a49a82">14.0</text>
+            <text x="213" y="89" font-size="10.5" fill="#a5402a" font-weight="700">7.9</text>
+            <text x="330" y="82" font-size="10.5" fill="#a5402a" font-weight="600">▼ nearly halved</text>
+          </g>
+          <!-- Rice 14.0 -> 12.9 -->
+          <g>
+            <rect x="120" y="104" width="152.6" height="14" fill="#c3cba6"/>
+            <rect x="120" y="120" width="140.6" height="14" fill="#6f8138"/>
+            <text x="114" y="122" font-size="12" fill="#332d22" text-anchor="end">Rice</text>
+            <text x="268" y="132" font-size="10.5" fill="#6f8138" font-weight="600">12.9</text>
+          </g>
+          <!-- Maize 4.0 -> 5.1 -->
+          <g>
+            <rect x="120" y="146" width="43.6" height="14" fill="#c3cba6"/>
+            <rect x="120" y="162" width="55.6" height="14" fill="#4f6b2f"/>
+            <text x="114" y="164" font-size="12" fill="#332d22" text-anchor="end">Maize</text>
+            <text x="183" y="174" font-size="10.5" fill="#4f6b2f" font-weight="600">5.1 ▲</text>
+          </g>
+          <!-- Sugarcane 4.0 -> 3.3 (thirstiest) -->
+          <g>
+            <rect x="120" y="188" width="43.6" height="11" fill="#c3cba6"/>
+            <rect x="120" y="200" width="36" height="11" fill="#cf9f1f"/>
+            <text x="114" y="201" font-size="12" fill="#332d22" text-anchor="end">Sugarcane</text>
+            <text x="163" y="209" font-size="10.5" fill="#6b5410" font-weight="600">3.3</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ex-legend">
+        <span><i style="background:#c3cba6"></i>2010 share</span>
+        <span><i style="background:#2f3a22"></i>2024 share</span>
+      </div>
+      <div class="ex-foot"><b>Cotton's share of cropped area fell from 14% to 7.9% in fifteen years.</b> The retreat of a roughly <b>$3–4bn</b> crop has hollowed out the feedstock for a <b>~$17bn</b> textile export chain, while the country leaned harder on water-intensive crops. The shift was driven by relative profitability and policy, not agronomy.
+        <span class="ex-src">Source: Agriculture Census 2024 (PBS); textile export data · USD at ~281 PKR</span></div>
+    </div>
+
+    <p>And the constraint underneath all of it is water, which we price as though it were free. Surface-water availability has been falling, the Rabi season this year ran well below normal, and the Indus system loses a large share of what it carries to seepage and evaporation before it reaches a root. High-efficiency irrigation can lift yields 20 to 40%, but its cost and know-how remain out of reach for all but the largest farms. Until water is treated as the scarce, priced input it actually is, the yield gap has a floor under it.</p>
+
+    <div class="h2-num">SECTION 04</div>
+    <h2>The wheat market the state walked away from</h2>
+
+    <p>If you want a live test of whether Pakistan can execute agricultural reform, you do not have to wait for the new policy. It is already running, and it is not encouraging. Under Wheat Policy 2026, the government did what the IMF had long urged: it scrapped the minimum support price and stopped public procurement, handing the market to private aggregators backed by state-guaranteed margins of 10 to 16%. The safety net that had anchored the wheat economy for decades was removed before a credible replacement was in place.</p>
+
+    <p>The result was whiplash. At the May harvest, with no procurement floor, prices collapsed and small farmers sold into weakness. Within months the open-market rate had climbed well above the notional Rs3,500 official price, reaching Rs3,700 to Rs4,650 per 40kg by April 2026, so farmers who could hold their grain withheld it and those who could not had already lost out. Procurement machinery seized up: nine of eleven shortlisted aggregator firms procured no wheat at all. Sindh bought 65,000 tonnes against a one-million-tonne target. And the retreat is now permanent by design: on 2 July the ECC approved the winding up of PASSCO, the state grain agency that anchored wheat procurement for five decades, complete with a Rs4.2bn severance package for its staff.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 4</div>
+        <div class="ex-title">Deregulation without a floor produced whiplash</div>
+        <div class="ex-sub">Open-market wheat price, Rs per 40kg, vs the notional official price</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="54" y1="170" x2="620" y2="170" stroke="#c4bba3" stroke-width="1.5"/>
+          <text x="20" y="46" font-size="10.5" fill="#6b6350" font-family="IBM Plex Mono,monospace">4,650</text>
+          <text x="20" y="112" font-size="10.5" fill="#6b6350" font-family="IBM Plex Mono,monospace">3,500</text>
+          <text x="20" y="174" font-size="10.5" fill="#6b6350" font-family="IBM Plex Mono,monospace">2,300</text>
+          <!-- official price reference line at 3500 (y=106) -->
+          <line x1="54" y1="106" x2="620" y2="106" stroke="#8a5a2b" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="620" y="102" font-size="10.5" fill="#8a5a2b" text-anchor="end" font-weight="600">official Rs3,500 (unmet)</text>
+          <!-- price path: harvest collapse then surge. scale y: 2300->170, 4650->40 : 0.0553px/Rs inverted -->
+          <!-- points: pre-harvest ~3000(y=131), harvest May ~2600(y=153), then climb Jul 3000(131), Oct 3700(92), Jan 4100(70), Apr 4400(53) -->
+          <polyline points="70,131 190,154 330,120 440,92 530,70 600,53" fill="none" stroke="#a5402a" stroke-width="3"/>
+          <circle cx="190" cy="154" r="4.5" fill="#a5402a"/>
+          <circle cx="600" cy="53" r="5" fill="#a5402a" stroke="#fbf8f1" stroke-width="1.5"/>
+          <text x="190" y="169" font-size="10" fill="#a5402a" text-anchor="middle" font-weight="600">harvest low</text>
+          <text x="600" y="45" font-size="11" fill="#a5402a" text-anchor="end" font-weight="700">Rs4,650</text>
+          <text x="70" y="188" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">pre-harvest</text>
+          <text x="190" y="188" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">May 25</text>
+          <text x="440" y="188" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">Oct 25</text>
+          <text x="600" y="188" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">Apr 26</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>The floor came off and the farmer wore the volatility.</b> Growers sold low at harvest, then watched prices climb past the official rate they never received. Wheat area fell 6% and a further planting decline is expected. Wheat is a roughly <b>$9bn</b> crop, so the mismanagement carries real weight. This is deregulation done to farmers, not with them.
+        <span class="ex-src">Source: USDA FAS; Dawn; Punjab &amp; Sindh food departments · price path indicative, USD at ~281 PKR</span></div>
+    </div>
+
+    <blockquote>The state removed the safety net before it built the trapeze. That is the whole reform in miniature: the right destination, the wrong sequence, and the smallholder left holding the risk.</blockquote>
+
+    <p>This matters for the overhaul because it is the same government, the same ministry, and the same season. A National Wheat Policy is now under consultation, alongside the broader reform package. The question is not whether the diagnosis is right. It is whether a state that just mistimed the most basic intervention in its most important crop can execute a far more ambitious agenda. The wheat file is the reform's first report card, and the early grade is a caution.</p>
+
+    <div class="h2-num">SECTION 05</div>
+    <h2>Who actually farms, and who the system serves</h2>
+
+    <p>Any reform has to reckon with who the Pakistani farmer actually is. The Agriculture Census 2024 is blunt about it: <strong>97% of farms are under 12.5 acres</strong>, while a sliver of large landlords, around 5% of owners, hold close to two-thirds of the farmland. The median farmer is a smallholder, and the system, especially its credit system, is built for everyone but them (Exhibit 5).</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 5 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">A smallholder country with a large-holder land base</div>
+        <div class="ex-sub">Move the threshold to see what share of farms fall below it, and how little land they hold.</div>
+      </div>
+      <div class="ex-body">
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <span class="ctrl-label">Holding size threshold</span>
+            <span class="ctrl-readout" id="fh-thresh">under 12.5 acres</span>
+          </div>
+          <input type="range" id="fh-slider" min="0" max="10" step="1" value="4">
+          <div class="range-ticks">
+            <span>&lt;1</span><span>2.5</span><span>5</span><span>7.5</span><span>12.5</span><span>25</span><span>50</span><span>100</span><span>150</span><span>&gt;150</span><span>all</span>
+          </div>
+        </div>
+        <svg viewBox="0 0 648 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="fh-svg">
+          <!-- two live bars: farms vs land -->
+          <text x="0" y="24" font-size="11.5" fill="#332d22" font-weight="600">Share of all FARMS below threshold</text>
+          <rect x="0" y="32" width="620" height="30" fill="#f0ebdd"/>
+          <rect x="0" y="32" width="0" height="30" fill="#6f8138" id="fh-farmbar"/>
+          <text x="620" y="52" font-size="15" fill="#4f6b2f" font-weight="700" text-anchor="end" id="fh-farmpct" font-family="IBM Plex Mono,monospace">0%</text>
+
+          <text x="0" y="96" font-size="11.5" fill="#332d22" font-weight="600">Share of all FARMLAND they hold</text>
+          <rect x="0" y="104" width="620" height="30" fill="#f0ebdd"/>
+          <rect x="0" y="104" width="0" height="30" fill="#8a5a2b" id="fh-landbar"/>
+          <text x="620" y="124" font-size="15" fill="#8a5a2b" font-weight="700" text-anchor="end" id="fh-landpct" font-family="IBM Plex Mono,monospace">0%</text>
+
+          <line x1="0" y1="158" x2="620" y2="158" stroke="#ddd5c2"/>
+          <text x="0" y="182" font-size="12.5" fill="#241f16" id="fh-caption" font-family="Inter,sans-serif"></text>
+        </svg>
+        <div class="live-note" id="fh-note"></div>
+      </div>
+      <div class="ex-foot"><b>97% of farms sit under 12.5 acres, yet hold well under half the land.</b> Drag the threshold up and the gap between the two bars is the concentration story: a smallholder majority farming a fraction of the ground, while a sliver of large holdings dominates the base. These small farms work most of the <b>~$32bn</b> crop economy, yet the credit system is built around the few. This is the barrier a credit guarantee must break.
+        <span class="ex-src">Source: 7th Agriculture Census 2024 (PBS); illustrative cumulative distribution · USD at ~281 PKR</span></div>
+    </div>
+
+    <p>The financing system mirrors that skew. Agricultural credit hit a record, crossing <strong>Rs2.16 trillion</strong> in the first nine months of FY26. Yet more than 90% of smallholders still borrow from the informal market, and for the smallest farms formal lending is barely a tenth of what they actually take on. Record disbursement and unchanged access are the same fact seen from two ends: the credit flows to established, collateralised borrowers, while the median two-acre farmer stays outside the formal system. That is precisely the barrier a credit guarantee is meant to break (Exhibit 6).</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 6</div>
+        <div class="ex-title">Record credit, unchanged access</div>
+        <div class="ex-sub">The disbursement headline versus where smallholders actually borrow</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <!-- LEFT: the headline number -->
+          <text x="0" y="40" font-size="12" fill="#6b6350" font-family="Inter,sans-serif" font-weight="600">THE HEADLINE</text>
+          <text x="0" y="92" font-size="46" fill="#2f3a22" font-weight="700" font-family="Fraunces,serif">Rs2.16tn</text>
+          <text x="0" y="120" font-size="13.5" fill="#6b6350">agri credit disbursed, 9MFY26</text>
+          <text x="0" y="140" font-size="13.5" fill="#6b6350">a record, ~$7.7bn</text>
+          <text x="0" y="176" font-size="12" fill="#a49a82" font-family="IBM Plex Mono,monospace">on track to top Rs3tn (~$10.7bn) for FY26</text>
+
+          <line x1="336" y1="16" x2="336" y2="184" stroke="#ddd5c2" stroke-width="1"/>
+
+          <!-- RIGHT: the reality -->
+          <text x="366" y="40" font-size="12" fill="#6b6350" font-family="Inter,sans-serif" font-weight="600">WHERE SMALLHOLDERS BORROW</text>
+          <!-- stacked bar: informal 90 / formal 10 -->
+          <rect x="366" y="58" width="253" height="38" fill="#a5402a"/>
+          <rect x="619" y="58" width="29" height="38" fill="#4f6b2f"/>
+          <text x="372" y="82" font-size="14" fill="#fff" font-weight="600">Informal lenders</text>
+          <text x="612" y="82" font-size="12" fill="#fff" text-anchor="end" font-weight="600">90%+</text>
+          <text x="366" y="124" font-size="13.5" fill="#332d22">Over 90% of smallholders still rely on</text>
+          <text x="366" y="144" font-size="13.5" fill="#332d22">informal lenders. For the smallest farms,</text>
+          <text x="366" y="164" font-size="13.5" fill="#332d22">formal credit is barely a tenth of borrowing.</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>The surge has not reached the farms that need it most.</b> Collateral requirements, documentation and distance keep the median farmer outside the formal system, exactly where a credit guarantee is meant to help.
+        <span class="ex-src">Source: SBP; PES 2025–26; smallholder credit-access studies · USD at ~281 PKR</span></div>
+    </div>
+
+    <div class="h2-num">SECTION 06</div>
+    <h2>The overhaul names the right problems</h2>
+
+    <p>This is the context in which the Prime Minister's announcement landed on 29 June, and the timing makes it worth taking seriously. The instructions, read against the diagnosis above, are unusually well aimed.</p>
+
+    <div class="announce">
+      <div class="at">What was announced · 29 June 2026</div>
+      <ul>
+        <li><b>National Agriculture Policy</b>, drafted with the provinces</li>
+        <li><b>Agriculture Apex Forum</b>, meeting monthly to monitor delivery</li>
+        <li><b>Credit guarantee</b> support to widen farmer financing</li>
+        <li><b>Zarkhez-e loan</b> programme, nationwide awareness push</li>
+        <li><b>National Wheat Policy</b>, under consultation</li>
+        <li><b>Seed &amp; Biotech policies</b>, already approved</li>
+        <li><b>PARC overhaul</b>: five centres of excellence (approved 17 Mar)</li>
+        <li><b>Research funding</b>: Rs2bn grant, Rs10bn endowment, 25% private co-funding</li>
+      </ul>
+      <div class="asrc">Source: PMO; Dawn; Pakistan Today · 29 Jun & 17 Mar 2026</div>
+    </div>
+
+    <p>What makes this notable is the match between instrument and bottleneck. Map each promise onto the problems above and the alignment is striking, which is also why the implementation risk is the whole story.</p>
+
+    <div class="scorecard">
+      <div class="sc-row">
+        <div class="sc-n">01</div>
+        <div class="sc-q"><b>Does the credit guarantee reach the two-acre farmer?</b><span>Or does record disbursement keep flowing to the same large, collateralised borrowers while the headline improves?</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">Exhibits 5 &amp; 6</div></div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-n">02</div>
+        <div class="sc-q"><b>Does the policy touch crop mix and water pricing?</b><span>The painful core. The wheat deregulation just showed how badly sequencing can go; the National Wheat Policy is the retest.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">Exhibits 3 &amp; 4</div></div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-n">03</div>
+        <div class="sc-q"><b>Does the forum survive the 18th Amendment?</b><span>Agriculture is a provincial subject. The centre can direct but not deliver; an apex forum is only as good as the provinces' willingness to act.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">delivery risk</div></div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-n">04</div>
+        <div class="sc-q"><b>Does PARC reform actually reach the field?</b><span>The yield gap closes only if research moves from the station to the median acre. New funding helps; diffusion is the harder mile.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">addresses Exhibit 2</div></div>
+      </div>
+    </div>
+
+    <blockquote>The plan names the right problems. Whether it solves them turns on the one word every Pakistani has learned to distrust: implementation.</blockquote>
+
+    <div class="h2-num">SECTION 07</div>
+    <h2>The prize, if we mean it</h2>
+
+    <p>Set the scepticism beside the arithmetic, because the arithmetic is genuinely large. Closing even half the wheat yield gap, on existing acreage with existing seed, would add more output than any plausible expansion of farmland, and it would do so for the median farmer rather than the marginal large one. Pair that with high-efficiency irrigation at scale and a credit channel that actually reaches smallholders, and agriculture stops being the sector that drags the average down in a flood year.</p>
+
+    <p>It is worth putting a number on the prize, if only to see its scale. No one expects Pakistani farms to hit their genetic ceiling; the frontier is an aspiration, not a forecast. But the gap between where we are and where the science already reaches can be valued, and the figure is striking. Take wheat alone. Lift the national average from roughly 3.2 to 5.0 tonnes per hectare, the level progressive growers already achieve, and output rises by around 17 million tonnes on the same land, worth on the order of <strong>1.3% of GDP</strong> in a single crop. Push wheat to its full 8.0-tonne potential and the addition approaches 3.5% of GDP. Now apply the same gap, which afflicts rice, cotton, maize and sugarcane just as it does wheat, across all the major crops, and the aspirational ceiling reaches somewhere near <strong>a tenth of the entire economy</strong>, sitting unclaimed in the soil.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 7 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">The prize, in points of GDP</div>
+        <div class="ex-sub">Illustrative value of closing the yield gap, at the farmgate. Move the slider to set the ambition.</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 176" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="gd-svg">
+          <line x1="150" y1="14" x2="150" y2="150" stroke="#c4bba3" stroke-width="1.5"/>
+          <!-- Wheat only bar -->
+          <text x="144" y="38" font-size="12.5" fill="#332d22" text-anchor="end">Wheat alone</text>
+          <rect x="150" y="24" width="0" height="26" fill="#cf9f1f" id="gd-wheatbar"/>
+          <text x="0" y="38" font-size="11" fill="#8a6b10" id="gd-wheatlab" font-family="IBM Plex Mono,monospace"></text>
+          <!-- All major crops bar -->
+          <text x="144" y="80" font-size="12.5" fill="#332d22" text-anchor="end" font-weight="700">All major crops</text>
+          <rect x="150" y="66" width="0" height="26" fill="#6f8138" id="gd-allbar"/>
+          <text x="0" y="80" font-size="11" fill="#4f6b2f" id="gd-alllab" font-family="IBM Plex Mono,monospace" font-weight="700"></text>
+          <!-- scale marks: 0% at x=150, 5% at x=340, 10% at x=530 -->
+          <line x1="150" y1="112" x2="530" y2="112" stroke="#ddd5c2"/>
+          <text x="150" y="126" font-size="9.5" fill="#a49a82" font-family="IBM Plex Mono,monospace">0%</text>
+          <text x="340" y="126" font-size="9.5" fill="#a49a82" font-family="IBM Plex Mono,monospace" text-anchor="middle">5% of GDP</text>
+          <text x="530" y="126" font-size="9.5" fill="#a49a82" font-family="IBM Plex Mono,monospace" text-anchor="middle">10%+</text>
+          <text x="150" y="146" font-size="11.5" fill="#241f16" id="gd-caption" font-family="Inter,sans-serif"></text>
+        </svg>
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <span class="ctrl-label">Target average wheat yield</span>
+            <span class="ctrl-readout" id="gd-yield">5.0 t/ha</span>
+          </div>
+          <input type="range" id="gd-slider" min="32" max="80" step="2" value="50">
+          <div class="range-ticks"><span>3.2 now</span><span>5.0 progressive</span><span>8.0 frontier</span></div>
+        </div>
+        <div class="live-note" id="gd-note"></div>
+      </div>
+      <div class="ex-foot"><b>A tenth of GDP is aspirational, not achievable in full.</b> These are gross farmgate values: a surplus this size would also depress prices and raise input bills, so the net gain to GDP is smaller. But even a fraction of it dwarfs what stabilisation or a good monsoon can deliver. The point is the order of magnitude: the yield gap is the single largest growth lever the country is not pulling.
+        <span class="ex-src">Illustrative. Assumes constant area, farmgate wheat ~Rs90,000/t, ~$410bn GDP, major crops scaled ~2.5x wheat. Sources: PES 2025–26; USDA; PBS</span></div>
+    </div>
+
+    <blockquote>Agriculture is the only sector large enough, and far enough below its potential, to move the national number on its own.</blockquote>
+
+    <p>This is the difference, over a decade, between a country growing at 3.7% and one growing at 5%. The Prime Minister called agriculture a driver of sustainable growth, and the diagnosis says he is right. But the country's entire record says the distance from a correct diagnosis to a delivered outcome is where the work actually lives, and where, four agriculture policies and many apex committees later, it has usually been abandoned. The wheat market this year is the freshest reminder. The target, this time, is the right one. Now comes the only part that has ever mattered.</p>
+
+    <div class="endnote">
+      <b>Sources, and one correction.</b> Figures are drawn from the Pakistan Economic Survey 2025–26 (Ministry of Finance), the 7th Agriculture Census 2024 (PBS), PARC, SBP, USDA FAS grain reports, provincial food-department data, and field-yield literature, covering the latest available period in each case. Wheat-price and area figures reflect the 2025–26 marketing year under Wheat Policy 2026. A caution for fellow readers: several widely circulated summaries of the Survey reported the sectoral figures incorrectly, listing agriculture, industry and services "growth" as 23.4% / 18.1% / 58.4%. Those are not growth rates; 58.4% is services' <i>share</i> of GDP. The correct FY26 growth rates are 2.89% / 3.51% / 4.09%. <b>Views are my own.</b>
+    </div>
+
+  </div>
+  <div class="closing-rule"></div>
+</div>
+
+<script>
+(function(){
+  // ---------- Exhibit 5: farm-holding distribution ----------
+  // Cumulative distribution based on Agriculture Census 2024 size classes.
+  // thresholds and the cumulative % of farms and % of area at/below each.
+  var classes = [
+    {label:"under 1 acre",      farms:15, land:2},
+    {label:"under 2.5 acres",   farms:38, land:9},
+    {label:"under 5 acres",     farms:64, land:22},
+    {label:"under 7.5 acres",   farms:81, land:33},
+    {label:"under 12.5 acres",  farms:97, land:46},
+    {label:"under 25 acres",    farms:99, land:58},
+    {label:"under 50 acres",    farms:99.6, land:69},
+    {label:"under 100 acres",   farms:99.8, land:80},
+    {label:"under 150 acres",   farms:99.9, land:88},
+    {label:"over 150 acres",    farms:99.95, land:93},
+    {label:"all holdings",      farms:100, land:100}
+  ];
+  var W = 620;
+  var slider = document.getElementById('fh-slider');
+  var farmBar = document.getElementById('fh-farmbar');
+  var landBar = document.getElementById('fh-landbar');
+  var farmPct = document.getElementById('fh-farmpct');
+  var landPct = document.getElementById('fh-landpct');
+  var thresh  = document.getElementById('fh-thresh');
+  var caption = document.getElementById('fh-caption');
+  var note    = document.getElementById('fh-note');
+
+  function fmt(x){ return (x % 1 === 0) ? x.toFixed(0) : x.toFixed(1); }
+
+  function renderFH(){
+    var c = classes[+slider.value];
+    thresh.textContent = c.label;
+    farmBar.setAttribute('width', (W * c.farms/100).toFixed(1));
+    landBar.setAttribute('width', (W * c.land/100).toFixed(1));
+    farmPct.textContent = fmt(c.farms)+'%';
+    landPct.textContent = fmt(c.land)+'%';
+    var gap = (c.farms - c.land).toFixed(0);
+    caption.textContent = 'Farms below this size: ' + fmt(c.farms) + '% of all farms, holding ' + fmt(c.land) + '% of the land.';
+    if(+slider.value === 4){
+      note.innerHTML = '<b>The headline figure.</b> 97% of farms are under 12.5 acres, yet they hold under half the country\u2019s farmland. The reform test is whether credit and inputs finally reach this majority.';
+    } else if(c.farms - c.land > 30){
+      note.innerHTML = '<b>A '+gap+'-point gap.</b> This many more farms than acres sit below the line: a large population of small farms working a thin slice of land.';
+    } else if(+slider.value >= 9){
+      note.innerHTML = '<b>The top of the distribution.</b> The largest holdings, a rounding error in farm counts, command a disproportionate share of the land and, with it, the formal credit system.';
+    } else {
+      note.innerHTML = 'Farms below this threshold hold '+fmt(c.land)+'% of the land. Drag further to trace the full concentration curve.';
+    }
+  }
+  slider.addEventListener('input', renderFH);
+  renderFH();
+
+  // ---------- Exhibit 2: yield-gap closer ----------
+  var AVG = 3.2, FRONTIER = 8.0;
+  var ys = document.getElementById('yg-slider');
+  var ybar = document.getElementById('yg-bar');
+  var yval = document.getElementById('yg-val');
+  var ypct = document.getElementById('yg-pct');
+  var ynote = document.getElementById('yg-note');
+  var X0 = 200, FULLW = 420; // px for 8.0 t/ha
+
+  function renderYG(){
+    var p = +ys.value/100;
+    var yield_ = AVG + p*(FRONTIER-AVG);
+    var w = FULLW * (yield_/FRONTIER);
+    ybar.setAttribute('width', w.toFixed(1));
+    yval.textContent = yield_.toFixed(1);
+    ypct.textContent = ys.value+'%';
+    // illustrative national output: wheat output scales with yield; base 29.6 mt (PES FY26 provisional)
+    var baseOut = 29.6;
+    var newOut = baseOut * (yield_/AVG);
+    var addl = (newOut - baseOut);
+    if(+ys.value === 0){
+      ynote.innerHTML = 'At today\u2019s average of 3.2 t/ha, wheat output is roughly <b>29.6 million tonnes</b>. The frontier is already proven on Pakistani soil.';
+    } else {
+      ynote.innerHTML = 'Lifting the average to <b>'+yield_.toFixed(1)+' t/ha</b> would raise wheat output by roughly <b>'+addl.toFixed(0)+' million tonnes</b> ('+((newOut/baseOut-1)*100).toFixed(0)+'% more), on the same acreage, with seed the country already has.';
+    }
+  }
+  ys.addEventListener('input', renderYG);
+  renderYG();
+
+  // ---------- Exhibit 7: yield gap -> GDP ----------
+  // Assumptions: wheat area constant ~9.25 m ha; farmgate ~Rs90,000/t; USD/PKR 281; GDP ~$410bn.
+  // Wheat output at yield Y (t/ha) = area * Y. Additional vs 3.2 baseline valued and expressed as % GDP.
+  // All-major-crops approximated at 2.5x the wheat effect (wheat ~1/3 of major-crop value; same gap).
+  var AREA = 9.25, BASE_Y = 3.2, PRICE_T = 90000, FX = 281, GDP_USD_BN = 410, MULT = 2.5;
+  var gs = document.getElementById('gd-slider');
+  var wheatBar = document.getElementById('gd-wheatbar');
+  var allBar = document.getElementById('gd-allbar');
+  var wheatLab = document.getElementById('gd-wheatlab');
+  var allLab = document.getElementById('gd-alllab');
+  var gyield = document.getElementById('gd-yield');
+  var gcap = document.getElementById('gd-caption');
+  var gnote = document.getElementById('gd-note');
+  var GX0 = 150, GFULL = 380, GSCALE = GFULL/10; // 380px = 10% of GDP, leaves room for USD labels
+
+  function pctGDP(Y){
+    var addMt = AREA * (Y - BASE_Y);            // additional million tonnes
+    var addUsdBn = (addMt*1e6*PRICE_T/FX)/1e9;  // USD bn
+    return addUsdBn / GDP_USD_BN * 100;         // % of GDP
+  }
+  function usdBn(pct){ return pct/100*GDP_USD_BN; }  // % of GDP -> $bn
+  function renderGD(){
+    var Y = +gs.value/10;
+    gyield.textContent = Y.toFixed(1)+' t/ha';
+    var pW = Math.max(0, pctGDP(Y));
+    var pA = pW * MULT;
+    wheatBar.setAttribute('width', Math.min(GFULL, pW*GSCALE).toFixed(1));
+    allBar.setAttribute('width', Math.min(GFULL, pA*GSCALE).toFixed(1));
+    wheatLab.textContent = '+'+pW.toFixed(1)+'% · $'+usdBn(pW).toFixed(0)+'bn';
+    allLab.textContent = '+'+pA.toFixed(1)+'% · $'+usdBn(pA).toFixed(0)+'bn';
+    // position labels just right of each bar end
+    wheatLab.setAttribute('x', (GX0 + Math.min(GFULL, pW*GSCALE) + 8).toFixed(0));
+    allLab.setAttribute('x', (GX0 + Math.min(GFULL, pA*GSCALE) + 8).toFixed(0));
+    var addMt = (AREA*(Y-BASE_Y));
+    if(Y <= 3.3){
+      gcap.textContent = 'At today\u2019s yield, the gap is unclaimed.';
+      gnote.innerHTML = 'Drag the slider. Even the progressive-grower level of 5 t/ha, already achieved on Pakistani farms, is worth more than a good monsoon.';
+    } else if(Y >= 7.9){
+      gcap.textContent = 'Full genetic potential: aspirational, not achievable in full.';
+      gnote.innerHTML = 'At the 8 t/ha frontier, wheat alone adds ~'+addMt.toFixed(0)+' mt. Across all major crops the prize approaches <b>a tenth of GDP</b> left in the soil. No one hits this ceiling; the number simply sizes the ambition.';
+    } else {
+      gcap.textContent = 'Wheat +'+addMt.toFixed(0)+' mt on the same acreage.';
+      gnote.innerHTML = 'Lifting the wheat average to <b>'+Y.toFixed(1)+' t/ha</b> is worth roughly <b>'+pctGDP(Y).toFixed(1)+'% of GDP</b> in wheat alone, and about <b>'+(pctGDP(Y)*MULT).toFixed(1)+'%</b> if the same gap closes across all major crops.';
+    }
+  }
+  gs.addEventListener('input', renderGD);
+  renderGD();
+
+  // ---------- Voice-over player ----------
+  // Shows only if an audio file (mp3/m4a, same base name as the article) loads.
+  var au = document.getElementById('narration');
+  var bar = document.getElementById('listen-bar');
+  var btn = document.getElementById('listen-btn');
+  var track = document.getElementById('listen-track');
+  var fill = document.getElementById('listen-fill');
+  var tdisp = document.getElementById('listen-time');
+
+  function fmtT(s){ s=Math.max(0,Math.floor(s)); var m=Math.floor(s/60); return m+':'+('0'+(s%60)).slice(-2); }
+
+  au.addEventListener('loadedmetadata', function(){
+    bar.hidden = false;
+    tdisp.textContent = '0:00 / ' + fmtT(au.duration);
+  });
+  // if no source loads, the bar simply never appears
+  btn.addEventListener('click', function(){
+    if (au.paused) { au.play(); } else { au.pause(); }
+  });
+  au.addEventListener('play', function(){ btn.innerHTML='&#10074;&#10074;'; btn.classList.add('playing'); btn.setAttribute('aria-label','Pause narration'); });
+  au.addEventListener('pause', function(){ btn.innerHTML='&#9654;'; btn.classList.remove('playing'); btn.setAttribute('aria-label','Play narration'); });
+  au.addEventListener('timeupdate', function(){
+    if (!au.duration) return;
+    fill.style.width = (au.currentTime/au.duration*100).toFixed(2)+'%';
+    tdisp.textContent = fmtT(au.currentTime)+' / '+fmtT(au.duration);
+  });
+  au.addEventListener('ended', function(){ fill.style.width='0%'; tdisp.textContent='0:00 / '+fmtT(au.duration); });
+  track.addEventListener('click', function(e){
+    if (!au.duration) return;
+    var r = track.getBoundingClientRect();
+    au.currentTime = ((e.clientX - r.left)/r.width) * au.duration;
+  });
+})();
+</script>
+</body>
+</html>
