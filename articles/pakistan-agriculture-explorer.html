@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play with Pakistan's harvest arithmetic · Asad Abdulla</title>
+<meta name="description" content="The interactive exhibits from the FY26 agriculture analysis, unbundled and expanded. Set the yield, the price, the ambition, and watch what Pakistan's fields could be worth.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Play with Pakistan's harvest arithmetic">
+<meta property="og:description" content="Set the wheat yield, the price, the ambition. Watch what closing the yield gap is worth in tonnes, dollars, and points of GDP.">
+<meta property="og:site_name" content="Asad Abdulla · Macro Notes">
+<meta property="og:image" content="https://asadabdulla1979.github.io/og-explorer.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{
+    --navy:#2f3a22; --navy2:#45532f; --olive:#6f8138; --sage:#c3cba6;
+    --ink:#241f16; --body:#332d22; --paper:#fbf8f1; --wash:#f0ebdd;
+    --rule:#ddd5c2; --rule-dk:#c4bba3; --muted:#6b6350; --faint:#a49a82;
+    --accent:#b5651d; --accent-ink:#8f4e13; --wheat:#cf9f1f; --wheat-ink:#8a6b10;
+    --brown:#8a5a2b; --leaf:#4f6b2f; --red:#a5402a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{background:var(--paper);color:var(--body);font-family:'Source Serif 4',Georgia,serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:800px;margin:0 auto;padding:0 28px;}
+  .sans{font-family:'Inter',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  .mast{background:var(--navy);}
+  .mast-inner{max-width:800px;margin:0 auto;padding:14px 28px;display:flex;justify-content:space-between;align-items:baseline;color:#fff;}
+  .mast .id{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;}
+  .mast .id span{color:var(--wheat);}
+  .mast .meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--sage);text-transform:uppercase;}
+
+  .hero{padding:56px 0 20px;}
+  .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent-ink);margin-bottom:18px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:44px;line-height:1.05;letter-spacing:-.02em;color:var(--navy);margin-bottom:18px;}
+  .standfirst{font-size:18.5px;line-height:1.55;color:#4a4234;max-width:58ch;}
+  .standfirst a{color:var(--accent-ink);text-decoration:none;border-bottom:1px solid var(--rule-dk);}
+
+  /* module card */
+  .module{margin:46px 0;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);padding-bottom:22px;}
+  .m-num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--accent-ink);letter-spacing:.1em;text-transform:uppercase;margin:16px 0 8px;}
+  .m-title{font-family:'Fraunces',serif;font-weight:600;font-size:26px;color:var(--navy);letter-spacing:-.015em;line-height:1.15;}
+  .m-sub{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--muted);margin-top:6px;max-width:60ch;line-height:1.5;}
+
+  /* controls */
+  .controls{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px 36px;}
+  .ctrl-label{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .ctrl-readout{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent-ink);font-weight:600;background:var(--wash);padding:2px 9px;border:1px solid var(--rule-dk);}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;background:linear-gradient(90deg,var(--brown),var(--wheat));border-radius:3px;outline:none;margin:4px 0 2px;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  .ticks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);}
+
+  .presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
+  .presets button{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;padding:7px 13px;background:var(--paper);color:var(--navy);border:1px solid var(--rule-dk);border-radius:100px;cursor:pointer;transition:all .12s;}
+  .presets button:hover{border-color:var(--navy);}
+  .presets button.on{background:var(--navy);color:var(--paper);border-color:var(--navy);}
+
+  /* outputs */
+  .outs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:26px;}
+  .out{background:var(--paper);padding:16px 14px 14px;}
+  .out .ol{font-family:'Inter',sans-serif;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px;line-height:1.3;min-height:24px;}
+  .out .ov{font-family:'Fraunces',serif;font-weight:600;font-size:26px;line-height:1;color:var(--navy);letter-spacing:-.01em;}
+  .out .ov small{font-size:14px;font-weight:500;color:var(--muted);}
+  .out .oc{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:7px;}
+  .out.hot .ov{color:var(--accent-ink);}
+  .out.good .ov{color:var(--leaf);}
+  .out.bad .ov{color:var(--red);}
+
+  .module svg{display:block;width:100%;height:auto;margin-top:22px;}
+  .live-note{font-family:'Inter',sans-serif;font-size:13px;color:var(--body);line-height:1.55;margin-top:18px;padding:12px 16px;background:var(--wash);border-left:3px solid var(--accent);}
+  .live-note b{color:var(--ink);}
+
+  /* comparisons */
+  .comp-title{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:26px 0 4px;}
+
+  details.assump{margin:40px 0;border:1px solid var(--rule);background:var(--wash);}
+  details.assump summary{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--navy);padding:14px 18px;cursor:pointer;list-style:none;}
+  details.assump summary::before{content:"+ ";color:var(--accent-ink);}
+  details.assump[open] summary::before{content:"− ";}
+  details.assump .a-body{padding:0 18px 16px;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--muted);line-height:1.65;}
+  details.assump .a-body b{color:var(--ink);}
+
+  .cta{margin:52px 0 0;padding:26px 28px;background:var(--navy);color:var(--sage);}
+  .cta .ct{font-family:'Fraunces',serif;font-weight:600;font-size:21px;color:#fff;margin-bottom:8px;}
+  .cta p{font-family:'Inter',sans-serif;font-size:14px;line-height:1.55;}
+  .cta a{color:var(--wheat);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(207,159,31,.4);}
+  .footer{max-width:800px;margin:0 auto;padding:34px 28px 60px;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+
+  @media (max-width:640px){
+    h1{font-size:32px;}
+    .hero{padding:40px 0 12px;}
+    .controls{grid-template-columns:1fr;}
+    .outs{grid-template-columns:1fr 1fr;}
+    .mast-inner{flex-direction:column;gap:3px;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div class="mast-inner">
+    <div class="id">Asad Abdulla<span> · </span>Macro Notes</div>
+    <div class="meta">Interactive · Agriculture</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="kicker">The FY26 analysis, unbundled</div>
+    <h1>Play with the harvest arithmetic</h1>
+    <p class="standfirst">These are the interactive exhibits from <a href="pakistan-agriculture-fy26.html">The third of a harvest we never take</a>, rebuilt as a standalone tool with more dials. Set the yield, the price, the ambition. The numbers respond. No reading required.</p>
+  </section>
+
+  <!-- ============ MODULE 1: THE SIMULATOR ============ -->
+  <div class="module">
+    <div class="m-num">Explorer 01</div>
+    <div class="m-title">The yield gap simulator</div>
+    <div class="m-sub">Pakistan's wheat averages 3.2 tonnes per hectare. The seed already in the ground can do 8. Choose how far the country climbs, at what price, and see what it is worth.</div>
+
+    <div class="presets" id="presets">
+      <button data-y="32">Today · 3.2</button>
+      <button data-y="50" class="on">Progressive growers · 5.0</button>
+      <button data-y="56">Half the gap · 5.6</button>
+      <button data-y="80">Full frontier · 8.0</button>
+    </div>
+
+    <div class="controls">
+      <div>
+        <div class="ctrl-label"><span>Target wheat yield</span><span class="ctrl-readout" id="r-yield">5.0 t/ha</span></div>
+        <input type="range" id="in-yield" min="32" max="80" step="1" value="50">
+        <div class="ticks"><span>3.2 now</span><span>5.6 half-gap</span><span>8.0 frontier</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label"><span>Wheat price</span><span class="ctrl-readout" id="r-price">Rs 3,600 / 40kg</span></div>
+        <input type="range" id="in-price" min="2500" max="4500" step="50" value="3600">
+        <div class="ticks"><span>2,500 harvest low</span><span>3,500 official</span><span>4,500 peak</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label"><span>Exchange rate</span><span class="ctrl-readout" id="r-fx">281 PKR/USD</span></div>
+        <input type="range" id="in-fx" min="260" max="320" step="1" value="281">
+        <div class="ticks"><span>260</span><span>290</span><span>320</span></div>
+      </div>
+      <div>
+        <div class="ctrl-label"><span>Same gap across all major crops ×</span><span class="ctrl-readout" id="r-mult">2.5×</span></div>
+        <input type="range" id="in-mult" min="20" max="30" step="1" value="25">
+        <div class="ticks"><span>2.0 conservative</span><span>2.5</span><span>3.0</span></div>
+      </div>
+    </div>
+
+    <!-- yield ladder -->
+    <svg viewBox="0 0 648 158" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+      <line x1="180" y1="10" x2="180" y2="128" stroke="#c4bba3" stroke-width="1.5"/>
+      <rect x="180" y="16" width="168" height="22" fill="#b5651d"/>
+      <text x="174" y="31" font-size="11.5" fill="#332d22" text-anchor="end">Today · 3.2</text>
+      <rect x="180" y="46" width="420" height="22" fill="#2f3a22"/>
+      <text x="174" y="61" font-size="11.5" fill="#241f16" text-anchor="end" font-weight="700">Frontier · 8.0</text>
+      <rect x="180" y="76" width="168" height="22" fill="#cf9f1f" id="sim-bar"/>
+      <text x="174" y="91" font-size="11.5" fill="#241f16" text-anchor="end" font-weight="700">Your target</text>
+      <text x="356" y="91" font-size="11.5" fill="#8a6b10" font-weight="700" id="sim-bar-lab" font-family="IBM Plex Mono,monospace">3.2</text>
+      <text x="180" y="118" font-size="9.5" fill="#a49a82" font-family="IBM Plex Mono,monospace">0</text>
+      <text x="600" y="118" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">8 t/ha</text>
+      <text x="180" y="146" font-size="11" fill="#332d22" id="sim-cap"></text>
+    </svg>
+
+    <div class="outs">
+      <div class="out"><div class="ol">Wheat output</div><div class="ov" id="o-out">29.6<small> mt</small></div><div class="oc" id="o-dout">baseline</div></div>
+      <div class="out hot"><div class="ol">Extra wheat value</div><div class="ov" id="o-wusd">$0<small>bn</small></div><div class="oc" id="o-wpct">+0.0% of GDP</div></div>
+      <div class="out hot"><div class="ol">All major crops, same gap</div><div class="ov" id="o-ausd">$0<small>bn</small></div><div class="oc" id="o-apct">+0.0% of GDP</div></div>
+      <div class="out" id="o-suff-card"><div class="ol">Self-sufficiency</div><div class="ov" id="o-suff">–0.4<small> mt</small></div><div class="oc" id="o-suffnote">vs ~30 mt consumption</div></div>
+    </div>
+
+    <div class="comp-title">Your all-crops prize, against numbers you know</div>
+    <svg viewBox="0 0 648 128" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+      <!-- scale: 0..40bn over 430px -->
+      <rect x="180" y="8"  width="0"   height="18" fill="#cf9f1f" id="c-you"/>
+      <text x="174" y="21" font-size="11" fill="#241f16" text-anchor="end" font-weight="700">Your prize</text>
+      <text x="186" y="21" font-size="10.5" fill="#8a6b10" font-weight="700" id="c-you-lab" font-family="IBM Plex Mono,monospace"></text>
+      <rect x="180" y="34" width="326" height="18" fill="#4f6b2f"/>
+      <text x="174" y="47" font-size="11" fill="#332d22" text-anchor="end">Remittances, FY26</text>
+      <text x="512" y="47" font-size="10.5" fill="#4f6b2f" font-weight="600" font-family="IBM Plex Mono,monospace">$30.3bn</text>
+      <rect x="180" y="60" width="300" height="18" fill="#a5402a"/>
+      <text x="174" y="73" font-size="11" fill="#332d22" text-anchor="end">Goods trade gap</text>
+      <text x="486" y="73" font-size="10.5" fill="#a5402a" font-weight="600" font-family="IBM Plex Mono,monospace">$27.9bn</text>
+      <rect x="180" y="86" width="36" height="18" fill="#8a5a2b"/>
+      <text x="174" y="99" font-size="11" fill="#332d22" text-anchor="end">IT exports</text>
+      <text x="222" y="99" font-size="10.5" fill="#8a5a2b" font-weight="600" font-family="IBM Plex Mono,monospace">$3.4bn</text>
+      <text x="180" y="122" font-size="10.5" fill="#332d22" id="c-sentence" font-family="Inter,sans-serif"></text>
+    </svg>
+
+    <div class="live-note" id="sim-note"></div>
+  </div>
+
+  <!-- ============ MODULE 2: THE LAND ============ -->
+  <div class="module">
+    <div class="m-num">Explorer 02</div>
+    <div class="m-title">Who farms the land</div>
+    <div class="m-sub">Drag the threshold through Pakistan's farm-size distribution. The gap between the two bars is the concentration story, and the reason a record credit year can still bypass the median farmer.</div>
+
+    <div class="controls" style="grid-template-columns:1fr;">
+      <div>
+        <div class="ctrl-label"><span>Holding size threshold</span><span class="ctrl-readout" id="r-thresh">under 12.5 acres</span></div>
+        <input type="range" id="in-thresh" min="0" max="10" step="1" value="4">
+        <div class="ticks"><span>&lt;1</span><span>2.5</span><span>5</span><span>7.5</span><span>12.5</span><span>25</span><span>50</span><span>100</span><span>150</span><span>&gt;150</span><span>all</span></div>
+      </div>
+    </div>
+
+    <svg viewBox="0 0 648 168" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">
+      <text x="0" y="16" font-size="11" fill="#332d22" font-weight="600">Share of all FARMS below threshold</text>
+      <rect x="0" y="24" width="620" height="26" fill="#f0ebdd"/>
+      <rect x="0" y="24" width="0" height="26" fill="#6f8138" id="l-farmbar"/>
+      <text x="620" y="42" font-size="13" fill="#4f6b2f" font-weight="700" text-anchor="end" id="l-farmpct" font-family="IBM Plex Mono,monospace">0%</text>
+      <text x="0" y="84" font-size="11" fill="#332d22" font-weight="600">Share of all FARMLAND they hold</text>
+      <rect x="0" y="92" width="620" height="26" fill="#f0ebdd"/>
+      <rect x="0" y="92" width="0" height="26" fill="#8a5a2b" id="l-landbar"/>
+      <text x="620" y="110" font-size="13" fill="#8a5a2b" font-weight="700" text-anchor="end" id="l-landpct" font-family="IBM Plex Mono,monospace">0%</text>
+      <line x1="0" y1="136" x2="620" y2="136" stroke="#ddd5c2"/>
+      <text x="0" y="158" font-size="11.5" fill="#241f16" id="l-cap"></text>
+    </svg>
+
+    <div class="outs" style="grid-template-columns:repeat(3,1fr);">
+      <div class="out"><div class="ol">Concentration gap</div><div class="ov bad" id="o-gap">51<small> pts</small></div><div class="oc">farms% minus land%</div></div>
+      <div class="out"><div class="ol">Above the line</div><div class="ov" id="o-above">3%</div><div class="oc" id="o-above-note">of farms hold 54% of land</div></div>
+      <div class="out"><div class="ol">The headline</div><div class="ov">97<small>%</small></div><div class="oc">of farms are under 12.5 acres</div></div>
+    </div>
+
+    <div class="live-note" id="l-note"></div>
+  </div>
+
+  <!-- ============ ASSUMPTIONS ============ -->
+  <details class="assump">
+    <summary>Assumptions and sources, in full</summary>
+    <div class="a-body">
+      <p><b>Wheat baseline:</b> average yield 3.2 t/ha on ~9.25m hectares, output 29.6 million tonnes (PES 2025–26 provisional). Genetic potential ~8.0 t/ha; progressive growers achieve 5–7 (PARC; USDA; field-yield literature). Domestic consumption ~30 mt (approximate). <b>Prices:</b> the slider spans the actual 2025–26 range, from the post-deregulation harvest low near Rs2,500/40kg to the open-market peak of Rs4,650; Rs3,600 (~Rs90,000/tonne) is the valuation default. <b>GDP:</b> ~$410bn nominal. <b>All-crops multiplier:</b> wheat is roughly a third of major-crop value and rice, cotton, maize and sugarcane suffer comparable yield gaps; 2.5× is the conservative default. <b>Comparators:</b> remittances $30.3bn, goods trade gap $27.9bn, IT exports $3.4bn (FY26, SBP/PES). <b>Farm distribution:</b> anchored to the 7th Agriculture Census 2024 size classes (97% of farms under 12.5 acres); intermediate points are an illustrative cumulative interpolation.</p>
+      <p style="margin-top:10px;"><b>Honest caveats:</b> values are gross farmgate output, not value added; a surplus this large would depress prices and raise input bills, so the net gain to GDP is smaller than shown. The frontier is an aspiration, not a forecast. The point of the tool is the order of magnitude. <b>Views are my own.</b></p>
+    </div>
+  </details>
+
+  <!-- ============ CTA ============ -->
+  <div class="cta">
+    <div class="ct">The argument behind the dials</div>
+    <p>These numbers come from a full analysis of Pakistan's FY26 agriculture story: the yield gap, the crop-mix drift, the wheat deregulation whiplash, and the reform that finally names the right problems. <a href="pakistan-agriculture-fy26.html">Read the full piece →</a></p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>© 2026 Asad Abdulla · Macro Notes</span>
+  <span class="mono" style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;">Independent analysis · Views are my own</span>
+</div>
+
+<script>
+(function(){
+  // ---------- constants ----------
+  var AREA=9.25, BASE_Y=3.2, FRONTIER=8.0, BASE_OUT=29.6, CONS=30.0, GDP=410;
+  var LADDER_X0=180, LADDER_W=420;           // 420px = 8 t/ha
+  var COMP_X0=180, COMP_W=430, COMP_MAX=40;  // 430px = $40bn
+
+  var $=function(id){return document.getElementById(id);};
+  var inY=$('in-yield'), inP=$('in-price'), inF=$('in-fx'), inM=$('in-mult');
+
+  function fmt1(x){return (Math.round(x*10)/10).toFixed(1);}
+  function fmt0(x){return Math.round(x).toString();}
+
+  function render(){
+    var Y=+inY.value/10, P=+inP.value, FX=+inF.value, M=+inM.value/10;
+    $('r-yield').textContent=Y.toFixed(1)+' t/ha';
+    $('r-price').textContent='Rs '+P.toLocaleString()+' / 40kg';
+    $('r-fx').textContent=FX+' PKR/USD';
+    $('r-mult').textContent=M.toFixed(1)+'\u00d7';
+
+    // preset highlight
+    var btns=document.querySelectorAll('#presets button');
+    btns.forEach(function(b){ b.classList.toggle('on', +b.dataset.y===+inY.value); });
+
+    // core math
+    var out=AREA*Y, dOut=out-BASE_OUT;
+    var perT=P*25;                              // Rs per tonne
+    var wUsd=Math.max(0,dOut)*1e6*perT/FX/1e9;  // $bn
+    var wPct=wUsd/GDP*100;
+    var aUsd=wUsd*M, aPct=wPct*M;
+    var suff=out-CONS;
+
+    // ladder bar
+    $('sim-bar').setAttribute('width',(LADDER_W*Y/FRONTIER).toFixed(1));
+    $('sim-bar-lab').setAttribute('x',(LADDER_X0+LADDER_W*Y/FRONTIER+8).toFixed(0));
+    $('sim-bar-lab').textContent=Y.toFixed(1);
+    $('sim-cap').textContent = dOut>0.05
+      ? 'That is '+fmt1(dOut)+' million tonnes more wheat, on the same land, with seed the country already has.'
+      : 'This is where Pakistan stands today.';
+
+    // outputs
+    $('o-out').innerHTML=fmt1(out)+'<small> mt</small>';
+    $('o-dout').textContent = dOut>0.05 ? '+'+fmt1(dOut)+' mt vs today' : 'baseline';
+    $('o-wusd').innerHTML='$'+fmt1(wUsd)+'<small>bn</small>';
+    $('o-wpct').textContent='+'+wPct.toFixed(1)+'% of GDP';
+    $('o-ausd').innerHTML='$'+fmt0(aUsd)+'<small>bn</small>';
+    $('o-apct').textContent='+'+aPct.toFixed(1)+'% of GDP';
+    var sEl=$('o-suff'), sCard=$('o-suff-card');
+    if(suff>=0){ sEl.innerHTML='+'+fmt1(suff)+'<small> mt</small>'; sCard.className='out good'; $('o-suffnote').textContent='exportable surplus'; }
+    else { sEl.innerHTML=fmt1(suff)+'<small> mt</small>'; sCard.className='out bad'; $('o-suffnote').textContent='import need vs ~30 mt use'; }
+
+    // comparison bar
+    $('c-you').setAttribute('width',Math.min(COMP_W,COMP_W*aUsd/COMP_MAX).toFixed(1));
+    $('c-you-lab').setAttribute('x',(COMP_X0+Math.min(COMP_W,COMP_W*aUsd/COMP_MAX)+8).toFixed(0));
+    $('c-you-lab').textContent='$'+fmt0(aUsd)+'bn';
+    var vsRem=aUsd/30.3, vsIT=aUsd/3.39;
+    $('c-sentence').textContent = aUsd<0.5 ? 'Move the yield slider to build a prize.'
+      : 'Equal to '+(vsRem>=1?vsRem.toFixed(1)+'\u00d7 a full year of remittances':Math.round(vsRem*100)+'% of a year of remittances')+', or '+vsIT.toFixed(1)+'\u00d7 annual IT exports.';
+
+    // narrative
+    var note;
+    if(Y<=3.3) note='<b>Today\u2019s Pakistan.</b> The average field delivers 3.2 t/ha against a proven 8.0. Everything to the right of this setting already grows on Pakistani soil somewhere.';
+    else if(Y<=5.0) note='<b>The realistic climb.</b> '+Y.toFixed(1)+' t/ha is territory Pakistan\u2019s progressive growers already occupy. Reaching it nationally is a diffusion problem: seed, water, credit and know-how reaching the median acre, worth <b>$'+fmt1(wUsd)+'bn</b> in wheat alone at your chosen price.';
+    else if(Y<7.9) note='<b>Ambitious but chartable.</b> At '+Y.toFixed(1)+' t/ha the all-crops prize reaches <b>$'+fmt0(aUsd)+'bn</b> ('+aPct.toFixed(1)+'% of GDP). No single policy gets here; a decade of compounding ones might.';
+    else note='<b>The full frontier.</b> Aspirational by design: no country farms at its genetic ceiling. But the order of magnitude, roughly <b>a tenth of GDP</b>, is why the yield gap is the largest growth lever Pakistan is not pulling.';
+    $('sim-note').innerHTML=note;
+  }
+  [inY,inP,inF,inM].forEach(function(el){el.addEventListener('input',render);});
+  document.querySelectorAll('#presets button').forEach(function(b){
+    b.addEventListener('click',function(){ inY.value=b.dataset.y; render(); });
+  });
+
+  // ---------- land module ----------
+  var classes=[
+    {label:"under 1 acre",farms:15,land:2},{label:"under 2.5 acres",farms:38,land:9},
+    {label:"under 5 acres",farms:64,land:22},{label:"under 7.5 acres",farms:81,land:33},
+    {label:"under 12.5 acres",farms:97,land:46},{label:"under 25 acres",farms:99,land:58},
+    {label:"under 50 acres",farms:99.6,land:69},{label:"under 100 acres",farms:99.8,land:80},
+    {label:"under 150 acres",farms:99.9,land:88},{label:"over 150 acres",farms:99.95,land:93},
+    {label:"all holdings",farms:100,land:100}];
+  var W=620, inT=$('in-thresh');
+  function fmtP(x){return (x%1===0)?x.toFixed(0):x.toFixed(1);}
+  function renderL(){
+    var c=classes[+inT.value];
+    $('r-thresh').textContent=c.label;
+    $('l-farmbar').setAttribute('width',(W*c.farms/100).toFixed(1));
+    $('l-landbar').setAttribute('width',(W*c.land/100).toFixed(1));
+    $('l-farmpct').textContent=fmtP(c.farms)+'%';
+    $('l-landpct').textContent=fmtP(c.land)+'%';
+    var gap=c.farms-c.land;
+    $('l-cap').textContent='Farms below this size: '+fmtP(c.farms)+'% of all farms, holding '+fmtP(c.land)+'% of the land.';
+    $('o-gap').innerHTML=fmt0(gap)+'<small> pts</small>';
+    var aboveF=100-c.farms, aboveL=100-c.land;
+    $('o-above').textContent=(aboveF<1?aboveF.toFixed(1):fmt0(aboveF))+'%';
+    $('o-above-note').textContent='of farms hold '+fmt0(aboveL)+'% of land';
+    var note;
+    if(+inT.value===4) note='<b>The headline setting.</b> 97% of farms sit below 12.5 acres yet hold under half the farmland. This majority is where the yield gap lives, and where a credit guarantee has to reach to matter.';
+    else if(gap>30) note='<b>A '+fmt0(gap)+'-point gap.</b> Far more farms than acres sit below this line: a large population of smallholders working a thin slice of ground, largely outside the formal credit system.';
+    else if(+inT.value>=9) note='<b>The top of the pyramid.</b> The largest holdings are a rounding error in farm counts but command a disproportionate share of land, and with it, collateral, and with that, formal credit.';
+    else note='Drag further to trace the concentration curve. The distribution is anchored to the Agriculture Census 2024 size classes.';
+    $('l-note').innerHTML=note;
+  }
+  inT.addEventListener('input',renderL);
+
+  render(); renderL();
+})();
+</script>
+</body>
+</html>
