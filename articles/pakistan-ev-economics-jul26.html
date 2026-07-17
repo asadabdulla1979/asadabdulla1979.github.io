@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doing the Math on My First EV | Asad Abdulla · Macro Notes</title>
+<meta name="description" content="In April I built a spreadsheet to test the economics of Pakistan's electric cars. Then the budget repriced every column. A full accounting of what a kilometre costs, with an interactive payback calculator.">
+<meta property="og:title" content="Doing the Math on My First EV">
+<meta property="og:description" content="Pakistan's EV economics after the FY27 budget: an interactive payback calculator comparing every serious EV, PHEV and hybrid against the petrol car it replaces.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://asadabdulla1979.github.io/articles/pakistan-ev-economics-jul26.html">
+<meta property="og:image" content="https://asadabdulla1979.github.io/articles/pakistan-ev-economics-jul26-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f7f8;
+  --ink:#141d28;
+  --body:#39424e;
+  --muted:#67717e;
+  --hair:#e2e6e9;
+  --accent:#0e7490;
+  --accent-deep:#155e75;
+  --band:#16222e;
+  --ice:#c2410c;
+  --hev:#a16207;
+  --solar:#b8860b;
+  --card:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--body);font-family:'Source Serif 4',Georgia,serif;font-size:19px;line-height:1.72;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px;}
+.wide{max-width:960px;margin:0 auto;padding:0 22px;}
+
+/* Masthead */
+.mast{border-bottom:1px solid var(--hair);background:var(--paper);}
+.mast-in{max-width:960px;margin:0 auto;padding:16px 22px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.mast a{color:var(--ink);text-decoration:none;font-family:Inter,sans-serif;font-weight:700;font-size:15px;letter-spacing:.01em;}
+.mast a span{color:var(--accent);font-weight:600;}
+.mast-meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.06em;}
+
+/* Hero */
+.hero{padding:58px 0 34px;}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+h1{font-family:Fraunces,serif;font-weight:600;font-size:54px;line-height:1.06;color:var(--ink);letter-spacing:-.01em;margin-bottom:22px;}
+.standfirst{font-size:22px;line-height:1.55;color:var(--body);max-width:640px;}
+
+/* Listen bar */
+#listenbar{display:none;margin:26px 0 0;padding:14px 18px;background:var(--card);border:1px solid var(--hair);border-radius:10px;align-items:center;gap:14px;}
+#listenbar .ll{font-family:Inter,sans-serif;font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;}
+#listenbar audio{width:100%;height:36px;}
+
+/* Metric band */
+.band{background:var(--band);color:#e8edf2;margin:44px 0 0;}
+.band-in{max-width:960px;margin:0 auto;padding:34px 22px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+.metric .mv{font-family:Fraunces,serif;font-size:34px;font-weight:600;color:#fff;line-height:1.1;}
+.metric .mv em{font-style:normal;font-size:18px;color:#9fb3c2;}
+.metric .ml{font-family:Inter,sans-serif;font-size:12.5px;color:#9fb3c2;margin-top:8px;line-height:1.45;}
+.metric .ml b{color:#d7e2ea;font-weight:600;}
+
+/* Sections */
+.sec{padding-top:58px;}
+.slabel{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;}
+h2{font-family:Fraunces,serif;font-weight:600;font-size:31px;color:var(--ink);line-height:1.2;margin-bottom:20px;}
+p{margin-bottom:20px;}
+p b{color:var(--ink);font-weight:600;}
+a{color:var(--accent-deep);}
+
+/* Pull quote */
+.pq{margin:40px 0;padding:6px 0 6px 26px;border-left:3px solid var(--accent);}
+.pq p{font-family:Fraunces,serif;font-size:26px;line-height:1.35;color:var(--ink);margin:0;}
+
+/* Exhibit */
+.ex{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:26px 26px 20px;margin:34px auto;overflow-x:auto;}
+.ex-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+.ex-label .tag{display:inline-block;background:var(--accent);color:#fff;border-radius:4px;padding:2px 7px;margin-left:8px;font-size:10.5px;letter-spacing:.1em;}
+.ex-title{font-family:Inter,sans-serif;font-weight:700;font-size:19px;color:var(--ink);line-height:1.35;}
+.ex-sub{font-family:Inter,sans-serif;font-size:13.5px;color:var(--muted);margin:4px 0 18px;line-height:1.5;}
+.ex-foot{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);line-height:1.55;border-top:1px solid var(--hair);margin-top:18px;padding-top:12px;}
+.ex-foot b{color:var(--ink);}
+.ex-src{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#94a0ab;margin-top:8px;letter-spacing:.02em;line-height:1.5;}
+.ex svg{width:100%;height:auto;display:block;}
+
+/* Scorecard table */
+.score{width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:14px;}
+.score th{text-align:left;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:2px solid var(--ink);}
+.score td{padding:11px 10px;border-bottom:1px solid var(--hair);vertical-align:top;line-height:1.45;}
+.score td:first-child{font-weight:600;color:var(--ink);}
+.verdict{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;padding:3px 8px;border-radius:4px;white-space:nowrap;}
+.v-win{background:#e0f2f1;color:#0f766e;}
+.v-lose{background:#fdeee4;color:#c2410c;}
+.v-mixed{background:#fdf6e3;color:#a16207;}
+
+/* Calculator */
+.calc{font-family:Inter,sans-serif;}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.calc-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.numin{width:80px;padding:4px 6px;border:1px solid var(--hair);border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent-deep);text-align:right;background:#fff;}
+.sr-val{display:flex;align-items:center;gap:5px;}
+.rc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.rc{border-left:3px solid var(--accent);padding-left:12px;}
+.rc.ice{border-color:var(--ice);}
+.rc-name{font-size:12.5px;font-weight:700;color:var(--ink);}
+.rc-big{font-family:Fraunces,serif;font-size:26px;color:var(--ink);line-height:1.2;margin:2px 0;}
+.rc-sub{font-size:12px;color:var(--muted);line-height:1.5;}
+.race{margin-top:16px;}
+.race-row{display:flex;align-items:center;gap:10px;margin:6px 0;}
+.race-label{width:180px;font-size:12px;color:var(--ink);font-weight:500;flex-shrink:0;}
+.race-track{flex:1;background:#e7ecee;border-radius:4px;height:16px;}
+.race-bar{height:16px;border-radius:4px;}
+.race-val{width:52px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);text-align:right;flex-shrink:0;}
+.calc label{display:block;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.calc select{width:100%;padding:10px;border:1px solid var(--hair);border-radius:8px;font-family:Inter,sans-serif;font-size:14px;color:var(--ink);background:#fff;}
+.slider-row{margin:14px 0;}
+.slider-row .sr-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+.slider-row .sr-val{font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--accent-deep);font-weight:500;}
+.calc input[type=range]{width:100%;accent-color:var(--accent);}
+.toggles{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 6px;}
+.toggles .tg{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink);font-weight:500;}
+.toggles input{accent-color:var(--accent);width:17px;height:17px;}
+.results{background:#f2f6f7;border:1px solid var(--hair);border-radius:10px;padding:18px 20px;margin-top:16px;}
+.res-head{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.res-car .rc-name{font-size:13px;font-weight:700;color:var(--ink);}
+.res-car .rc-km{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--ink);margin-top:2px;}
+.res-car .rc-mo{font-size:12px;color:var(--muted);margin-top:2px;}
+.res-pay{border-top:1px solid #d8e0e4;padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.res-pay .rp-l{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.res-pay .rp-v{font-family:Fraunces,serif;font-size:30px;color:var(--accent-deep);font-weight:600;line-height:1.15;}
+.res-pay .rp-s{font-size:12.5px;color:var(--muted);margin-top:2px;}
+#ex3-note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.5;}
+
+/* Hidden costs list */
+.hc{list-style:none;font-family:Inter,sans-serif;}
+.hc li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--hair);font-size:14.5px;line-height:1.5;}
+.hc li:last-child{border-bottom:none;}
+.hc .hc-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:#c2410c;white-space:nowrap;padding-top:2px;min-width:86px;}
+.hc .hc-tag.pos{color:#0f766e;}
+.hc b{color:var(--ink);}
+
+/* Endnote */
+.endnote{margin:64px 0 0;padding:30px 0 60px;border-top:1px solid var(--hair);}
+.endnote h3{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.endnote p{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:14px;}
+.endnote a{color:var(--accent-deep);}
+
+@media(max-width:720px){
+  h1{font-size:38px;}
+  .standfirst{font-size:19px;}
+  .band-in{grid-template-columns:repeat(2,1fr);gap:20px;}
+  .metric .mv{font-size:27px;}
+  .calc-grid{grid-template-columns:1fr;}
+  .calc-grid3{grid-template-columns:1fr;}
+  .race-label{width:110px;}
+  .ex{padding:20px 16px 16px;}
+  .pq p{font-size:22px;}
+  .score{font-size:13px;}
+  .score td,.score th{padding:8px 6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div class="mast-in">
+    <a href="../index.html">Asad Abdulla <span>· Macro Notes</span></a>
+    <div class="mast-meta">JULY 2026 · 17 MIN READ</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">Energy & Autos · Independent Analysis</div>
+    <h1>Doing the Math on My First EV</h1>
+    <p class="standfirst">In April, with petrol at crisis prices, I built a spreadsheet to see whether Pakistan's electric cars actually made financial sense. Then the budget repriced every column, and I put a deposit down. A full accounting of what a kilometre now costs, who the FY27 Finance Act quietly picked as winner, and a calculator to test any electric option against the petrol car it would replace.</p>
+    <div id="listenbar">
+      <span class="ll">▶ Listen to this article</span>
+      <audio controls preload="none" id="listenaudio"><source src="pakistan-ev-economics-jul26.mp3" type="audio/mpeg"></audio>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="band-in">
+    <div class="metric"><div class="mv">Rs 310.71</div><div class="ml"><b>Petrol per litre</b>, 10 July 2026 ($1.12). Roughly Rs 75 of it is levies, and revisions now come weekly.</div></div>
+    <div class="metric"><div class="mv">28 <em>vs</em> 2.0</div><div class="ml"><b>Rupees per kilometre</b>: a petrol Corolla against the same car's electric rival charged on rooftop solar.</div></div>
+    <div class="metric"><div class="mv">25%</div><div class="ml"><b>New GST on hybrids</b> from 1 July, up from 8.5%. EVs stay at 1%. The budget picked a side.</div></div>
+    <div class="metric"><div class="mv">3.8 <em>yrs</em></div><div class="ml"><b>Honest payback</b> on the best-selling EV against its petrol equivalent, at 1,500 km a month on grid power.</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- SECTION 01 -->
+<div class="sec">
+  <div class="slabel">Section 01</div>
+  <h2>The April spreadsheet</h2>
+  <p>This spring, with the Hormuz crisis pushing petrol past Rs 400 a litre, I built a spreadsheet: fifteen electric and plug-in models ranked by price, range, charging time, cost per kilometre, and after-sales cover. The purpose was less to shop than to see the economics whole. I posted the table on LinkedIn, noted that the BYD Atto 3 came out best for my use, and asked what I was missing.</p>
+  <p>Three months later, the answer is that the board itself moved. Petrol has come off its Rs 458 peak but sits at Rs 310.71, revised weekly. The FY27 budget spared electric cars and, through simple inaction, hit hybrids with a 25% sales tax. Carmakers have cut petrol car prices by up to a million rupees to defend share. Half a dozen new electric and plug-in models have launched since April, with some twenty more planned for the half-year. And I have put a deposit down, though not on the car my own table picked; more on that at the end.</p>
+  <p>One correction first, because this publication corrects its errors, including mine. My April table showed a 0.2-year breakeven for the Atto 3, measured against a larger, thirstier car than anyone cross-shopping an Atto 3 drives, at crisis fuel prices. Run honestly, against a top-spec petrol Corolla at 1,500 km a month, today's petrol price, and grid electricity, the payback is 3.8 years. That is the number this article defends, and it improves dramatically the moment your roof enters the equation.</p>
+  <p>So this piece is the April post done properly: what changed, what electricity really costs at the plug, and a calculator (Exhibit 3) to run your own numbers rather than trusting mine.</p>
+</div>
+
+<!-- SECTION 02 -->
+<div class="sec">
+  <div class="slabel">Section 02</div>
+  <h2>The board reshuffles: what the FY27 budget actually did</h2>
+  <p>The Finance Act 2026, effective 1 July, is the most consequential repricing of Pakistan's car market in a decade (Exhibit 1). Three moves matter.</p>
+  <p><b>First, electric cars kept everything.</b> The 1% sales tax on locally assembled EVs survived, with the 1% duty on EV CKD kits and the 25% concessional duty on imported EVs under $50,000, all extended to June 2027. This was not a foregone conclusion: June reporting suggested IMF pushback on the 1% rate, and pre-budget drafts floated a 25% sales tax on imported EVs. Neither materialised; only luxury imports above $75,000 were touched, with a new tiered federal excise of 30 to 40%.</p>
+  <p><b>Second, hybrids lost everything, possibly by accident.</b> The 8.5% concessional GST on hybrids (12.75% above 1800cc) sat in the Eighth Schedule with a sunset of 30 June 2026, and the Finance Act simply did not renew it. From 1 July, hybrids, including plug-ins, fall into the standard 25% vehicle sales tax regime. Toyota repriced within days (the Corolla Cross jumped roughly Rs 1.3 million), Honda has followed, and a Haval H6 PHEV now carries Rs 2 million more tax than in June. The promised Auto Policy 2026-31, expected in August, proposes 9% for hybrids; until it lands, the law is the law.</p>
+  <p><b>Third, petrol cars got cheaper to import and dearer to feed.</b> Customs duties on imported petrol cars were cut sharply, combined tariff incidence on a 1000 to 1500cc car falling from roughly 76% to 52%, which will drag local prices down through competition. But the pump moved the other way: the Climate Support Levy doubled to Rs 5 a litre, the petroleum levy sits around Rs 70, and whenever crude falls, the levy rises to absorb it. Petrol at Rs 310.71, revised weekly, is not an accident of the oil market. It is fiscal policy, and the single strongest argument for electrification in this country.</p>
+
+  <div class="ex" id="exhibit1">
+    <div class="ex-label">Exhibit 1</div>
+    <div class="ex-title">The FY2026-27 scorecard: who the Finance Act helped and hurt</div>
+    <div class="ex-sub">Net effect of Finance Act 2026 measures by powertrain, effective 1 July 2026</div>
+    <table class="score">
+      <tr><th>Segment</th><th>What changed</th><th>Verdict</th></tr>
+      <tr><td>Locally assembled EVs</td><td>1% GST retained and extended to June 2027; 1% CKD duty retained. BYD-Hubco plant targets first local unit around August 2026.</td><td><span class="verdict v-win">CLEAR WINNER</span></td></tr>
+      <tr><td>Imported EVs under $75k</td><td>25% concessional duty retained; 0% FED. Untouched by the luxury tiers.</td><td><span class="verdict v-win">WINNER</span></td></tr>
+      <tr><td>Hybrids (HEV)</td><td>8.5% GST concession expired 30 June; now 25%. Corolla Cross up ~Rs 1.3m. Possible 9% rescue in draft Auto Policy 2026-31, not yet law.</td><td><span class="verdict v-lose">BIG LOSER</span></td></tr>
+      <tr><td>Plug-in hybrids (PHEV)</td><td>Same concession expiry; expected hikes of Rs 1.4-2.5m if 25% GST is passed through. Several makers have paused invoicing.</td><td><span class="verdict v-lose">BIG LOSER</span></td></tr>
+      <tr><td>Mass-market petrol (ICE)</td><td>Import duties cut sharply (1000-1500cc incidence ~76% to ~52%); but NEV levy of 1-3% carries forward and fuel levies keep rising.</td><td><span class="verdict v-mixed">MIXED</span></td></tr>
+      <tr><td>Large petrol imports (2000cc+)</td><td>New Special Excise Duty of 86-92% on top of existing FED.</td><td><span class="verdict v-lose">LOSER</span></td></tr>
+      <tr><td>Luxury EVs over $75k</td><td>New tiered FED of 30-40%.</td><td><span class="verdict v-lose">LOSER</span></td></tr>
+    </table>
+    <div class="ex-foot"><b>The Finance Act made a battery-electric car the only powertrain whose tax treatment improved in relative terms, without spending a rupee on it.</b> The hybrid expiry may yet be reversed by the Auto Policy 2026-31; until then, 25% is the operative rate and Toyota has already repriced (the Corolla Cross rise of ~Rs 1.3m is ~$4,700; USD at ~278 PKR).</div>
+    <div class="ex-src">SOURCE: FINANCE ACT 2026 COVERAGE, PROFIT (12 & 23 JUN 2026), PAKWHEELS (24 JUN, 7-8 JUL 2026), BUSINESS RECORDER (JUL 2026)</div>
+  </div>
+
+  <div class="pq"><p>The budget quietly picked a winner, and it was not the hybrid.</p></div>
+</div>
+
+<!-- SECTION 03 -->
+<div class="sec">
+  <div class="slabel">Section 03</div>
+  <h2>What a kilometre actually costs</h2>
+  <p>Every EV argument in Pakistan eventually collapses into one question: what do you pay for a kilowatt-hour? The answer is five different numbers, and the spread between them is enormous (Exhibit 2).</p>
+  <p>Start with an honesty check most analyses skip. A household consuming 400 to 700 units a month pays roughly <b>Rs 45 to 50 per kWh all-in</b> after surcharges and 18% GST. But an EV charges at the margin, on top of everything the house already consumes. A family shopping for a Rs 7 million car is running air conditioners, past 700 units in summer before the car ever plugs in, so every charging unit lands on the top slab: Rs 47.69 base, roughly <b>Rs 57 per kWh all-in</b>. That is the honest price of lazy charging, and the figure I use; the calculator offers Rs 47 for moderate households.</p>
+  <p>One rung down sits an instrument almost nobody has written about. Under S.R.O. 279(I)/2026, a household can install a second, dedicated EV meter and charge off-peak at <b>Rs 23.57 per kWh</b> before taxes, roughly Rs 28 all-in. Commercial DC fast chargers retail at <b>Rs 40 to 45 per kWh</b> in Lahore.</p>
+  <p>And then there is the roof. In February, NEPRA abolished classic net metering for new applicants: surplus units now earn the national average energy purchase price, roughly <b>Rs 10 to 13</b>, while imports bill at full retail. Commentators called it a blow to solar, and for exporters it is. But look at it from the garage: every noon unit pushed into a car battery is a unit you were about to sell for eleven rupees, now doing work that would have cost twenty-eight rupees per kilometre in petrol. Net billing, whatever its intent, has made EV charging the single highest-value use of surplus rooftop solar in Pakistan.</p>
+
+  <div class="ex" id="exhibit2">
+    <div class="ex-label">Exhibit 2</div>
+    <div class="ex-title">The cost-per-kilometre ladder, July 2026</div>
+    <div class="ex-sub">Rupees per km by powertrain and energy source. Petrol at Rs 310.71/litre; home grid at Rs 57/kWh all-in (700+ unit marginal slab); EV meter Rs 28; solar at Rs 12 opportunity cost.</div>
+    <svg viewBox="0 0 700 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart of running cost per kilometre">
+      <g font-family="Inter,sans-serif" font-size="12.5" fill="#39424e">
+        <text x="0" y="26">Fortuner, petrol (6.5 km/l)</text>
+        <rect x="235" y="14" width="430" height="17" fill="#c2410c" rx="2"/>
+        <text x="672" y="27" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">47.8</text>
+        <text x="0" y="66">Sportage, petrol (9 km/l)</text>
+        <rect x="235" y="54" width="311" height="17" fill="#c2410c" rx="2"/>
+        <text x="553" y="67" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">34.5</text>
+        <text x="0" y="106">Corolla, petrol (11 km/l)</text>
+        <rect x="235" y="94" width="254" height="17" fill="#c2410c" rx="2"/>
+        <text x="496" y="107" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">28.2</text>
+        <text x="0" y="146">PHEV, 70% electric, home grid</text>
+        <rect x="235" y="134" width="150" height="17" fill="#0d9488" rx="2"/>
+        <text x="392" y="147" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">16.6</text>
+        <text x="0" y="186">Corolla Cross HEV (19 km/l)</text>
+        <rect x="235" y="174" width="147" height="17" fill="#a16207" rx="2"/>
+        <text x="389" y="187" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">16.4</text>
+        <text x="0" y="226">EV, home grid meter</text>
+        <rect x="235" y="214" width="86" height="17" fill="#0f766e" rx="2"/>
+        <text x="328" y="227" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">9.5</text>
+        <text x="0" y="266">EV, dedicated EV meter</text>
+        <rect x="235" y="254" width="42" height="17" fill="#0f766e" rx="2"/>
+        <text x="284" y="267" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">4.7</text>
+        <text x="0" y="306">EV, rooftop solar</text>
+        <rect x="235" y="294" width="18" height="17" fill="#b8860b" rx="2"/>
+        <text x="260" y="307" font-family="IBM Plex Mono,monospace" font-size="12" fill="#141d28">2.0</text>
+      </g>
+    </svg>
+    <div class="ex-foot"><b>A petrol SUV costs 24 times more per kilometre than an EV charged on rooftop solar, and the petrol Corolla, the country's default sedan, costs 14 times more.</b> Home grid priced at the 700+ unit marginal slab, since charging is incremental load on top of household use. EV figures assume 6 km/kWh including charging losses; PHEV assumes 4.5 km/kWh electric and 12 km/l in hybrid mode; solar valued at the ~Rs 12 net-billing export price forgone ($0.04). Rs 28.2/km is $0.102; Rs 2.0/km is $0.007. USD at ~278 PKR.</div>
+    <div class="ex-src">SOURCE: OGRA (4 JUL 2026), NEPRA CY2026 TARIFF DETERMINATION, S.R.O. 279(I)/2026, NEPRA PROSUMER REGULATIONS (FEB 2026), PAKWHEELS LAHORE CHARGING SURVEY (APR 2026)</div>
+  </div>
+
+  <div class="pq"><p>The cheapest way to move a car through city traffic is now sunlight you were about to sell to the grid for eleven rupees.</p></div>
+</div>
+
+<!-- SECTION 04 -->
+<div class="sec">
+  <div class="slabel">Section 04</div>
+  <h2>The payback machine</h2>
+  <p>Running cost is half the arithmetic; the premium you pay upfront is the other half, and the past year has been kind to buyers and brutal to generalisations. Petrol benchmarks got cheaper: the Fortuner by up to Rs 2.57 million in December, the Sportage L Alpha by a million in June, the Oshan X7 by Rs 850,000 this month, with July's duty cuts still to feed through. Electric options multiplied at both ends: the Aion UT and MG4 arrived below Rs 7 million, cheaper than a Civic, while hybrid and plug-in prices jump as the GST expiry passes through.</p>
+  <p>So rather than a ranking that will be stale by August, Exhibit 3 hands you the machine: twenty-four electric, plug-in, and hybrid options against eleven petrol benchmarks. Pick the cars, set your kilometres, petrol price, and charging source. A tax selector prices hybrids at the current 25%, the expired 8.5%, or the draft Auto Policy's 9%; toggles add maintenance, insurance, and a battery-replacement provision; and you can line up a second electric candidate side by side.</p>
+
+  <div class="ex" id="exhibit3">
+    <div class="ex-label">Exhibit 3 <span class="tag">INTERACTIVE</span></div>
+    <div class="ex-title">Will it pay for itself? The Pakistan EV payback calculator</div>
+    <div class="ex-sub">Compare any electric option against the petrol car it replaces. Prices are ex-factory, July 2026.</div>
+    <div class="calc">
+      <div class="calc-grid3">
+        <div>
+          <label for="ex3-ice">Petrol benchmark</label>
+          <select id="ex3-ice"></select>
+        </div>
+        <div>
+          <label for="ex3-ev">Electric option A</label>
+          <select id="ex3-ev"></select>
+        </div>
+        <div>
+          <label for="ex3-ev2">Electric option B (optional)</label>
+          <select id="ex3-ev2"></select>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div class="slider-row">
+          <div class="sr-head"><label for="ex3-km">Monthly driving</label><span class="sr-val"><input type="number" class="numin" id="ex3-km-n" min="500" max="5000" step="100" value="1500"> km</span></div>
+          <input type="range" id="ex3-km" min="500" max="5000" step="100" value="1500">
+        </div>
+        <div class="slider-row">
+          <div class="sr-head"><label for="ex3-petrol">Petrol price (Rs/litre)</label><span class="sr-val">Rs <input type="number" class="numin" id="ex3-petrol-n" min="250" max="460" step="1" value="311"></span></div>
+          <input type="range" id="ex3-petrol" min="250" max="460" step="1" value="311">
+        </div>
+      </div>
+      <div class="calc-grid3">
+        <div>
+          <label for="ex3-src">Charging source</label>
+          <select id="ex3-src">
+            <option value="57" selected>Home grid, 700+ unit household (Rs 57)</option>
+            <option value="47">Home grid, moderate household (Rs 47)</option>
+            <option value="28">Dedicated home EV meter (Rs 28)</option>
+            <option value="42">Commercial DC fast charging (Rs 42)</option>
+            <option value="12">Rooftop solar, opportunity cost (Rs 12)</option>
+          </select>
+        </div>
+        <div>
+          <label for="ex3-gst">Hybrid / PHEV sales tax</label>
+          <select id="ex3-gst">
+            <option value="25" selected>25% · current law from 1 July</option>
+            <option value="8.5">8.5% · the expired concession</option>
+            <option value="9">9% · draft Auto Policy proposal</option>
+          </select>
+        </div>
+        <div id="ex3-share-wrap">
+          <div class="sr-head"><label for="ex3-share">PHEV: km on electric</label><span class="sr-val"><input type="number" class="numin" id="ex3-share-n" min="0" max="100" step="5" value="70"> %</span></div>
+          <input type="range" id="ex3-share" min="0" max="100" step="5" value="70">
+        </div>
+      </div>
+      <div class="toggles">
+        <label class="tg"><input type="checkbox" id="ex3-mnt"> Maintenance</label>
+        <label class="tg"><input type="checkbox" id="ex3-ins"> Insurance</label>
+        <label class="tg"><input type="checkbox" id="ex3-batt"> Battery provision</label>
+      </div>
+      <div class="results">
+        <div class="rc-grid" id="ex3-cards"></div>
+        <div class="race" id="ex3-race"></div>
+      </div>
+      <div id="ex3-note"></div>
+    </div>
+    <div class="ex-foot"><b>At the default settings, the Atto 3 recovers its premium over a petrol Corolla Grande in 3.8 years on grid power, 2.7 years on solar, and 2.2 years if petrol revisits its April crisis peak.</b> Want more? The <a href="ev-simulator-jul26.html">companion simulator</a> adds a fuel-budget stress test and a solar-plus-EV tab. The 9% GST scenario is approximated from the ex-tax value. Assumptions: EV efficiency per model (5.0-6.8 km/kWh) includes ~10% charging losses; PHEV/REEV electric efficiency and hybrid-mode economy per model; HEV economy per model. Maintenance toggle: tiered by vehicle size and class, Rs 2.4-4.5/km for petrol (a Swift costs less to service than a Fortuner), Rs 1.2-1.8 EV, Rs 2.2-2.8 PHEV/REEV, Rs 2.4-2.7 HEV (indicative); it favours the electric option. Insurance toggle: 1.75% of value per year for petrol, 2.2% for electric (reported premiums run 20-30% higher); it usually favours the petrol option, since the electric car is dearer. Shown separately so each effect is visible. Battery provision toggle sets aside Rs 2.0/km (EV, PHEV, REEV) or Rs 1.0/km (HEV) against post-warranty replacement; packs carry roughly 8-year/160,000 km warranties, so treat it as a conservatism dial, not an expected cost. Hybrid/PHEV 25% GST prices are the pass-through published by PakWheels, 7 July 2026; Toyota and Honda have since repriced at these levels and other makers are following. Registration and token taxes are broadly at parity and excluded. Solar valued at export price forgone. USD at ~278 PKR. Ex-factory prices, July 2026; verify current lists before purchase.</div>
+    <div class="ex-src">SOURCE: PAKWHEELS PRICE LISTS & GST PASS-THROUGH TABLES (JUL 2026), MANUFACTURER PRICE LISTS, OGRA, NEPRA. CALCULATIONS: MACRO NOTES.</div>
+  </div>
+
+  <p>Three findings survive any reasonable setting of the sliders.</p>
+  <p><b>The budget's fingerprint is visible in the hybrid column.</b> At June prices, a Corolla Cross hybrid recovered its premium over a petrol Corolla in 3.9 years, a defensible purchase. At the repriced Rs 9.85 million, the same comparison stretches to 10.0 years, longer than most people keep a car. Plug-ins suffer alike: a Jaecoo J7 against the newly cheapened Sportage needs thirteen years of grid-charged driving to break even. One unrenewed schedule converted the entire bridge segment from sensible to indefensible, at least until the Auto Policy restores a concession.</p>
+  <p><b>Cheap EVs are the quiet killers.</b> The market map (Exhibit 4) shows the bottom-left corner, cheap to buy and cheap to run, is now exclusively electric. The Aion UT costs Rs 250,000 more than a Honda City and erases it in about a year; the MG4 sits in the same corner. Below Rs 9 million, the question is no longer whether the electric car justifies its premium, but why anyone with somewhere to plug in would pay petrol prices at all.</p>
+  <p><b>Kilometres are destiny.</b> At 800 km a month, an Atto 3 against a Corolla is a seven-year proposition, hard to defend on money alone. At 2,500 km, it pays back in under two and a half years on the grid and twenty months on solar. The EV case in Pakistan is a usage question, not a car question, which is why a single "EVs are cheaper" headline serves nobody.</p>
+
+  <div class="ex" id="exhibit4">
+    <div class="ex-label">Exhibit 4</div>
+    <div class="ex-title">The market map: price against running cost, July 2026</div>
+    <div class="ex-sub">Ex-factory price (vertical, Rs million) vs running cost (horizontal, Rs/km at petrol Rs 310.71 and home grid charging Rs 57/kWh; PHEVs at 70% electric share). Hybrids and PHEVs shown at 25% GST prices.</div>
+    <svg viewBox="0 0 700 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scatter plot of vehicle price versus running cost">
+      <g stroke="#e2e6e9" stroke-width="1">
+        <line x1="70" y1="55" x2="70" y2="420"/>
+        <line x1="70" y1="420" x2="680" y2="420"/>
+        <line x1="70" y1="328" x2="680" y2="328" stroke-dasharray="3 4"/>
+        <line x1="70" y1="235" x2="680" y2="235" stroke-dasharray="3 4"/>
+        <line x1="70" y1="143" x2="680" y2="143" stroke-dasharray="3 4"/>
+      </g>
+      <g font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#94a0ab">
+        <text x="40" y="424">5m</text><text x="34" y="332">10m</text><text x="34" y="239">15m</text><text x="34" y="147">20m</text>
+        <text x="70" y="442">0</text><text x="185" y="442">10</text><text x="305" y="442">20</text><text x="425" y="442">30</text><text x="545" y="442">40</text><text x="650" y="442">Rs/km</text>
+      </g>
+      <!-- x = 70 + rskm*12 ; y = 420 - (price-5)*18.5 -->
+      <g>
+        <!-- Petrol (orange) -->
+        <circle cx="409" cy="370" r="6" fill="#c2410c"/><text x="420" y="386" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Corolla Grande</text>
+        <circle cx="357" cy="399" r="6" fill="#c2410c"/><text x="368" y="403" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Honda City</text>
+        <circle cx="484" cy="366" r="6" fill="#c2410c"/><text x="495" y="370" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Sportage L</text>
+        <circle cx="443" cy="326" r="6" fill="#c2410c"/><text x="454" y="330" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Civic RS</text>
+        <circle cx="644" cy="282" r="6" fill="#c2410c"/><text x="566" y="286" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Fortuner G</text>
+        <!-- HEV (gold) -->
+        <circle cx="268" cy="332" r="6" fill="#a16207"/><text x="279" y="336" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Corolla Cross HEV</text>
+        <!-- PHEV / REEV (indigo) at 25% GST prices -->
+        <circle cx="270" cy="289" r="6" fill="#4f46e5"/><text x="281" y="292" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Jaecoo J7</text>
+        <circle cx="256" cy="310" r="6" fill="#4f46e5"/><text x="137" y="300" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Tiggo 7 / MG HS</text>
+        <circle cx="256" cy="295" r="6" fill="#4f46e5"/>
+        <circle cx="270" cy="238" r="6" fill="#4f46e5"/><text x="281" y="242" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Haval H6 PHEV</text>
+        <circle cx="258" cy="324" r="6" fill="#4f46e5"/><text x="130" y="323" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Deepal S05</text>
+        <!-- EV (teal) -->
+        <circle cx="175" cy="394" r="6" fill="#0f766e"/><text x="186" y="400" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Aion UT</text>
+        <circle cx="171" cy="384" r="6" fill="#0f766e"/><text x="128" y="388" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">MG4</text>
+        <circle cx="175" cy="378" r="6" fill="#0f766e"/><text x="186" y="376" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Atto 2</text>
+        <circle cx="184" cy="346" r="6" fill="#0f766e"/><text x="195" y="350" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">BYD Atto 3</text>
+        <circle cx="188" cy="239" r="6" fill="#0f766e"/><text x="199" y="243" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">BYD Seal</text>
+        <circle cx="202" cy="226" r="6" fill="#0f766e"/><text x="213" y="223" font-family="Inter,sans-serif" font-size="11.5" fill="#39424e">Sealion 7</text>
+      </g>
+      <g font-family="Inter,sans-serif" font-size="11" font-weight="600">
+        <circle cx="90" cy="30" r="6" fill="#0f766e"/><text x="102" y="34" fill="#39424e">EV</text>
+        <circle cx="150" cy="30" r="6" fill="#4f46e5"/><text x="162" y="34" fill="#39424e">PHEV/REEV</text>
+        <circle cx="260" cy="30" r="6" fill="#a16207"/><text x="272" y="34" fill="#39424e">HEV</text>
+        <circle cx="320" cy="30" r="6" fill="#c2410c"/><text x="332" y="34" fill="#39424e">Petrol</text>
+      </g>
+    </svg>
+    <div class="ex-foot"><b>The bottom-left corner, cheap to buy and cheap to run, now belongs entirely to electric cars.</b> Every petrol model sits three to six times further right than the EV cluster. PHEVs and the lone hybrid occupy the expensive middle after their July repricing. Prices in Rs million ($1m = ~$3,600 per Rs 1m at 278 PKR/USD).</div>
+    <div class="ex-src">SOURCE: PAKWHEELS PRICE LISTS (JUL 2026), MANUFACTURER LISTS. RUNNING COSTS: MACRO NOTES CALCULATIONS AS IN EXHIBIT 3.</div>
+  </div>
+
+  <div class="pq"><p>In April the question was whether an electric car could pay for itself. In July the question is which one pays fastest.</p></div>
+</div>
+
+<!-- SECTION 05 -->
+<div class="sec">
+  <div class="slabel">Section 05</div>
+  <h2>User feedback from PakWheels</h2>
+  <p>PakWheels has quietly become the country's EV testing institution, and its expert tests and owner reviews agree on the essentials: real-world range runs 15 to 30% below the brochure, the Deepal S05 REEV posted the standout result at roughly Rs 13 per km over a 1,000 km test, and the Jaecoo J7's celebrated 1,200 km claim did not survive the myth-test. The pattern across reviews is consistent: delight with the drivetrain and the fuel bill, friction with everything around it.</p>
+  <p>The delight: a Lahore owner put 6,400 km on a BYD Shark 6 in three months on three or four tanks, charging "essentially free" from home solar; an Atto 3 owner says petrol cars feel sluggish afterwards; used BYDs trade at a premium. The friction, collected in Exhibit 5: a Rs 54,000 month-long wait for a taillight that costs Rs 700 to fix on a Hilux, brakes that slam when a motorcycle cuts in, insurance loaded 20 to 30%, no registration relief, resale buyers pricing in battery replacements they will probably never need, and a family stranded on the M-2 in June when every charger at the Bhera stop was dead at once.</p>
+
+  <div class="ex" id="exhibit5">
+    <div class="ex-label">Exhibit 5</div>
+    <div class="ex-title">Feedback from PakWheels: the ledger beyond fuel</div>
+    <div class="ex-sub">Recurring themes from PakWheels owner reviews and expert tests, with related reporting, 2025-26. Anecdotes, not survey data.</div>
+    <ul class="hc">
+      <li><span class="hc-tag pos">DELIGHT</span><span><b>Running cost and refinement.</b> Shark 6 owner: 6,400 km, three months, 3-4 fuel fill-ups, home solar charging. Atto 2 owner: ~Rs 10,000 of electricity per 1,000 km against ~Rs 35,000 of petrol. Atto 3 owner: "ICE vehicles feel sluggish" after the switch.</span></li>
+      <li><span class="hc-tag pos">DELIGHT</span><span><b>Resale, so far.</b> Hot models (Shark 6, Deepal S05) trading at premiums of Rs 5-17 lakh above invoice, though this reflects allocation shortage as much as confidence.</span></li>
+      <li><span class="hc-tag">FRICTION</span><span><b>Range reality.</b> Owners and PakWheels tests report 15-30% below claimed: 288 km observed on an Atto 3 rated 410 km. Plan on the lower number.</span></li>
+      <li><span class="hc-tag">FRICTION</span><span><b>Parts and after-sales.</b> Rs 54,000 and a one-month wait for a Shark 6 taillight, against Rs 700 for the Revo equivalent. Service advisors still learning their own products.</span></li>
+      <li><span class="hc-tag">FRICTION</span><span><b>Insurance and registration.</b> Premiums 20-30% above comparable petrol cars; registration at full parity (Rs 305,000 on an Atto 3), with no EV relief in any province.</span></li>
+      <li><span class="hc-tag">FRICTION</span><span><b>Highway dependence.</b> The M-2 works with one stop when the Bhera chargers work. On 7 June 2026, none of them did, and load-shedding had the next station down too.</span></li>
+      <li><span class="hc-tag">FRICTION</span><span><b>Resale discount ahead.</b> Once allocation premiums fade, used buyers price in battery replacement fears; trade commentary suggests EV values fall hardest in downturns.</span></li>
+    </ul>
+    <div class="ex-foot"><b>Every friction item is a cost of network immaturity rather than of the technology, which argues they shrink with volume; but a buyer in July 2026 pays them at today's prices.</b> The Rs 54,000 taillight is ~$194 and the Rs 305,000 registration ~$1,100; USD at ~278 PKR.</div>
+    <div class="ex-src">SOURCE: PAKWHEELS OWNER REVIEWS & EXPERT/YOUTUBE TESTS (2025-26), PROFIT (25 FEB 2026), BLOOM PAKISTAN (7 JUN 2026), AUTOSTORE.PK TRADE COMMENTARY (2026)</div>
+  </div>
+</div>
+
+<!-- SECTION 06 -->
+<div class="sec">
+  <div class="slabel">Section 06</div>
+  <h2>The verdict, and an audit of my own</h2>
+  <p>Three months ago I asked LinkedIn whether I was missing anything. Here is the answer I would give my April self.</p>
+  <p>The economics have resolved in one direction. For a household with off-street parking and city driving of 1,500 km a month or more, an electric car is now the financially conservative choice: a sub-four-year payback on the Atto 3 class on grid power, under three on solar, about a year on the cheapest EVs. The same Finance Act that spared EVs their 1% rate wrecked the hybrid bridge through inaction, and until August's Auto Policy says otherwise, the rational shortlist is petrol or electric. What has not resolved is everything around the car: charging beyond the city is a single-point-of-failure system, after-sales networks are months old, and insurance, registration, and resale still price EVs as exotic. Those are the costs of being early, and they are why adoption will be led by households with secure parking and, ideally, solar on the roof.</p>
+  <p>Which brings me to my own ledger, because between the April post and this article I put a deposit down, and not on the car my table crowned. I booked the BYD Atto 2, not the Atto 3. The audit holds up: the Rs 1.7 million I did not spend buys range my city driving would not use, the premium over the petrol car it replaces recovers in a little over four years on grid power and just under three on solar, and early owner data (about Rs 10,000 of electricity per 1,000 km against Rs 35,000 of petrol) matches the calculator almost exactly. The honest risk sits below, not above: the MG4 and Aion UT undercut the Atto 2, and PakWheels calls the UT the smarter financial play. I am paying roughly half a million rupees for BYD's 6-year vehicle and 8-year battery warranty, a dealer operation that delivered a hundred cars in a day, and a known resale market. In a two-year-old market, that is not sentiment, it is insurance. Delivery will tell me whether I priced it right, and this publication will get the running-cost data when it does.</p>
+  <p>If you own one of these cars, I want your numbers: real consumption, real bills, real service experiences, good and bad. The comment thread on the April post taught me more than most of the published commentary; I expect the same again.</p>
+</div>
+
+<!-- ENDNOTE -->
+<div class="endnote">
+  <h3>Notes & Sources</h3>
+  <p>Vehicle prices are ex-factory list prices as of early July 2026, from PakWheels price lists and manufacturer publications; hybrid and PHEV 25% GST prices are the pass-through published by PakWheels on 7 July 2026, since confirmed by Toyota's and Honda's repricing. Fuel price per the notification effective 10 July 2026; petroleum prices are currently being revised weekly. Electricity costs from NEPRA's CY2026 tariff determination, S.R.O. 279(I)/2026 (dedicated EV meter), and the NEPRA Prosumer Regulations 2026; the ~Rs 57/kWh all-in grid figure is the author's estimate for the above-700-unit marginal slab including surcharges and 18% GST, on the reasoning that EV charging is incremental load priced at a high-consumption household's top slab; Rs 47 (401-700 unit slabs) is offered in the calculator for moderate households. Owner experiences and expert test findings from PakWheels owner reviews and YouTube tests, Profit, and Bloom Pakistan, and are anecdotal accounts, not surveys.</p>
+  <p>A correction: my April 2026 LinkedIn comparison table showed a 0.2-year breakeven for the BYD Atto 3 against a larger petrol benchmark at crisis fuel prices. Measured against the petrol car an Atto 3 buyer would realistically choose, at today's petrol price, the honest figure is 3.8 years on grid charging at the top household slab. Separately, readers may encounter conflicting reports on hybrid taxation: Business Recorder and PakWheels confirm the 8.5% Eighth Schedule concession expired 30 June 2026 and 25% applies from 1 July, while the draft Auto Policy 2026-31 proposes 9%; this article uses the law as it stands. Disclosure: I have booked a BYD Atto 2 and have no relationship with any manufacturer or dealer; weigh my conclusions accordingly.</p>
+  <p>All dollar figures at approximately 278 PKR/USD. Views are my own.</p>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  // Listen bar: show only if audio file exists
+  var a=document.getElementById('listenaudio');
+  a.addEventListener('loadedmetadata',function(){document.getElementById('listenbar').style.display='flex';});
+  a.load();
+})();
+
+(function(){
+  var FX=278;
+  var ICE=[
+    {id:'swift',mnt:2.4,name:'Suzuki Swift GLX CVT',price:4.766,kml:14},
+    {id:'yaris',mnt:2.6,name:'Toyota Yaris ATIV X 1.5',price:6.049,kml:13},
+    {id:'city',mnt:2.6,name:'Honda City 1.5 Aspire',price:6.149,kml:13},
+    {id:'altis',mnt:2.8,name:'Toyota Corolla Altis X 1.6',price:6.202,kml:12},
+    {id:'crossp',mnt:3.0,name:'Toyota Corolla Cross 1.8 petrol',price:7.235,kml:12},
+    {id:'corolla',mnt:2.8,name:'Toyota Corolla Grande',price:7.709,kml:11},
+    {id:'sportage',mnt:3.2,name:'Kia Sportage L Alpha',price:7.899,kml:9},
+    {id:'oshan',mnt:3.2,name:'Changan Oshan X7 FutureSense (7-seat)',price:8.449,kml:11},
+    {id:'h6p',mnt:3.2,name:'Haval H6 petrol',price:8.924,kml:9},
+    {id:'civic',mnt:3.0,name:'Honda Civic RS',price:10.100,kml:10},
+    {id:'fortuner',mnt:4.5,name:'Toyota Fortuner G',price:12.435,kml:6.5}
+  ];
+  var EV=[
+    {id:'aionut',mnt:1.2,name:'GAC Aion UT (EV)',type:'bev',price:6.399,eff:6.5},
+    {id:'mg4',mnt:1.2,name:'MG4 EV Urban (EV)',type:'bev',price:6.949,eff:6.8},
+    {id:'atto2',mnt:1.2,name:'BYD Atto 2 (EV)',type:'bev',price:7.290,eff:6.5},
+    {id:'atto3',mnt:1.5,name:'BYD Atto 3 (EV)',type:'bev',price:8.990,eff:6.0},
+    {id:'zsev',mnt:1.5,name:'MG ZS EV Essence (EV)',type:'bev',price:9.690,eff:6.2},
+    {id:'s05',mnt:2.2,name:'Deepal S05 (REEV)',type:'phev',price:9.999,price85:9.999,eff:4.5,kml:13,note:'REEV: classified as an EV for tax at the time of writing (1% GST); PAMA is contesting the classification.'},
+    {id:'cross',mnt:2.4,name:'Toyota Corolla Cross HEV',type:'hev',price:9.849,price85:8.535,kml:19},
+    {id:'hrv',mnt:2.4,name:'Honda HR-V e:HEV',type:'hev',price:10.368,price85:8.999,kml:18},
+    {id:'jolion',mnt:2.4,name:'Haval Jolion HEV',type:'hev',price:10.503,price85:9.116,kml:17},
+    {id:'tiggo7',mnt:2.2,name:'Chery Tiggo 7 (PHEV)',type:'phev',price:10.944,price85:9.499,eff:4.8,kml:13},
+    {id:'hs',mnt:2.2,name:'MG HS Super Hybrid (PHEV)',type:'phev',price:11.750,price85:10.199,eff:4.8,kml:13},
+    {id:'j7',mnt:2.2,name:'Jaecoo J7 (PHEV)',type:'phev',price:12.096,price85:10.499,eff:4.5,kml:12},
+    {id:'tucson',mnt:2.7,name:'Hyundai Tucson HEV',type:'hev',price:12.926,price85:11.220,kml:15},
+    {id:'tiggo8',mnt:2.4,name:'Chery Tiggo 8 (PHEV, 7-seat)',type:'phev',price:13.017,price85:11.299,eff:4.5,kml:12},
+    {id:'l07',mnt:1.8,name:'Deepal L07 (EV)',type:'bev',price:13.999,eff:5.8},
+    {id:'t2',mnt:2.4,name:'Jetour T2 i-DM (PHEV)',type:'phev',price:14.741,price85:12.795,eff:4.2,kml:11},
+    {id:'seal',mnt:1.8,name:'BYD Seal Dynamic (EV)',type:'bev',price:14.790,eff:5.8},
+    {id:'h6phev',mnt:2.4,name:'Haval H6 (PHEV)',type:'phev',price:14.856,price85:12.895,eff:4.5,kml:12},
+    {id:'s07',mnt:1.8,name:'Deepal S07 (EV)',type:'bev',price:14.999,eff:5.5},
+    {id:'sealion',mnt:1.8,name:'BYD Sealion 7 (EV)',type:'bev',price:15.490,eff:5.2},
+    {id:'tiggo9',mnt:2.4,name:'Chery Tiggo 9 (PHEV, 7-seat)',type:'phev',price:15.776,price85:13.694,eff:4.2,kml:11},
+    {id:'ev5',mnt:1.8,name:'Kia EV5 Air (EV)',type:'bev',price:18.500,eff:5.0,note:'April 2026 list price; verify a current invoice price with Lucky Motor.'},
+    {id:'shark',mnt:2.8,name:'BYD Shark 6 (PHEV pickup)',type:'phev',price:19.950,price85:19.950,eff:3.5,kml:10,note:'Imported CBU; July list price, not affected by the local-assembly GST table.'},
+    {id:'ioniq5',mnt:1.8,name:'Hyundai Ioniq 5 (EV)',type:'bev',price:22.500,eff:5.5,note:'Listed price; a fresh July 2026 invoice price could not be verified.'}
+  ];
+  var MAINT={ice:3.0,hev:2.5,phev:2.2,bev:1.5};
+  var BATT={hev:1.0,phev:2.0,bev:2.0};
+  var $=function(id){return document.getElementById(id);};
+  var selIce=$('ex3-ice'), selEv=$('ex3-ev'), selEv2=$('ex3-ev2');
+  ICE.forEach(function(m,i){var o=document.createElement('option');o.value=i;o.textContent=m.name+' · Rs '+m.price.toFixed(2)+'m';selIce.appendChild(o);});
+  var none=document.createElement('option');none.value=-1;none.textContent='None';selEv2.appendChild(none);
+  EV.forEach(function(m,i){
+    var o=document.createElement('option');o.value=i;o.textContent=m.name;selEv.appendChild(o);
+    var o2=document.createElement('option');o2.value=i;o2.textContent=m.name;selEv2.appendChild(o2);
+  });
+  selIce.value=5; selEv.value=3; selEv2.value=-1;
+
+  function fmt(n){return n.toLocaleString('en-PK',{maximumFractionDigits:0});}
+  function evPriceOf(ev,gst){
+    if(ev.type==='bev')return ev.price;
+    if(ev.id==='s05'||ev.id==='shark')return ev.price;
+    if(gst==='25')return ev.price;
+    if(gst==='8.5')return ev.price85;
+    return ev.price85/1.085*1.09;
+  }
+  function evKmOf(ev,tariff,petrol,share){
+    if(ev.type==='bev')return tariff/ev.eff;
+    if(ev.type==='hev')return petrol/ev.kml;
+    return share*(tariff/ev.eff)+(1-share)*(petrol/ev.kml);
+  }
+  function card(cls,name,km,sub){
+    return '<div class="rc '+cls+'"><div class="rc-name">'+name+'</div><div class="rc-big">Rs '+km.toFixed(1)+'/km</div><div class="rc-sub">'+sub+'</div></div>';
+  }
+
+  function calc(){
+    var ice=ICE[+selIce.value];
+    var evs=[EV[+selEv.value]];
+    if(+selEv2.value>=0)evs.push(EV[+selEv2.value]);
+    var km=+$('ex3-km').value, petrol=+$('ex3-petrol').value;
+    var tariff=+$('ex3-src').value, share=+$('ex3-share').value/100, gst=$('ex3-gst').value;
+    var mnt=$('ex3-mnt').checked, ins=$('ex3-ins').checked, batt=$('ex3-batt').checked;
+    var kmYr=km*12;
+
+    $('ex3-share-wrap').style.display=evs.some(function(e){return e.type==='phev';})?'block':'none';
+
+    var iceKm=petrol/ice.kml;
+    var iceYr=iceKm*kmYr+(mnt?ice.mnt*kmYr:0)+(ins?ice.price*1e6*0.0175:0);
+    var iceSub='Rs '+fmt(iceKm*km)+'/mo fuel'+(mnt?' + Rs '+fmt(ice.mnt*km)+' maint':'')+(ins?' + Rs '+fmt(ice.price*1e6*0.0175/12)+' insurance':'');
+    var html=card('ice',ice.name+' · Rs '+ice.price.toFixed(2)+'m',iceYr/kmYr,iceSub);
+    var race=[{n:ice.name,v:iceYr/kmYr,c:'#c2410c'}];
+    var notes=[];
+    evs.forEach(function(ev){
+      var p=evPriceOf(ev,gst), ek=evKmOf(ev,tariff,petrol,share);
+      var mr=ev.mnt;
+      var eYr=ek*kmYr+(mnt?mr*kmYr:0)+(ins?p*1e6*0.022:0)+(batt?BATT[ev.type]*kmYr:0);
+      var save=iceYr-eYr, prem=(p-ice.price)*1e6, sub;
+      var parts='Rs '+fmt(ek*km)+'/mo energy'+(mnt?' + Rs '+fmt(mr*km)+' maint':'')+(ins?' + Rs '+fmt(p*1e6*0.022/12)+' insurance':'')+(batt?' + Rs '+fmt(BATT[ev.type]*km)+' battery provision':'')+'<br>';
+      if(save<=0)sub=parts+'Costs more per year to own and run at these settings.';
+      else if(prem<=0)sub=parts+'Cheaper to buy AND saves Rs '+fmt(save)+'/yr. Pays back day one.';
+      else sub=parts+'Payback <b>'+(prem/save).toFixed(1)+' yrs</b> on a Rs '+fmt(prem)+' premium · 5-yr net saving Rs '+fmt(save*5-prem)+' (≈$'+fmt((save*5-prem)/FX)+')';
+      html+=card('',ev.name+' · Rs '+p.toFixed(2)+'m',eYr/kmYr,sub);
+      race.push({n:ev.name,v:eYr/kmYr,c:'#0f766e'});
+      if(ev.note)notes.push(ev.note);
+    });
+    $('ex3-cards').innerHTML=html;
+    var max=Math.max.apply(null,race.map(function(r){return r.v;}));
+    $('ex3-race').innerHTML=race.map(function(r){
+      return '<div class="race-row"><div class="race-label">'+r.n+'</div><div class="race-track"><div class="race-bar" style="width:'+(r.v/max*100)+'%;background:'+r.c+'"></div></div><div class="race-val">'+r.v.toFixed(1)+'</div></div>';
+    }).join('');
+    $('ex3-note').textContent=notes.join(' ');
+  }
+
+  function pair(sid,nid){
+    var s=$(sid), n=$(nid);
+    s.addEventListener('input',function(){n.value=s.value;calc();});
+    n.addEventListener('input',function(){var v=parseFloat(n.value);if(!isNaN(v)&&v>=+n.min&&v<=+n.max){s.value=v;calc();}});
+    n.addEventListener('change',function(){var v=parseFloat(n.value);if(isNaN(v))v=+s.value;v=Math.min(+n.max,Math.max(+n.min,v));n.value=v;s.value=v;calc();});
+  }
+  pair('ex3-km','ex3-km-n');pair('ex3-petrol','ex3-petrol-n');pair('ex3-share','ex3-share-n');
+  ['ex3-ice','ex3-ev','ex3-ev2','ex3-src','ex3-gst','ex3-mnt','ex3-ins','ex3-batt'].forEach(function(id){
+    $(id).addEventListener('input',calc);$(id).addEventListener('change',calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

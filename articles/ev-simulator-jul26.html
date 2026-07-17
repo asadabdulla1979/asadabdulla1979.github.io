@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Pakistan EV Cost Simulator | Asad Abdulla · Macro Notes</title>
+<meta name="description" content="Pick your petrol car, pick the electric option tempting you, set your kilometres and charging source, and get the payback. Plus a fuel-budget stress test and a solar-plus-EV tab.">
+<meta property="og:title" content="The Pakistan EV Cost Simulator">
+<meta property="og:description" content="Petrol or battery? Run your own numbers: payback comparison, fuel-budget stress test, and a solar-plus-EV combo tab. Prices as of July 2026.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://asadabdulla1979.github.io/articles/ev-simulator-jul26.html">
+<meta property="og:image" content="https://asadabdulla1979.github.io/articles/ev-simulator-jul26-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f7f8; --ink:#141d28; --body:#39424e; --muted:#67717e; --hair:#e2e6e9;
+  --accent:#0e7490; --accent-deep:#155e75; --band:#16222e; --ice:#c2410c; --card:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--paper);color:var(--body);font-family:Inter,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px;}
+.mast{border-bottom:1px solid var(--hair);}
+.mast-in{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.mast a{color:var(--ink);text-decoration:none;font-weight:700;font-size:15px;}
+.mast a span{color:var(--accent);font-weight:600;}
+.mast-meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.06em;}
+.hero{padding:40px 0 8px;}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+h1{font-family:Fraunces,serif;font-weight:600;font-size:40px;line-height:1.1;color:var(--ink);margin-bottom:14px;}
+.standfirst{font-size:16.5px;color:var(--body);max-width:620px;margin-bottom:10px;}
+.backlink{font-size:13.5px;margin-bottom:22px;}
+.backlink a{color:var(--accent-deep);}
+.tabs{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap;}
+.tab-btn{font-family:Inter,sans-serif;font-size:13.5px;font-weight:600;padding:10px 18px;border:1px solid var(--hair);border-bottom:none;border-radius:10px 10px 0 0;background:#eceff1;color:var(--muted);cursor:pointer;}
+.tab-btn.active{background:var(--card);color:var(--accent-deep);}
+.panel{display:none;background:var(--card);border:1px solid var(--hair);border-radius:0 12px 12px 12px;padding:24px;margin-bottom:36px;}
+.panel.active{display:block;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+label{display:block;font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:12px 0 5px;}
+select,input[type=number]{width:100%;padding:9px;border:1px solid var(--hair);border-radius:8px;font-family:Inter,sans-serif;font-size:14px;color:var(--ink);background:#fff;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+.sr-head{display:flex;justify-content:space-between;align-items:baseline;}
+.sr-val{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent-deep);display:flex;align-items:center;gap:5px;}
+.numin{width:80px;padding:4px 6px;border:1px solid var(--hair);border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent-deep);text-align:right;background:#fff;}
+.toggles{display:flex;gap:14px;flex-wrap:nowrap;margin-top:14px;overflow-x:auto;}
+.tg{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);font-weight:500;white-space:nowrap;}
+.tg input{accent-color:var(--accent);width:16px;height:16px;}
+.results{background:#f2f6f7;border:1px solid var(--hair);border-radius:10px;padding:18px;margin-top:18px;}
+.rc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.rc{border-left:3px solid var(--accent);padding-left:12px;}
+.rc.ice{border-color:var(--ice);}
+.rc-name{font-size:12.5px;font-weight:700;color:var(--ink);}
+.rc-big{font-family:Fraunces,serif;font-size:26px;color:var(--ink);line-height:1.2;margin:2px 0;}
+.rc-sub{font-size:12px;color:var(--muted);line-height:1.5;}
+.race{margin-top:16px;}
+.race-row{display:flex;align-items:center;gap:10px;margin:6px 0;}
+.race-label{width:190px;font-size:12px;color:var(--ink);font-weight:500;flex-shrink:0;}
+.race-track{flex:1;background:#e7ecee;border-radius:4px;height:16px;position:relative;}
+.race-bar{height:16px;border-radius:4px;}
+.race-val{width:56px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);text-align:right;flex-shrink:0;}
+table.sens{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px;}
+table.sens th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:7px 8px;border-bottom:2px solid var(--ink);}
+table.sens td{padding:9px 8px;border-bottom:1px solid var(--hair);}
+table.sens td:first-child{font-weight:600;color:var(--ink);}
+table.sens .mono{font-family:'IBM Plex Mono',monospace;}
+details{margin-top:16px;border:1px solid var(--hair);border-radius:8px;padding:10px 14px;background:#fafbfb;}
+summary{font-size:12.5px;font-weight:600;color:var(--accent-deep);cursor:pointer;}
+details p{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.6;}
+.footnote{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.55;}
+.pagefoot{max-width:860px;margin:0 auto;padding:10px 20px 50px;font-size:12.5px;color:var(--muted);}
+.pagefoot a{color:var(--accent-deep);}
+@media(max-width:680px){
+  h1{font-size:30px;}
+  .grid2,.grid3{grid-template-columns:1fr;}
+  .race-label{width:120px;}
+  .panel{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div class="mast-in">
+    <a href="../index.html">Asad Abdulla <span>· Macro Notes</span></a>
+    <div class="mast-meta">JULY 2026 · INTERACTIVE TOOL</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">Companion Tool · Energy & Autos</div>
+    <h1>The Pakistan EV Cost Simulator</h1>
+    <p class="standfirst">Petrol or battery? Pick the cars, set your kilometres and charging source, and get the payback. Three tabs: compare, stress-test your fuel budget, and see what rooftop solar does to the whole equation.</p>
+    <p class="backlink">The reasoning behind these numbers: <a href="pakistan-ev-economics-jul26.html">read the full analysis</a>.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="t1">Payback comparison</button>
+    <button class="tab-btn" data-tab="t2">Fuel budget & sensitivity</button>
+    <button class="tab-btn" data-tab="t3">Solar + EV combo</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="panel active" id="t1">
+    <div class="grid3">
+      <div><label for="t1-ice">Petrol benchmark</label><select id="t1-ice"></select></div>
+      <div><label for="t1-ev1">Electric option A</label><select id="t1-ev1"></select></div>
+      <div><label for="t1-ev2">Electric option B (optional)</label><select id="t1-ev2"></select></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div class="sr-head"><label for="t1-km">Monthly driving</label><span class="sr-val"><input type="number" class="numin" id="t1-km-n" min="500" max="5000" step="100" value="1500"> km</span></div>
+        <input type="range" id="t1-km" min="500" max="5000" step="100" value="1500">
+      </div>
+      <div>
+        <div class="sr-head"><label for="t1-petrol">Petrol price (Rs/litre)</label><span class="sr-val">Rs <input type="number" class="numin" id="t1-petrol-n" min="250" max="460" step="1" value="311"></span></div>
+        <input type="range" id="t1-petrol" min="250" max="460" step="1" value="311">
+      </div>
+    </div>
+    <div class="grid3">
+      <div>
+        <label for="t1-src">Charging source</label>
+        <select id="t1-src">
+          <option value="57" selected>Home grid, 700+ unit household (Rs 57)</option>
+          <option value="47">Home grid, moderate household (Rs 47)</option>
+          <option value="28">Dedicated home EV meter (Rs 28)</option>
+          <option value="42">Commercial DC fast charging (Rs 42)</option>
+          <option value="12">Rooftop solar, opportunity cost (Rs 12)</option>
+        </select>
+      </div>
+      <div>
+        <label for="t1-gst">Hybrid / PHEV sales tax scenario</label>
+        <select id="t1-gst">
+          <option value="25" selected>25% · current law from 1 July</option>
+          <option value="8.5">8.5% · the expired concession</option>
+          <option value="9">9% · draft Auto Policy proposal</option>
+        </select>
+      </div>
+      <div>
+        <div class="sr-head"><label for="t1-share">PHEV: km on electric</label><span class="sr-val"><input type="number" class="numin" id="t1-share-n" min="0" max="100" step="5" value="70"> %</span></div>
+        <input type="range" id="t1-share" min="0" max="100" step="5" value="70">
+      </div>
+    </div>
+    <div class="toggles">
+      <label class="tg"><input type="checkbox" id="t1-mnt"> Maintenance</label>
+      <label class="tg"><input type="checkbox" id="t1-ins"> Insurance</label>
+      <label class="tg"><input type="checkbox" id="t1-batt"> Battery provision</label>
+    </div>
+    <div class="results">
+      <div class="rc-grid" id="t1-cards"></div>
+      <div class="race" id="t1-race"></div>
+    </div>
+    <div class="footnote" id="t1-note"></div>
+    <details><summary>Assumptions in this tab</summary>
+      <p>Ex-factory list prices, July 2026 (hybrid/PHEV 25% prices are PakWheels' computed pass-through of 7 July; the 9% scenario is approximated from the ex-tax value). EV efficiency 5.0-6.8 km/kWh per model including ~10% charging losses; PHEV electric efficiency and hybrid-mode fuel economy per model; HEV fuel economy per model. Maintenance (separate toggle) is tiered by vehicle size and class: Rs 2.4-4.5/km petrol (a Swift costs less to service than a Fortuner), 1.2-1.8 EV, 2.2-2.8 PHEV/REEV, 2.4-2.7 HEV; it favours the electric option. Insurance (separate toggle) 1.75%/yr of value (petrol) vs 2.2% (electric); it usually favours the petrol option, since the electric car is dearer. Battery provision Rs 2.0/km (EV/PHEV/REEV) or Rs 1.0/km (HEV) against post-warranty replacement; packs carry ~8-year/160,000 km warranties. Registration and token taxes broadly at parity, excluded. USD at ~278 PKR. Verify prices before purchase.</p>
+    </details>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="panel" id="t2">
+    <div class="grid2">
+      <div><label for="t2-veh">Vehicle</label><select id="t2-veh"></select></div>
+      <div>
+        <label for="t2-src">Charging source (electric vehicles)</label>
+        <select id="t2-src">
+          <option value="57" selected>Home grid, 700+ unit household (Rs 57)</option>
+          <option value="47">Home grid, moderate household (Rs 47)</option>
+          <option value="28">Dedicated home EV meter (Rs 28)</option>
+          <option value="42">Commercial DC fast charging (Rs 42)</option>
+          <option value="12">Rooftop solar, opportunity cost (Rs 12)</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div class="sr-head"><label for="t2-km">Monthly driving</label><span class="sr-val"><input type="number" class="numin" id="t2-km-n" min="500" max="5000" step="100" value="1500"> km</span></div>
+      <input type="range" id="t2-km" min="500" max="5000" step="100" value="1500">
+    </div>
+    <div class="results">
+      <div class="rc-grid" id="t2-cards"></div>
+      <table class="sens" id="t2-table"></table>
+    </div>
+    <div class="footnote">The petrol rows show your bill if pump prices move; Rs 458.40 was the April 2026 crisis peak. The grid row stress-tests a 15% tariff increase on your selected charging source. PHEVs at 70% electric share.</div>
+    <details><summary>Assumptions in this tab</summary>
+      <p>Same vehicle data and efficiency assumptions as the payback tab. Current petrol Rs 310.71/litre (10 July 2026 notification; revisions are currently weekly). Scenarios are illustrative, not forecasts. Fixed costs (insurance, maintenance) are excluded here; this tab isolates the energy bill.</p>
+    </details>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="panel" id="t3">
+    <div class="grid2">
+      <div><label for="t3-ice">Petrol benchmark</label><select id="t3-ice"></select></div>
+      <div><label for="t3-ev">Electric option</label><select id="t3-ev"></select></div>
+    </div>
+    <div class="grid3">
+      <div>
+        <div class="sr-head"><label for="t3-kw">Solar system size</label><span class="sr-val"><input type="number" class="numin" id="t3-kw-n" min="5" max="20" step="1" value="10"> kW</span></div>
+        <input type="range" id="t3-kw" min="5" max="20" step="1" value="10">
+      </div>
+      <div>
+        <div class="sr-head"><label for="t3-km">Monthly driving</label><span class="sr-val"><input type="number" class="numin" id="t3-km-n" min="500" max="5000" step="100" value="1500"> km</span></div>
+        <input type="range" id="t3-km" min="500" max="5000" step="100" value="1500">
+      </div>
+      <div>
+        <div class="sr-head"><label for="t3-share">Charging done from solar</label><span class="sr-val"><input type="number" class="numin" id="t3-share-n" min="0" max="100" step="5" value="60"> %</span></div>
+        <input type="range" id="t3-share" min="0" max="100" step="5" value="60">
+      </div>
+    </div>
+    <div class="grid2">
+      <div><label for="t3-cpk">Installed cost per kW (Rs)</label><input type="number" id="t3-cpk" value="90000" step="5000" min="60000" max="150000"></div>
+      <div><label for="t3-gen">Generation (units per kW per day)</label><input type="number" id="t3-gen" value="4.2" step="0.1" min="3" max="5.5"></div>
+    </div>
+    <div class="results">
+      <div class="rc-grid" id="t3-cards"></div>
+    </div>
+    <div class="footnote" id="t3-note"></div>
+    <details><summary>Assumptions in this tab</summary>
+      <p>10 kW turnkey systems were quoted around Rs 850,000-945,000 installed in mid-2026, hence the Rs 90,000/kW default; override to match your quote. Generation default 4.2 units/kW/day. Solar units sent to the car are valued at the ~Rs 11 net-billing export price you forgo; charging not covered by solar is billed at Rs 57 (top slab). Petrol at Rs 310.71. PHEVs charge only their electric share (70%) this way; their remaining kilometres burn petrol at the model's hybrid-mode economy. Joint payback divides system cost plus vehicle premium by the combined annual saving versus the petrol benchmark. USD at ~278 PKR.</p>
+    </details>
+  </div>
+</div>
+
+<div class="pagefoot">
+  Prices as of July 2026; petrol Rs 310.71/litre (10 July notification, revised weekly). Verify current lists before purchase.
+  This tool accompanies <a href="pakistan-ev-economics-jul26.html">"Petrol or Battery? Doing the Math on My First EV"</a>. Independent analysis. Views are my own.
+</div>
+
+<script>
+(function(){
+var FX=278, PETROL=310.71, EXPORT_RATE=11, TOP_SLAB=57;
+var ICE=[
+  {id:'swift',mnt:2.4,name:'Suzuki Swift GLX CVT',price:4.766,kml:14},
+  {id:'yaris',mnt:2.6,name:'Toyota Yaris ATIV X 1.5',price:6.049,kml:13},
+  {id:'city',mnt:2.6,name:'Honda City 1.5 Aspire',price:6.149,kml:13},
+  {id:'altis',mnt:2.8,name:'Toyota Corolla Altis X 1.6',price:6.202,kml:12},
+  {id:'crossp',mnt:3.0,name:'Toyota Corolla Cross 1.8 petrol',price:7.235,kml:12},
+  {id:'corolla',mnt:2.8,name:'Toyota Corolla Grande',price:7.709,kml:11},
+  {id:'sportage',mnt:3.2,name:'Kia Sportage L Alpha',price:7.899,kml:9},
+  {id:'oshan',mnt:3.2,name:'Changan Oshan X7 FutureSense (7-seat)',price:8.449,kml:11},
+  {id:'h6p',mnt:3.2,name:'Haval H6 petrol',price:8.924,kml:9},
+  {id:'civic',mnt:3.0,name:'Honda Civic RS',price:10.100,kml:10},
+  {id:'fortuner',mnt:4.5,name:'Toyota Fortuner G',price:12.435,kml:6.5}
+];
+var EV=[
+  {id:'aionut',mnt:1.2,name:'GAC Aion UT (EV)',type:'bev',price:6.399,eff:6.5},
+  {id:'mg4',mnt:1.2,name:'MG4 EV Urban (EV)',type:'bev',price:6.949,eff:6.8},
+  {id:'atto2',mnt:1.2,name:'BYD Atto 2 (EV)',type:'bev',price:7.290,eff:6.5},
+  {id:'atto3',mnt:1.5,name:'BYD Atto 3 (EV)',type:'bev',price:8.990,eff:6.0},
+  {id:'zsev',mnt:1.5,name:'MG ZS EV Essence (EV)',type:'bev',price:9.690,eff:6.2},
+  {id:'s05',mnt:2.2,name:'Deepal S05 (REEV)',type:'phev',price:9.999,price85:9.999,eff:4.5,kml:13,note:'REEV: taxed as an EV at the time of writing (1% GST); PAMA is contesting the classification, so GST scenarios do not move this price.'},
+  {id:'cross',mnt:2.4,name:'Toyota Corolla Cross HEV',type:'hev',price:9.849,price85:8.535,kml:19},
+  {id:'hrv',mnt:2.4,name:'Honda HR-V e:HEV',type:'hev',price:10.368,price85:8.999,kml:18},
+  {id:'jolion',mnt:2.4,name:'Haval Jolion HEV',type:'hev',price:10.503,price85:9.116,kml:17},
+  {id:'tiggo7',mnt:2.2,name:'Chery Tiggo 7 (PHEV)',type:'phev',price:10.944,price85:9.499,eff:4.8,kml:13},
+  {id:'hs',mnt:2.2,name:'MG HS Super Hybrid (PHEV)',type:'phev',price:11.750,price85:10.199,eff:4.8,kml:13},
+  {id:'j7',mnt:2.2,name:'Jaecoo J7 (PHEV)',type:'phev',price:12.096,price85:10.499,eff:4.5,kml:12},
+  {id:'tucson',mnt:2.7,name:'Hyundai Tucson HEV',type:'hev',price:12.926,price85:11.220,kml:15},
+  {id:'tiggo8',mnt:2.4,name:'Chery Tiggo 8 (PHEV, 7-seat)',type:'phev',price:13.017,price85:11.299,eff:4.5,kml:12},
+  {id:'l07',mnt:1.8,name:'Deepal L07 (EV)',type:'bev',price:13.999,eff:5.8},
+  {id:'t2',mnt:2.4,name:'Jetour T2 i-DM (PHEV)',type:'phev',price:14.741,price85:12.795,eff:4.2,kml:11},
+  {id:'seal',mnt:1.8,name:'BYD Seal Dynamic (EV)',type:'bev',price:14.790,eff:5.8},
+  {id:'h6phev',mnt:2.4,name:'Haval H6 (PHEV)',type:'phev',price:14.856,price85:12.895,eff:4.5,kml:12},
+  {id:'s07',mnt:1.8,name:'Deepal S07 (EV)',type:'bev',price:14.999,eff:5.5},
+  {id:'sealion',mnt:1.8,name:'BYD Sealion 7 (EV)',type:'bev',price:15.490,eff:5.2},
+  {id:'tiggo9',mnt:2.4,name:'Chery Tiggo 9 (PHEV, 7-seat)',type:'phev',price:15.776,price85:13.694,eff:4.2,kml:11},
+  {id:'ev5',mnt:1.8,name:'Kia EV5 Air (EV)',type:'bev',price:18.500,eff:5.0,note:'April 2026 list price; verify a current invoice with Lucky Motor.'},
+  {id:'shark',mnt:2.8,name:'BYD Shark 6 (PHEV pickup)',type:'phev',price:19.950,price85:19.950,eff:3.5,kml:10,note:'Imported CBU; GST scenarios do not move this price.'},
+  {id:'ioniq5',mnt:1.8,name:'Hyundai Ioniq 5 (EV)',type:'bev',price:22.500,eff:5.5,note:'Listed price; a fresh July 2026 invoice could not be verified.'}
+];
+var MAINT={ice:3.0,hev:2.5,phev:2.2,bev:1.5};
+var BATT={hev:1.0,phev:2.0,bev:2.0};
+var $=function(id){return document.getElementById(id);};
+function fmt(n){return n.toLocaleString('en-PK',{maximumFractionDigits:0});}
+
+function evPrice(ev,gst){
+  if(ev.type==='bev')return ev.price;
+  if(ev.id==='s05'||ev.id==='shark')return ev.price;
+  if(gst==='25')return ev.price;
+  if(gst==='8.5')return ev.price85;
+  return ev.price85/1.085*1.09; // 9% scenario approximated from ex-tax value
+}
+function evKm(ev,tariff,petrol,share){
+  if(ev.type==='bev')return tariff/ev.eff;
+  if(ev.type==='hev')return petrol/ev.kml;
+  return share*(tariff/ev.eff)+(1-share)*(petrol/ev.kml);
+}
+
+/* Tabs */
+document.querySelectorAll('.tab-btn').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active'); $(b.dataset.tab).classList.add('active');
+  });
+});
+
+/* Populate selects */
+function fill(sel,list,withNone){
+  if(withNone){var o=document.createElement('option');o.value=-1;o.textContent='None';sel.appendChild(o);}
+  list.forEach(function(m,i){var o=document.createElement('option');o.value=i;o.textContent=m.name;sel.appendChild(o);});
+}
+fill($('t1-ice'),ICE);fill($('t1-ev1'),EV);fill($('t1-ev2'),EV,true);
+$('t1-ice').value=5;$('t1-ev1').value=3;$('t1-ev2').value=2;
+var ALL=ICE.map(function(m){return Object.assign({vt:'ice'},m);}).concat(EV.map(function(m){return Object.assign({vt:'ev'},m);}));
+fill($('t2-veh'),ALL);$('t2-veh').value=ICE.length+3;
+fill($('t3-ice'),ICE);fill($('t3-ev'),EV);
+$('t3-ice').value=5;$('t3-ev').value=3;
+
+/* TAB 1 */
+function card(cls,name,km,sub){
+  return '<div class="rc '+cls+'"><div class="rc-name">'+name+'</div><div class="rc-big">Rs '+km.toFixed(1)+'/km</div><div class="rc-sub">'+sub+'</div></div>';
+}
+function t1(){
+  var ice=ICE[+$('t1-ice').value];
+  var evs=[EV[+$('t1-ev1').value]];
+  if(+$('t1-ev2').value>=0)evs.push(EV[+$('t1-ev2').value]);
+  var km=+$('t1-km').value, petrol=+$('t1-petrol').value, tariff=+$('t1-src').value;
+  var share=+$('t1-share').value/100, gst=$('t1-gst').value;
+  var mnt=$('t1-mnt').checked, ins=$('t1-ins').checked, batt=$('t1-batt').checked, kmYr=km*12;
+  var iceKm=petrol/ice.kml;
+  var iceYr=iceKm*kmYr+(mnt?ice.mnt*kmYr:0)+(ins?ice.price*1e6*0.0175:0);
+  var iceAll=iceYr/kmYr, anyFix=mnt||ins;
+  var iceSub='Rs '+fmt(iceKm*km)+'/mo fuel'+(mnt?' + Rs '+fmt(ice.mnt*km)+' maint':'')+(ins?' + Rs '+fmt(ice.price*1e6*0.0175/12)+' insurance':'');
+  var html=card('ice',ice.name+' · Rs '+ice.price.toFixed(2)+'m',iceAll,iceSub);
+  var race=[{n:ice.name,v:iceAll,c:'#c2410c'}];
+  var notes=[];
+  evs.forEach(function(ev){
+    var p=evPrice(ev,gst), ek=evKm(ev,tariff,petrol,share);
+    var mr=ev.mnt;
+    var eYr=ek*kmYr+(mnt?mr*kmYr:0)+(ins?p*1e6*0.022:0)+(batt?BATT[ev.type]*kmYr:0);
+    var eAll=eYr/kmYr;
+    var save=iceYr-eYr, prem=(p-ice.price)*1e6, sub;
+    var parts='Rs '+fmt(ek*km)+'/mo energy'+(mnt?' + Rs '+fmt(mr*km)+' maint':'')+(ins?' + Rs '+fmt(p*1e6*0.022/12)+' insurance':'')+(batt?' + Rs '+fmt(BATT[ev.type]*km)+' battery provision':'')+'<br>';
+    if(save<=0)sub=parts+'Costs more per year to own and run at these settings.';
+    else if(prem<=0)sub=parts+'Cheaper to buy AND saves Rs '+fmt(save)+'/yr. Pays back day one.';
+    else sub=parts+'Payback <b>'+(prem/save).toFixed(1)+' yrs</b> on a Rs '+fmt(prem)+' premium · 5-yr net saving Rs '+fmt(save*5-prem)+' (≈$'+fmt((save*5-prem)/FX)+')';
+    html+=card('',ev.name+' · Rs '+p.toFixed(2)+'m',eAll,sub);
+    race.push({n:ev.name,v:eAll,c:'#0f766e'});
+    if(ev.note)notes.push(ev.note);
+  });
+  $('t1-cards').innerHTML=html;
+  var max=Math.max.apply(null,race.map(function(r){return r.v;}));
+  $('t1-race').innerHTML=race.map(function(r){
+    return '<div class="race-row"><div class="race-label">'+r.n+'</div><div class="race-track"><div class="race-bar" style="width:'+(r.v/max*100)+'%;background:'+r.c+'"></div></div><div class="race-val">'+r.v.toFixed(1)+'</div></div>';
+  }).join('');
+  $('t1-note').textContent=notes.join(' ');
+}
+
+/* TAB 2 */
+function t2(){
+  var v=ALL[+$('t2-veh').value], km=+$('t2-km').value, tariff=+$('t2-src').value, kmYr=km*12;
+  function cost(petrol,tar){
+    if(v.vt==='ice')return petrol/v.kml;
+    return evKm(v,tar,petrol,0.7);
+  }
+  var now=cost(PETROL,tariff);
+  $('t2-cards').innerHTML=card(v.vt==='ice'?'ice':'',v.name,now,'Rs '+fmt(now*km)+'/month · Rs '+fmt(now*kmYr)+'/yr (≈$'+fmt(now*kmYr/FX)+') at today’s prices');
+  var rows=[
+    ['Petrol Rs 310.71 (today)',cost(310.71,tariff)],
+    ['Petrol Rs 350 (stress)',cost(350,tariff)],
+    ['Petrol Rs 458.40 (April peak)',cost(458.40,tariff)],
+    ['Your tariff +15% (grid stress)',cost(PETROL,tariff*1.15)]
+  ];
+  $('t2-table').innerHTML='<tr><th>Scenario</th><th>Rs/km</th><th>Monthly bill</th><th>Annual bill</th></tr>'+rows.map(function(r){
+    return '<tr><td>'+r[0]+'</td><td class="mono">'+r[1].toFixed(1)+'</td><td class="mono">Rs '+fmt(r[1]*km)+'</td><td class="mono">Rs '+fmt(r[1]*kmYr)+'</td></tr>';
+  }).join('');
+}
+
+/* TAB 3 */
+function t3(){
+  var ice=ICE[+$('t3-ice').value], ev=EV[+$('t3-ev').value];
+  var kW=+$('t3-kw').value, km=+$('t3-km').value, share=+$('t3-share').value/100;
+  var cpk=+$('t3-cpk').value||90000, gen=+$('t3-gen').value||4.2, kmYr=km*12;
+  var eShare=(ev.type==='bev')?1:(ev.type==='hev')?0:0.7;
+  var units=(eShare>0)?(kmYr*eShare)/ev.eff:0;
+  var avail=kW*gen*365;
+  var solarToCar=Math.min(share*units,avail);
+  var gridUnits=units-solarToCar;
+  var energyCost=gridUnits*TOP_SLAB+solarToCar*EXPORT_RATE;
+  if(ev.type!=='bev')energyCost+=(1-eShare)*kmYr*(PETROL/ev.kml);
+  var petrolCost=kmYr*PETROL/ice.kml;
+  var evk=energyCost/kmYr;
+  var prem=(ev.price-ice.price)*1e6+kW*cpk;
+  var save=petrolCost-energyCost;
+  var perUnitTank=(ev.type==='bev'||ev.type==='phev')?ev.eff*(PETROL/ice.kml):0;
+  var payTxt=(save<=0)?'Never at these settings':((prem<=0)?'Day one':(prem/save).toFixed(1)+' yrs');
+  $('t3-cards').innerHTML=
+    card('ice',ice.name+' · petrol',petrolCost/kmYr,'Rs '+fmt(petrolCost)+'/yr in fuel')+
+    card('',ev.name+' + '+kW+' kW solar',evk,'Rs '+fmt(energyCost)+'/yr in energy · '+fmt(solarToCar)+' units/yr charged from your roof')+
+    '<div class="rc"><div class="rc-name">Joint payback: system + vehicle premium</div><div class="rc-big">'+payTxt+'</div><div class="rc-sub">Rs '+fmt(Math.max(prem,0))+' combined premium against Rs '+fmt(Math.max(save,0))+'/yr saved (≈$'+fmt(Math.max(save,0)/FX)+')</div></div>';
+  $('t3-note').textContent=(perUnitTank>0)?('The net-billing point: a solar unit exported earns about Rs '+EXPORT_RATE+'. Sent to the car instead, it displaces roughly Rs '+perUnitTank.toFixed(0)+' of petrol against this benchmark.'):
+    'A self-charging hybrid cannot take charge from your roof; pick an EV, REEV, or PHEV to model the combo.';
+}
+
+['t1-ice','t1-ev1','t1-ev2','t1-src','t1-gst','t1-mnt','t1-ins','t1-batt'].forEach(function(id){$(id).addEventListener('input',t1);$(id).addEventListener('change',t1);});
+['t2-veh','t2-src'].forEach(function(id){$(id).addEventListener('input',t2);$(id).addEventListener('change',t2);});
+['t3-ice','t3-ev','t3-cpk','t3-gen'].forEach(function(id){$(id).addEventListener('input',t3);$(id).addEventListener('change',t3);});
+
+/* Slider <-> number input pairing: type a number or drag the slider, both stay in sync */
+function pair(sid,nid,fn){
+  var s=$(sid), n=$(nid);
+  s.addEventListener('input',function(){n.value=s.value;fn();});
+  n.addEventListener('input',function(){var v=parseFloat(n.value);if(!isNaN(v)&&v>=+n.min&&v<=+n.max){s.value=v;fn();}});
+  n.addEventListener('change',function(){var v=parseFloat(n.value);if(isNaN(v))v=+s.value;v=Math.min(+n.max,Math.max(+n.min,v));n.value=v;s.value=v;fn();});
+}
+pair('t1-km','t1-km-n',t1);pair('t1-petrol','t1-petrol-n',t1);pair('t1-share','t1-share-n',t1);
+pair('t2-km','t2-km-n',t2);
+pair('t3-kw','t3-kw-n',t3);pair('t3-km','t3-km-n',t3);pair('t3-share','t3-share-n',t3);
+t1();t2();t3();
+})();
+</script>
+</body>
+</html>
