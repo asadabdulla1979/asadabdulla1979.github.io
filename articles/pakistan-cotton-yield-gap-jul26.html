@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A bale and a half an acre · Asad Abdulla</title>
+<meta name="description" content="Pakistan picks a bale and a half of cotton per acre; Australia picks five. A short interactive note on the yield gap, what closing it is worth, and what it would take.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A bale and a half an acre">
+<meta property="og:description" content="In 1990 a Pakistani cotton acre out-yielded a Brazilian one two to one. Today Brazil picks 4.5 bales from the acre we pick 1.4 from. An interactive note on the gap that sets the import bill.">
+<meta property="og:site_name" content="Asad Abdulla · Macro Notes">
+<meta property="og:image" content="https://asadabdulla1979.github.io/articles/pakistan-cotton-yield-gap-jul26-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{
+    --navy:#2f3a22; --navy-2:#45532f; --blue:#6f8138; --blue-lt:#c3cba6;
+    --ink:#241f16; --body:#332d22; --paper:#fbf8f1; --wash:#f0ebdd;
+    --rule:#ddd5c2; --rule-dk:#c4bba3; --muted:#6b6350; --faint:#a49a82;
+    --accent:#b5651d; --accent-lt:#e3c48c; --green:#4f6b2f; --green-lt:#a9bd85;
+    --red:#a5402a; --red-lt:#d9a98f; --wheat:#cf9f1f; --brown:#8a5a2b; --brown-lt:#c39a68;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{background:#d8d0c0;font-family:'Source Serif 4',Georgia,serif;color:var(--body);-webkit-font-smoothing:antialiased;padding:36px 16px;line-height:1.6;}
+  .sans{font-family:'Inter',-apple-system,system-ui,sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:800px;margin:0 auto;background:var(--paper);box-shadow:0 24px 70px rgba(10,31,51,.26);}
+  .col{padding:0 76px;}
+  .mast{background:var(--navy);color:#fff;padding:14px 76px;display:flex;justify-content:space-between;align-items:center;}
+  .mast .id{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;}
+  .mast .id .dot{color:var(--accent);}
+  .mast .meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--blue-lt);text-transform:uppercase;}
+  .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent);margin:52px 0 22px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:54px;line-height:1.02;letter-spacing:-.025em;color:var(--navy);margin-bottom:26px;}
+  .standfirst{font-family:'Source Serif 4',serif;font-size:21px;line-height:1.5;color:#4a4234;margin-bottom:34px;max-width:94%;}
+  .standfirst em{font-style:italic;color:var(--navy-2);font-weight:500;}
+  .band{display:grid;grid-template-columns:repeat(4,1fr);background:var(--navy);margin-top:34px;}
+  .metric{padding:22px 22px 20px;border-right:1px solid rgba(255,255,255,.1);}
+  .metric:last-child{border-right:none;}
+  .metric .lab{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;font-weight:500;color:var(--blue-lt);margin-bottom:11px;line-height:1.3;}
+  .metric .val{font-family:'Fraunces',serif;font-weight:600;font-size:34px;line-height:.9;letter-spacing:-.02em;color:#fff;}
+  .metric .val .u{font-size:20px;font-weight:500;}
+  .metric .chg{font-family:'IBM Plex Mono',monospace;font-size:10px;margin-top:11px;color:var(--faint);}
+  .band-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);background:var(--navy);padding:0 22px 16px;letter-spacing:.04em;text-transform:uppercase;}
+  .body-wrap{padding-top:46px;}
+  p{font-size:18.5px;margin-bottom:22px;color:var(--body);}
+  .lede::first-letter{font-family:'Fraunces',serif;font-weight:600;float:left;font-size:82px;line-height:.72;padding:9px 13px 0 0;color:var(--navy);}
+  .h2-num{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--accent);letter-spacing:.1em;margin-top:50px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .h2-num::before{content:"";width:24px;height:2px;background:var(--accent);}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:29px;letter-spacing:-.02em;color:var(--navy);line-height:1.18;margin:8px 0 14px;}
+  strong{font-weight:600;color:var(--ink);}
+  em{font-style:italic;}
+  blockquote{font-family:'Fraunces',serif;font-weight:500;font-style:italic;font-size:28px;line-height:1.3;color:var(--navy);margin:42px 0;padding:4px 0 4px 28px;border-left:3px solid var(--accent);}
+  .exhibit{margin:44px 0;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);}
+  .ex-head{padding:14px 0 16px;}
+  .ex-num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+  .ex-title{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;color:var(--navy);line-height:1.25;letter-spacing:-.01em;}
+  .ex-sub{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--muted);margin-top:4px;}
+  .ex-body{padding:8px 0 6px;}
+  .exhibit svg{display:block;width:100%;height:auto;}
+  .ex-foot{font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.55;color:var(--muted);padding:14px 0 16px;border-top:1px solid var(--rule);}
+  .ex-foot b{color:var(--ink);font-weight:600;}
+  .ex-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);display:block;margin-top:8px;letter-spacing:.04em;text-transform:uppercase;}
+  .ex-legend{display:flex;gap:20px;flex-wrap:wrap;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);padding:6px 0 2px;}
+  .ex-legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px;}
+  .announce{background:var(--wash);border-left:3px solid var(--accent);padding:20px 24px;margin:38px 0;}
+  .announce .at{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;}
+  .announce ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9px 24px;}
+  .announce li{font-family:'Inter',sans-serif;font-size:13px;color:var(--body);padding-left:18px;position:relative;line-height:1.4;}
+  .announce li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:700;}
+  .announce li b{color:var(--ink);font-weight:600;}
+  .announce .asrc{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:14px;letter-spacing:.04em;text-transform:uppercase;}
+  .endnote{font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.6;color:var(--muted);background:var(--wash);padding:22px 26px;margin-top:48px;border-left:3px solid var(--navy);}
+  .endnote b{color:var(--navy);}
+  .closing-rule{height:54px;}
+  .ctrl{font-family:'Inter',sans-serif;padding:4px 0 18px;}
+  .ctrl-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+  .ctrl-label{font-size:12px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;}
+  .ctrl-readout{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);font-weight:600;background:var(--wash);padding:3px 9px;border:1px solid var(--rule-dk);}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;background:linear-gradient(90deg,var(--brown),var(--wheat));border-radius:3px;outline:none;margin:8px 0 4px;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  .range-ticks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:2px;}
+  .live-note{font-family:'Inter',sans-serif;font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px;padding:10px 14px;background:var(--wash);border-left:2px solid var(--accent);}
+  .live-note b{color:var(--ink);}
+  .interactive-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;border:1px solid var(--accent);border-radius:3px;padding:2px 6px;display:inline-block;margin-left:8px;vertical-align:2px;}
+  .play-btn{flex:none;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;padding:7px 14px;background:var(--navy);color:var(--paper);border:none;cursor:pointer;letter-spacing:.04em;}
+  .play-btn:hover{background:var(--navy-2);}
+  .yc-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;font-family:'Inter',sans-serif;}
+  .yc-card{background:var(--wash);padding:12px 14px;border-top:2px solid var(--navy);}
+  .yc-card .l{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:6px;line-height:1.3;}
+  .yc-card .v{font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:var(--navy);line-height:1;}
+  .yc-card .s{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:6px;}
+  @media print{ .ctrl{display:none;} }
+  .listen{display:flex;align-items:center;gap:16px;margin-top:26px;padding:14px 18px;background:var(--wash);border-left:3px solid var(--accent);}
+  .listen[hidden]{display:none;}
+  .listen-btn{flex:none;width:44px;height:44px;border-radius:50%;border:none;background:var(--navy);color:var(--paper);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:3px;transition:background .15s;}
+  .listen-btn:hover{background:var(--navy-2);}
+  .listen-btn.playing{padding-left:0;}
+  .listen-body{flex:1;min-width:0;}
+  .listen-label{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  .listen-label span{font-weight:400;color:var(--muted);}
+  .listen-track{height:5px;background:var(--rule-dk);border-radius:3px;cursor:pointer;position:relative;}
+  .listen-fill{height:100%;width:0;background:#6f8138;border-radius:3px;pointer-events:none;}
+  .listen-time{flex:none;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);letter-spacing:.03em;min-width:76px;text-align:right;}
+  @media (max-width:640px){
+    body{padding:0;}
+    .wrap{box-shadow:none;}
+    .col{padding:0 22px;}
+    .mast{padding:12px 22px;flex-direction:column;align-items:flex-start;gap:3px;}
+    h1{font-size:36px;}
+    .standfirst{font-size:17.5px;max-width:100%;}
+    .band{grid-template-columns:1fr 1fr;}
+    .metric{border-bottom:1px solid rgba(255,255,255,.1);}
+    .band-src{padding:0 22px 14px;}
+    p{font-size:17px;}
+    h2{font-size:24px;}
+    blockquote{font-size:21px;padding-left:18px;}
+    .lede::first-letter{font-size:56px;}
+    .announce ul{grid-template-columns:1fr;}
+    .h2-num{margin-top:38px;}
+    .yc-cards{grid-template-columns:1fr;}
+    .listen{gap:12px;padding:12px 14px;}
+    .listen-btn{width:38px;height:38px;font-size:13px;}
+    .listen-time{min-width:64px;font-size:10.5px;}
+  }
+  @media print{ body{background:#fff;padding:0;} .wrap{max-width:100%;box-shadow:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mast">
+    <div class="id">Asad Abdulla<span class="dot"> · </span><span style="font-weight:400;color:#c3cba6;">Macro Notes</span></div>
+    <div class="meta">July 2026 · 6 min read</div>
+  </div>
+
+  <div class="col">
+    <div class="kicker">Pakistan Agriculture · The Cotton Yield Gap</div>
+    <h1>A bale and a half<br>an acre</h1>
+    <p class="standfirst">In 1990, a Pakistani cotton acre out-yielded a Brazilian one nearly two to one. Today Brazil picks four and a half bales from the acre we pick one and a half from. <em>A short note on the one number that decides the import bill: lint per acre.</em></p>
+
+    <div class="listen" id="listen-bar" hidden>
+      <button class="listen-btn" id="listen-btn" aria-label="Play narration">&#9654;</button>
+      <div class="listen-body">
+        <div class="listen-label">Listen to this analysis <span>· read by Asad Abdulla</span></div>
+        <div class="listen-track" id="listen-track"><div class="listen-fill" id="listen-fill"></div></div>
+      </div>
+      <div class="listen-time" id="listen-time">0:00</div>
+      <audio id="narration" preload="metadata">
+        <source src="pakistan-cotton-yield-gap-jul26.mp3" type="audio/mpeg">
+        <source src="pakistan-cotton-yield-gap-jul26.m4a" type="audio/mp4">
+      </audio>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="metric">
+      <div class="lab">Pakistan lint yield, 2025&ndash;26</div>
+      <div class="val">241<span class="u"> kg/ac</span></div>
+      <div class="chg">vs ~249 in 1990 (USDA basis)</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Brazil, same measure</div>
+      <div class="val">773<span class="u"> kg/ac</span></div>
+      <div class="chg">was 147 in 1990</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Australia's lead over us</div>
+      <div class="val">3.4<span class="u">x</span></div>
+      <div class="chg">872 vs 257 kg/acre</div>
+    </div>
+    <div class="metric">
+      <div class="lab">At US yields, imports avoided</div>
+      <div class="val">~$1.5<span class="u">bn</span></div>
+      <div class="chg">a year, at FY25 prices</div>
+    </div>
+  </div>
+  <div class="band-src">Source: USDA PSD · Pakistan Economic Survey 2025&ndash;26 · USD at ~278 PKR</div>
+
+  <div class="col body-wrap">
+    <p class="lede">Here is a fact that should be famous in this country and isn't. In 1990, an acre of Pakistani cotton produced 249 kilograms of lint and an acre of Brazilian cotton produced 147. We were the better growers, nearly two to one. Thirty-five years later Brazil picks 773 kilograms an acre and we pick 241, less than we managed when I was in school. My last note was about the acres cotton lost. This one is about the other half of the collapse, because at Brazilian yields, today's shrunken acreage alone would out-grow our mills' entire demand. The yield is the whole ballgame, so here are the numbers.</p>
+
+    <div class="h2-num">SECTION 01</div>
+    <h2>Where we stand on the ladder</h2>
+
+    <p>Start with the ladder (Exhibit 1). Australia picks 872 kilograms of lint per acre, Brazil 773, and the United States 408, much of it on unirrigated land. We pick 257 on the USDA's measure, 241 on our own books, and only India sits lower at 176, with the excuse that most of its crop is rainfed. Ours is nearly all irrigated by one of the largest canal systems on earth, and it still delivers roughly a quarter of the frontier.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 1</div>
+        <div class="ex-title">The ladder, and where we sit on it</div>
+        <div class="ex-sub">Lint yield, kg per acre, 2023&ndash;24 marketing year</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 200" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="150" y1="10" x2="150" y2="168" stroke="#c4bba3" stroke-width="1.5"/>
+          <text x="144" y="30" font-size="12" fill="#332d22" text-anchor="end">Australia</text>
+          <rect x="150" y="16" width="445.7" height="20" fill="#2f3a22"/>
+          <text x="589" y="30" font-size="11" fill="#fbf8f1" text-anchor="end" font-weight="700">872</text>
+          <text x="144" y="60" font-size="12" fill="#332d22" text-anchor="end">Brazil</text>
+          <rect x="150" y="46" width="395.1" height="20" fill="#4f6b2f"/>
+          <text x="539" y="60" font-size="11" fill="#fbf8f1" text-anchor="end" font-weight="700">773</text>
+          <text x="144" y="90" font-size="12" fill="#332d22" text-anchor="end">United States</text>
+          <rect x="150" y="76" width="208.5" height="20" fill="#6f8138"/>
+          <text x="352" y="90" font-size="11" fill="#fbf8f1" text-anchor="end" font-weight="700">408</text>
+          <text x="144" y="120" font-size="12" fill="#241f16" text-anchor="end" font-weight="700">Pakistan</text>
+          <rect x="150" y="106" width="131.4" height="20" fill="#b5651d"/>
+          <text x="287" y="120" font-size="11" fill="#b5651d" font-weight="700">257</text>
+          <text x="144" y="150" font-size="12" fill="#332d22" text-anchor="end">India</text>
+          <rect x="150" y="136" width="90.0" height="20" fill="#cf9f1f"/>
+          <text x="246" y="150" font-size="11" fill="#8a6b10" font-weight="700">176</text>
+          <text x="150" y="186" font-size="9.5" fill="#a49a82" font-family="IBM Plex Mono,monospace">0</text>
+          <text x="600" y="186" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">900 kg lint/acre</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>On nearly all-irrigated land, Pakistan picks roughly a quarter of what the frontier picks per acre.</b> India's low figure reflects a mostly rainfed crop; Pakistan has no such excuse, and the US number comes largely off unirrigated tracts.
+        <span class="ex-src">Source: USDA PSD, 2023&ndash;24 marketing year, converted at 2.47 acres/ha · Pakistan's own basis: 241 kg/acre (PES 2025&ndash;26)</span></div>
+    </div>
+
+    <div class="h2-num">SECTION 02</div>
+    <h2>We didn't fall behind. We stood still.</h2>
+
+    <p>And we can't blame geography, because the race used to be ours (Exhibit 2). Press play. Through the 1990s we out-yield Brazil comfortably; around 2000 Brazil's line takes off, cerrado expansion, modern seed, relentless agronomy, and it never looks back, while ours oscillates in the same 180-to-280 band for thirty-five years. A crop standing still is a crop every new pest and every degree of heat finds undefended.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 2 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">The race we stopped running</div>
+        <div class="ex-sub">Lint yield, kg per acre, 1990 to 2024. Press play, or drag across the chart.</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 240" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="rc-svg" style="cursor:ew-resize;touch-action:none;">
+          <line x1="50" y1="200" x2="620" y2="200" stroke="#c4bba3" stroke-width="1.5"/>
+          <line x1="50" y1="150.0" x2="620" y2="150.0" stroke="#ddd5c2" stroke-width="1" stroke-dasharray="3 4"/>
+          <line x1="50" y1="100.0" x2="620" y2="100.0" stroke="#ddd5c2" stroke-width="1" stroke-dasharray="3 4"/>
+          <line x1="50" y1="50.0" x2="620" y2="50.0" stroke="#ddd5c2" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="44" y="154" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">250</text>
+          <text x="44" y="104" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">500</text>
+          <text x="44" y="54" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">750</text>
+          <g id="rc-clipg">
+            <polyline points="50.0,150.2 133.8,151.4 217.6,149.6 301.5,144.0 385.3,145.6 469.1,157.4 552.9,164.0 603.2,148.6 620.0,154.2" fill="none" stroke="#b5651d" stroke-width="3" id="rc-pk"/>
+            <polyline points="50.0,170.6 133.8,170.6 217.6,117.4 301.5,111.0 385.3,84.4 469.1,70.2 552.9,54.2 603.2,45.4 620.0,48.8" fill="none" stroke="#4f6b2f" stroke-width="3" id="rc-br"/>
+          </g>
+          <line x1="620" y1="14" x2="620" y2="200" stroke="#241f16" stroke-width="1.2" id="rc-cursor"/>
+          <circle r="5" fill="#b5651d" stroke="#fbf8f1" stroke-width="1.5" id="rc-pkdot" cx="620" cy="154.2"/>
+          <circle r="5" fill="#4f6b2f" stroke="#fbf8f1" stroke-width="1.5" id="rc-brdot" cx="620" cy="48.8"/>
+          <text x="0" y="0" font-size="11" font-weight="700" fill="#b5651d" id="rc-pklab">Pakistan</text>
+          <text x="0" y="0" font-size="11" font-weight="700" fill="#4f6b2f" id="rc-brlab">Brazil</text>
+          <text x="50" y="218" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">1990</text>
+          <text x="217.6" y="218" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2000</text>
+          <text x="385.3" y="218" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2010</text>
+          <text x="620" y="218" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">2024</text>
+          <text x="50" y="236" font-size="9" fill="#a49a82" font-family="IBM Plex Mono,monospace" id="rc-status">1990: PAKISTAN LEADS, 249 TO 147</text>
+        </svg>
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <button class="play-btn" id="rc-play">&#9654;&nbsp;PLAY THE RACE</button>
+            <span class="ctrl-readout" id="rc-year">2024</span>
+          </div>
+        </div>
+        <div class="live-note" id="rc-note"></div>
+      </div>
+      <div class="ex-foot"><b>Brazil quintupled its yield in the years Pakistan's went sideways.</b> Lines drawn through USDA marketing-year data at the plotted points (five-year intervals, then 2023 and 2024). Pakistan's dips line up with the leaf curl epidemics, the 2010 and 2022 floods and the 2020 pest year; Brazil's rise with cerrado expansion and successive seed generations.
+        <span class="ex-src">Source: USDA PSD via IndexMundi · kg lint per acre, converted at 2.47 acres/ha · marketing years</span></div>
+    </div>
+
+    <blockquote>Brazil didn't find better land. It built better averages.</blockquote>
+
+    <div class="h2-num">SECTION 03</div>
+    <h2>What the gap is worth</h2>
+
+    <p>Now price the standstill (Exhibit 3). Hold today's 4.97 million acres constant, raise only the yield, and value every extra bale at what imported cotton actually cost last year. At 241 kilograms an acre we grow about 7 million bales, half of what the mills need. At the US level of 408 the same fields grow about 12 million, and around 460 we stop importing altogether, on land we already plant, with water we already divert, before a single surrendered acre comes back.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 3 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">Price the gap yourself</div>
+        <div class="ex-sub">Drag the yield. The left acre is ours; the right one is Australia's. Bales appear as you close the distance.</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="yc-svg" style="cursor:ew-resize;touch-action:none;">
+          <text x="40" y="20" font-size="11" fill="#332d22" font-weight="600">ONE PAKISTANI ACRE</text>
+          <text x="40" y="34" font-size="10" fill="#b5651d" font-family="IBM Plex Mono,monospace" id="yc-pk-lab">1.4 bales</text>
+          <rect x="40" y="44" width="260" height="130" fill="#f0ebdd" stroke="#c4bba3"/>
+          <g id="yc-pk-bales"></g>
+          <text x="608" y="20" font-size="11" fill="#332d22" font-weight="600" text-anchor="end">ONE AUSTRALIAN ACRE</text>
+          <text x="608" y="34" font-size="10" fill="#4f6b2f" font-family="IBM Plex Mono,monospace" text-anchor="end">5.1 bales</text>
+          <rect x="348" y="44" width="260" height="130" fill="#f0ebdd" stroke="#c4bba3"/>
+          <g id="yc-au-bales"></g>
+          <text x="40" y="198" font-size="10.5" fill="#6b6350" font-family="Inter,sans-serif" id="yc-caption"></text>
+        </svg>
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <span class="ctrl-label">Pakistan's average yield</span>
+            <span class="ctrl-readout" id="yc-kg">596 kg/ha</span>
+          </div>
+          <input type="range" id="yc-slider" min="241" max="486" step="1" value="241">
+          <div class="range-ticks"><span>241 today</span><span>~360</span><span>486 (past US levels)</span></div>
+        </div>
+        <div class="yc-cards">
+          <div class="yc-card"><div class="l">National crop, same acres</div><div class="v" id="yc-bales">7.0m</div><div class="s">bales of 170kg</div></div>
+          <div class="yc-card"><div class="l">Import bill avoided</div><div class="v" id="yc-usd">$0</div><div class="s">at FY25's ~$1,848/tonne</div></div>
+          <div class="yc-card"><div class="l">Mill demand met from farm</div><div class="v" id="yc-share">54%</div><div class="s">of ~13m local-bale use</div></div>
+        </div>
+        <div class="live-note" id="yc-note"></div>
+      </div>
+      <div class="ex-foot"><b>Around 460 kg an acre, on today's acreage alone, Pakistan stops importing cotton.</b> Each bale icon is one bale per acre (170kg); the shortened bale is the fraction. Arithmetic: yield &times; 4.97m acres &divide; 170kg; import substitution valued at FY25's realised ~$1,848 per tonne against the ~6.4m-bale gap; mill demand ~13m local bales (USDA 2026&ndash;27 basis). Gross values, price effects ignored; aspirational, not a forecast.
+        <span class="ex-src">Source: USDA PSD; Pakistan Economic Survey 2025&ndash;26; PBS · kg lint per acre · USD at ~278 PKR</span></div>
+    </div>
+
+    <blockquote>At Brazilian yields, the acres we already plant would out-grow the mills we already run.</blockquote>
+
+    <div class="h2-num">SECTION 04</div>
+    <h2>What actually moves a yield</h2>
+
+    <p>What moves a national average is what reaches the median acre, and the list is short; 1. Modern seed: our commercial crop still runs on first-generation Bt while virus-resistant genetics sit in trials. 2. Research money: the cess that funds breeding collapsed by two-thirds after the mills stopped paying. 3. Agronomy: the state plans on 1.6 bales an acre while disciplined growers beat it on the same soil, which is why extension has the highest payoff per rupee in this story. 4. Water and price: efficient irrigation within smallholders' reach, and a price worth investing against. The OICCI puts the cost of standing still at two to three billion dollars a year, and Exhibit 3 gets you to a similar number just by dragging the slider.</p>
+
+    <div class="announce">
+      <div class="at">The yield agenda · what the median acre needs</div>
+      <ul>
+        <li><b>Modern seed approved:</b> stacked Bt and virus-resistant varieties out of trials, into shops</li>
+        <li><b>Research funded:</b> enforce or replace the cotton cess; collections are down two-thirds</li>
+        <li><b>Certified seed at scale:</b> penetration today is a fraction of the sown area</li>
+        <li><b>Extension revived:</b> the cheapest yield gains are agronomy, not genetics</li>
+        <li><b>Water priced and piped:</b> high-efficiency irrigation beyond the largest farms</li>
+        <li><b>A price to plant against:</b> yields follow investment; investment follows price certainty</li>
+      </ul>
+      <div class="asrc">Source: USDA Biotech Annual 2025 · PCCC via Business Recorder · OICCI "Seeds of Growth" Jul 2026 · FCA</div>
+    </div>
+
+    
+
+    <blockquote>The seed is twenty years old, and we wonder why the yield is too.</blockquote>
+
+    <div class="h2-num">SECTION 05</div>
+    <h2>The choice, again</h2>
+
+    <p>Yields are the one lever that needs no new acre, no new dam and no subsidy to move. Brazil started this race at 147 kilograms an acre, behind where we stand today, and walked away from us in fifteen years. The land is ours, the water is ours, and the frontier is published in a table anyone can read. What happens next is, as it has been for thirty-five years, a choice.</p>
+
+    <div class="endnote">
+      <b>Sources.</b> Yield comparisons use the USDA PSD database (kg of lint per harvested hectare, marketing years, converted at 2.4711 acres per hectare), accessed July 2026; Pakistan's own accounting basis (241 kg/acre on 4.97m acres, PES 2025&ndash;26) is used for the interactive arithmetic so the totals reconcile with official production. Import valuation uses PBS FY25 trade data (~$1,848 per tonne realised). Seed and research status from the USDA Biotech Annual 2025 and PCCC figures reported by Business Recorder; the $2&ndash;3bn annual loss estimate is from the OICCI's "Seeds of Growth" report (July 2026), an investor-chamber publication whose members include agri and seed multinationals, cited here as an industry-side estimate. High-efficiency irrigation effects per the field literature cited in my FY26 agriculture note. USD at ~278 PKR (interbank, July 2026). <b>Views are my own.</b>
+    </div>
+  </div>
+  <div class="closing-rule"></div>
+</div>
+<script>
+(function(){
+  // ---------- Exhibit 2: the race ----------
+  var RC_YRS=[1990,1995,2000,2005,2010,2015,2020,2023,2024];
+  var RC_PK=[249,243,252,280,272,213,180,257,229];
+  var RC_BR=[147,147,413,445,578,649,729,773,756];
+  var rcX=function(y){return 50+(y-1990)/34*570;};
+  var rcY=function(v){return 200-v/900*180;};
+  var rcSvg=document.getElementById('rc-svg');
+  var rcCursor=document.getElementById('rc-cursor');
+  var rcPkDot=document.getElementById('rc-pkdot'), rcBrDot=document.getElementById('rc-brdot');
+  var rcPkLab=document.getElementById('rc-pklab'), rcBrLab=document.getElementById('rc-brlab');
+  var rcStatus=document.getElementById('rc-status');
+  var rcYear=document.getElementById('rc-year');
+  var rcNote=document.getElementById('rc-note');
+  var rcPlay=document.getElementById('rc-play');
+  var rcPk=document.getElementById('rc-pk'), rcBr=document.getElementById('rc-br');
+  var rcLenPk=rcPk.getTotalLength(), rcLenBr=rcBr.getTotalLength();
+  var rcI=8, rcTimer=null;
+  function rcInterp(arr,yr){
+    for(var i=1;i<RC_YRS.length;i++){
+      if(yr<=RC_YRS[i]){
+        var f=(yr-RC_YRS[i-1])/(RC_YRS[i]-RC_YRS[i-1]);
+        return arr[i-1]+f*(arr[i]-arr[i-1]);
+      }
+    }
+    return arr[arr.length-1];
+  }
+  function rcRender(){
+    var yr=RC_YRS[rcI];
+    var x=rcX(yr);
+    rcCursor.setAttribute('x1',x.toFixed(1)); rcCursor.setAttribute('x2',x.toFixed(1));
+    var pv=RC_PK[rcI], bv=RC_BR[rcI];
+    rcPkDot.setAttribute('cx',x.toFixed(1)); rcPkDot.setAttribute('cy',rcY(pv).toFixed(1));
+    rcBrDot.setAttribute('cx',x.toFixed(1)); rcBrDot.setAttribute('cy',rcY(bv).toFixed(1));
+    rcPkLab.setAttribute('x',Math.min(x+10,580).toFixed(1)); rcPkLab.setAttribute('y',(rcY(pv)+(pv>=bv?-10:16)).toFixed(1));
+    rcBrLab.setAttribute('x',Math.min(x+10,590).toFixed(1)); rcBrLab.setAttribute('y',(rcY(bv)+(bv>pv?-10:16)).toFixed(1));
+    rcYear.textContent=yr;
+    if(pv>=bv){
+      rcStatus.textContent=yr+': PAKISTAN LEADS, '+pv+' TO '+bv;
+      rcNote.innerHTML='<b>'+yr+':</b> Pakistan '+pv+' kg/acre, Brazil '+bv+'. We out-yield Brazil '+(pv/bv).toFixed(1)+'x.';
+    } else {
+      rcStatus.textContent=yr+': BRAZIL LEADS, '+bv+' TO '+pv;
+      rcNote.innerHTML='<b>'+yr+':</b> Brazil '+bv+' kg/acre, Pakistan '+pv+'. Brazil is now '+(bv/pv).toFixed(1)+'x ahead.';
+    }
+  }
+  function rcStep(){ if(rcI>=8){ rcStop(); return; } rcI++; rcRender(); }
+  function rcStart(){ if(rcI>=8) rcI=-1; rcPlay.innerHTML='&#10074;&#10074;&nbsp;PAUSE'; rcStep(); rcTimer=setInterval(rcStep,900); }
+  function rcStop(){ rcPlay.innerHTML='&#9654;&nbsp;PLAY THE RACE'; if(rcTimer){ clearInterval(rcTimer); rcTimer=null; } }
+  rcPlay.addEventListener('click',function(){ rcTimer?rcStop():rcStart(); });
+  function rcFromPointer(ev){
+    var r=rcSvg.getBoundingClientRect();
+    var px=(ev.clientX-r.left)/r.width*648;
+    var best=0,bd=1e9;
+    RC_YRS.forEach(function(y,i){ var d=Math.abs(rcX(y)-px); if(d<bd){bd=d;best=i;} });
+    if(best!==rcI){ rcI=best; rcRender(); }
+  }
+  var rcDrag=false;
+  rcSvg.addEventListener('pointerdown',function(e){ rcStop(); rcDrag=true; rcSvg.setPointerCapture(e.pointerId); rcFromPointer(e); });
+  rcSvg.addEventListener('pointermove',function(e){ if(rcDrag) rcFromPointer(e); });
+  rcSvg.addEventListener('pointerup',function(){ rcDrag=false; });
+  rcRender();
+
+  // ---------- Exhibit 3: price the gap ----------
+  var YC_ACRES=4972, YC_BASE=241, YC_BASE_BALES=7052, YC_GAP=6400, YC_USD=1848, YC_MILL=13060;
+  var ycSlider=document.getElementById('yc-slider');
+  var ycSvg=document.getElementById('yc-svg');
+  var ycKg=document.getElementById('yc-kg');
+  var ycPkLab=document.getElementById('yc-pk-lab');
+  var ycCaption=document.getElementById('yc-caption');
+  var ycBalesEl=document.getElementById('yc-bales');
+  var ycUsdEl=document.getElementById('yc-usd');
+  var ycShareEl=document.getElementById('yc-share');
+  var ycNote=document.getElementById('yc-note');
+  function makeBales(gid,x0){
+    var g=document.getElementById(gid), els=[];
+    for(var i=0;i<6;i++){
+      var col=i%3, row=Math.floor(i/3);
+      var x=x0+22+col*80, y=62+row*54;
+      var b=document.createElementNS('http://www.w3.org/2000/svg','g');
+      var r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',56); r.setAttribute('height',36); r.setAttribute('rx',4);
+      r.setAttribute('fill','#cf9f1f');
+      b.appendChild(r);
+      [19,38].forEach(function(off){
+        var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+        l.setAttribute('x1',x+off); l.setAttribute('y1',y); l.setAttribute('x2',x+off); l.setAttribute('y2',y+36);
+        l.setAttribute('stroke','#8a6b10'); l.setAttribute('stroke-width','2');
+        b.appendChild(l);
+      });
+      b.style.transition='opacity .3s ease';
+      g.appendChild(b); els.push({g:b,r:r});
+    }
+    return els;
+  }
+  var ycPkBales=makeBales('yc-pk-bales',40);
+  var ycAuBales=makeBales('yc-au-bales',348);
+  function setBales(els,perAcre){
+    els.forEach(function(o,i){
+      if(i+1<=Math.floor(perAcre)){ o.g.setAttribute('opacity','1'); o.r.setAttribute('width',56); }
+      else if(i<perAcre){ o.g.setAttribute('opacity','1'); o.r.setAttribute('width',Math.max(4,56*(perAcre-i)).toFixed(1)); }
+      else { o.g.setAttribute('opacity','0.12'); o.r.setAttribute('width',56); }
+    });
+  }
+  setBales(ycAuBales,872/170);
+  function ycRender(){
+    var y=+ycSlider.value;
+    ycKg.textContent=y.toLocaleString('en-US')+' kg/acre';
+    var perAcre=y/170;
+    ycPkLab.textContent=perAcre.toFixed(1)+' bales';
+    setBales(ycPkBales,perAcre);
+    var bales=YC_ACRES*y/170, extra=Math.max(0,bales-YC_BASE_BALES);
+    var tonnes=extra*0.17, usdM=tonnes*YC_USD/1000;
+    var covered=Math.min(1,extra/YC_GAP);
+    ycBalesEl.textContent=(bales/1000).toFixed(1)+'m';
+    ycUsdEl.textContent = usdM<=0 ? '$0' : (usdM>=1000 ? '$'+(usdM/1000).toFixed(2)+'bn' : '$'+Math.round(usdM)+'m');
+    ycShareEl.textContent=Math.min(109,Math.round(bales/YC_MILL*100))+'%';
+    ycCaption.textContent = y<=YC_BASE ? 'Today: 1.4 bales from our acre, 5.1 from Australia\u2019s.'
+      : (extra>=YC_GAP ? 'Import gap fully covered. The rest is export headroom.'
+      : Math.round(covered*100)+'% of the import gap covered at this yield.');
+    ycNote.innerHTML = y<=YC_BASE
+      ? 'Drag right. Every 50 kg per acre is roughly <b>1.5 million bales</b> a year on land we already plant.'
+      : 'At <b>'+y.toLocaleString('en-US')+' kg/acre</b>: '+(bales/1000).toFixed(1)+'m bales, '+Math.round(covered*100)+'% of the import gap closed, roughly <b>'+(usdM>=1000?'$'+(usdM/1000).toFixed(2)+'bn':'$'+Math.round(usdM)+'m')+'</b> kept onshore'+(extra>=YC_GAP?': <b>self-sufficiency</b>.':'.');
+  }
+  ycSlider.addEventListener('input',ycRender);
+  function ycFromPointer(ev){
+    var r=ycSvg.getBoundingClientRect();
+    var y=Math.round(241+((ev.clientX-r.left)/r.width)*(486-241));
+    y=Math.max(241,Math.min(486,y));
+    if(y!==+ycSlider.value){ ycSlider.value=y; ycRender(); }
+  }
+  var ycDrag=false;
+  ycSvg.addEventListener('pointerdown',function(e){ ycDrag=true; ycSvg.setPointerCapture(e.pointerId); ycFromPointer(e); });
+  ycSvg.addEventListener('pointermove',function(e){ if(ycDrag) ycFromPointer(e); });
+  ycSvg.addEventListener('pointerup',function(){ ycDrag=false; });
+  ycRender();
+
+  // ---------- Voice-over player ----------
+  var au=document.getElementById('narration');
+  var bar=document.getElementById('listen-bar');
+  var btn=document.getElementById('listen-btn');
+  var track=document.getElementById('listen-track');
+  var fill=document.getElementById('listen-fill');
+  var tdisp=document.getElementById('listen-time');
+  function fmtT(s){ s=Math.max(0,Math.floor(s)); var m=Math.floor(s/60); return m+':'+('0'+(s%60)).slice(-2); }
+  au.addEventListener('loadedmetadata',function(){ bar.hidden=false; tdisp.textContent='0:00 / '+fmtT(au.duration); });
+  btn.addEventListener('click',function(){ if(au.paused){au.play();}else{au.pause();} });
+  au.addEventListener('play',function(){ btn.innerHTML='&#10074;&#10074;'; btn.classList.add('playing'); });
+  au.addEventListener('pause',function(){ btn.innerHTML='&#9654;'; btn.classList.remove('playing'); });
+  au.addEventListener('timeupdate',function(){ if(!au.duration) return; fill.style.width=(au.currentTime/au.duration*100).toFixed(2)+'%'; tdisp.textContent=fmtT(au.currentTime)+' / '+fmtT(au.duration); });
+  au.addEventListener('ended',function(){ fill.style.width='0%'; tdisp.textContent='0:00 / '+fmtT(au.duration); });
+  track.addEventListener('click',function(e){ if(!au.duration) return; var r=track.getBoundingClientRect(); au.currentTime=((e.clientX-r.left)/r.width)*au.duration; });
+})();
+</script>
+</body>
+</html>

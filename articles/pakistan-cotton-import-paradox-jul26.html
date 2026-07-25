@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The cotton we chose not to grow · Asad Abdulla</title>
+<meta name="description" content="Pakistan runs the world's textile workshop and now imports the raw cotton to feed it. An interactive analysis of a collapse that was policy-made, not weather-made.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The cotton we chose not to grow">
+<meta property="og:description" content="Pakistan's textile industry earns 60% of the country's export dollars, and roughly every second bale it spins now arrives by sea. The collapse is structural and policy-made. An interactive analysis.">
+<meta property="og:site_name" content="Asad Abdulla · Macro Notes">
+<meta property="og:image" content="https://asadabdulla1979.github.io/articles/pakistan-cotton-import-paradox-jul26-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    /* agriculture palette: greens, browns, wheat, brick, warm greys */
+    --navy:#2f3a22;
+    --navy-2:#45532f;
+    --blue:#6f8138;
+    --blue-lt:#c3cba6;
+    --ink:#241f16;
+    --body:#332d22;
+    --paper:#fbf8f1;
+    --wash:#f0ebdd;
+    --rule:#ddd5c2;
+    --rule-dk:#c4bba3;
+    --muted:#6b6350;
+    --faint:#a49a82;
+    --accent:#b5651d;
+    --accent-lt:#e3c48c;
+    --green:#4f6b2f;
+    --green-lt:#a9bd85;
+    --red:#a5402a;
+    --red-lt:#d9a98f;
+    --wheat:#cf9f1f;
+    --brown:#8a5a2b;
+    --brown-lt:#c39a68;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:#d8d0c0;
+    font-family:'Source Serif 4',Georgia,serif;
+    color:var(--body);
+    -webkit-font-smoothing:antialiased;
+    padding:36px 16px;line-height:1.6;
+  }
+  .sans{font-family:'Inter',-apple-system,system-ui,sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:800px;margin:0 auto;background:var(--paper);box-shadow:0 24px 70px rgba(10,31,51,.26);}
+  .col{padding:0 76px;}
+
+  .mast{background:var(--navy);color:#fff;padding:14px 76px;display:flex;justify-content:space-between;align-items:center;}
+  .mast .id{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;}
+  .mast .id .dot{color:var(--accent);}
+  .mast .meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--blue-lt);text-transform:uppercase;}
+
+  .kicker{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:600;color:var(--accent);margin:52px 0 22px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:54px;line-height:1.02;letter-spacing:-.025em;color:var(--navy);margin-bottom:26px;}
+  .standfirst{font-family:'Source Serif 4',serif;font-size:21px;line-height:1.5;color:#4a4234;margin-bottom:34px;max-width:94%;}
+  .standfirst em{font-style:italic;color:var(--navy-2);font-weight:500;}
+
+  .band{display:grid;grid-template-columns:repeat(4,1fr);background:var(--navy);margin-top:34px;}
+  .metric{padding:22px 22px 20px;border-right:1px solid rgba(255,255,255,.1);}
+  .metric:last-child{border-right:none;}
+  .metric .lab{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;font-weight:500;color:var(--blue-lt);margin-bottom:11px;line-height:1.3;}
+  .metric .val{font-family:'Fraunces',serif;font-weight:600;font-size:34px;line-height:.9;letter-spacing:-.02em;color:#fff;}
+  .metric .val .u{font-size:20px;font-weight:500;}
+  .metric .chg{font-family:'IBM Plex Mono',monospace;font-size:10px;margin-top:11px;color:var(--faint);}
+  .band-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);background:var(--navy);padding:0 22px 16px;letter-spacing:.04em;text-transform:uppercase;}
+
+  .body-wrap{padding-top:46px;}
+  p{font-size:18.5px;margin-bottom:22px;color:var(--body);}
+  .lede::first-letter{font-family:'Fraunces',serif;font-weight:600;float:left;font-size:82px;line-height:.72;padding:9px 13px 0 0;color:var(--navy);}
+  .h2-num{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--accent);letter-spacing:.1em;margin-top:50px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .h2-num::before{content:"";width:24px;height:2px;background:var(--accent);}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:29px;letter-spacing:-.02em;color:var(--navy);line-height:1.18;margin:8px 0 14px;}
+  strong{font-weight:600;color:var(--ink);}
+  em{font-style:italic;}
+  blockquote{font-family:'Fraunces',serif;font-weight:500;font-style:italic;font-size:28px;line-height:1.3;color:var(--navy);margin:42px 0;padding:4px 0 4px 28px;border-left:3px solid var(--accent);}
+
+  .exhibit{margin:44px 0;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);}
+  .ex-head{padding:14px 0 16px;}
+  .ex-num{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+  .ex-title{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;color:var(--navy);line-height:1.25;letter-spacing:-.01em;}
+  .ex-sub{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--muted);margin-top:4px;}
+  .ex-body{padding:8px 0 6px;}
+  .exhibit svg{display:block;width:100%;height:auto;}
+  .ex-foot{font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.55;color:var(--muted);padding:14px 0 16px;border-top:1px solid var(--rule);}
+  .ex-foot b{color:var(--ink);font-weight:600;}
+  .ex-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);display:block;margin-top:8px;letter-spacing:.04em;text-transform:uppercase;}
+  .ex-legend{display:flex;gap:20px;flex-wrap:wrap;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);padding:6px 0 2px;}
+  .ex-legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px;}
+
+  .scorecard{margin:44px 0;border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);}
+  .sc-row{display:grid;grid-template-columns:30px 1fr 150px;gap:18px;align-items:start;padding:18px 0;border-bottom:1px solid var(--rule);}
+  .sc-row:last-child{border-bottom:none;}
+  .sc-n{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--accent);padding-top:2px;}
+  .sc-q{font-family:'Inter',sans-serif;}
+  .sc-q b{font-size:14.5px;color:var(--ink);font-weight:600;display:block;margin-bottom:4px;}
+  .sc-q span{font-size:13px;color:var(--muted);line-height:1.5;}
+  .sc-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;text-align:right;padding-top:3px;}
+  .sc-tag.test{color:var(--accent);}
+  .sc-maps{font-family:'Inter',sans-serif;font-size:10.5px;color:var(--faint);text-align:right;margin-top:3px;text-transform:none;letter-spacing:0;font-weight:400;}
+
+  .announce{background:var(--wash);border-left:3px solid var(--accent);padding:20px 24px;margin:38px 0;}
+  .announce .at{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:12px;}
+  .announce ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9px 24px;}
+  .announce li{font-family:'Inter',sans-serif;font-size:13px;color:var(--body);padding-left:18px;position:relative;line-height:1.4;}
+  .announce li::before{content:"›";position:absolute;left:0;color:var(--accent);font-weight:700;}
+  .announce li b{color:var(--ink);font-weight:600;}
+  .announce .asrc{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:14px;letter-spacing:.04em;text-transform:uppercase;}
+
+  .endnote{font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.6;color:var(--muted);background:var(--wash);padding:22px 26px;margin-top:48px;border-left:3px solid var(--navy);}
+  .endnote b{color:var(--navy);}
+  .closing-rule{height:54px;}
+
+  .ctrl{font-family:'Inter',sans-serif;padding:4px 0 18px;}
+  .ctrl-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+  .ctrl-label{font-size:12px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;}
+  .ctrl-readout{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);font-weight:600;background:var(--wash);padding:3px 9px;border:1px solid var(--rule-dk);}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;background:linear-gradient(90deg,var(--brown),var(--wheat));border-radius:3px;outline:none;margin:8px 0 4px;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--navy);border:3px solid var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  .range-ticks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--faint);margin-top:2px;}
+  .live-note{font-family:'Inter',sans-serif;font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px;padding:10px 14px;background:var(--wash);border-left:2px solid var(--accent);}
+  .live-note b{color:var(--ink);}
+  .interactive-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;border:1px solid var(--accent);border-radius:3px;padding:2px 6px;display:inline-block;margin-left:8px;vertical-align:2px;}
+  @media print{ .ctrl{display:none;} }
+
+  .listen{display:flex;align-items:center;gap:16px;margin-top:26px;padding:14px 18px;background:var(--wash);border-left:3px solid var(--accent);}
+  .listen[hidden]{display:none;}
+  .listen-btn{flex:none;width:44px;height:44px;border-radius:50%;border:none;background:var(--navy);color:var(--paper);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-left:3px;transition:background .15s;}
+  .listen-btn:hover{background:var(--navy-2);}
+  .listen-btn.playing{padding-left:0;}
+  .listen-body{flex:1;min-width:0;}
+  .listen-label{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  .listen-label span{font-weight:400;color:var(--muted);}
+  .listen-track{height:5px;background:var(--rule-dk);border-radius:3px;cursor:pointer;position:relative;}
+  .listen-fill{height:100%;width:0;background:#6f8138;border-radius:3px;pointer-events:none;}
+  .listen-time{flex:none;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);letter-spacing:.03em;min-width:76px;text-align:right;}
+  @media (max-width:640px){
+    .listen{gap:12px;padding:12px 14px;}
+    .listen-btn{width:38px;height:38px;font-size:13px;}
+    .listen-time{min-width:64px;font-size:10.5px;}
+  }
+
+  @media (max-width:640px){
+    body{padding:0;}
+    .wrap{box-shadow:none;}
+    .col{padding:0 22px;}
+    .mast{padding:12px 22px;flex-direction:column;align-items:flex-start;gap:3px;}
+    h1{font-size:36px;}
+    .standfirst{font-size:17.5px;max-width:100%;}
+    .band{grid-template-columns:1fr 1fr;}
+    .metric{border-bottom:1px solid rgba(255,255,255,.1);}
+    .band-src{padding:0 22px 14px;}
+    p{font-size:17px;}
+    h2{font-size:24px;}
+    blockquote{font-size:21px;padding-left:18px;}
+    .lede::first-letter{font-size:56px;}
+    .announce ul{grid-template-columns:1fr;}
+    .sc-row{grid-template-columns:24px 1fr;}
+    .sc-tag{grid-column:2;text-align:left;padding-top:8px;}
+    .sc-maps{text-align:left;}
+    .h2-num{margin-top:38px;}
+  }
+  @media print{ body{background:#fff;padding:0;} .wrap{max-width:100%;box-shadow:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mast">
+    <div class="id">Asad Abdulla<span class="dot"> · </span><span style="font-weight:400;color:#c3cba6;">Macro Notes</span></div>
+    <div class="meta">July 2026 · 18 min read</div>
+  </div>
+
+  <div class="col">
+    <div class="kicker">Pakistan Agriculture · Cotton &amp; The Import Paradox</div>
+    <h1>The cotton we<br>chose not to grow</h1>
+    <p class="standfirst">This spring, Punjab planted less cotton than it did in 1966. <em>Cotton has lost its price, its market, its seed and its water to twenty years of policy, and the acres walked to a crop with a guaranteed buyer.</em> The import bill at the ports is just the receipt.</p>
+
+    <div class="listen" id="listen-bar" hidden>
+      <button class="listen-btn" id="listen-btn" aria-label="Play narration">&#9654;</button>
+      <div class="listen-body">
+        <div class="listen-label">Listen to this analysis <span>· read by Asad Abdulla</span></div>
+        <div class="listen-track" id="listen-track"><div class="listen-fill" id="listen-fill"></div></div>
+      </div>
+      <div class="listen-time" id="listen-time">0:00</div>
+      <audio id="narration" preload="metadata">
+        <source src="pakistan-cotton-import-paradox-jul26.mp3" type="audio/mpeg">
+        <source src="pakistan-cotton-import-paradox-jul26.m4a" type="audio/mp4">
+      </audio>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="metric">
+      <div class="lab">Punjab cotton sowing, 2026&ndash;27</div>
+      <div class="val">2.61<span class="u">m ac</span></div>
+      <div class="chg">below the 1966&ndash;67 level</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Output vs 2004&ndash;05 peak</div>
+      <div class="val">&minus;51<span class="u">%</span></div>
+      <div class="chg">7.05m vs 14.27m bales</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Sugarcane's water use per acre</div>
+      <div class="val">3.4<span class="u">x</span></div>
+      <div class="chg">cotton's, PIDE estimate</div>
+    </div>
+    <div class="metric">
+      <div class="lab">Textiles' share of exports, FY26</div>
+      <div class="val">~60<span class="u">%</span></div>
+      <div class="chg">$17.9bn of $30.1bn</div>
+    </div>
+  </div>
+  <div class="band-src">Source: Punjab Crop Reporting Service · PBS · Economic Survey 2025&ndash;26 · PIDE · USD at ~278 PKR</div>
+
+  <div class="col body-wrap">
+    <p class="lede">Between April and June this year, the farmers of Punjab planted 2.61 million acres of cotton. That's less than the province planted in 1966. Nobody flooded them into that decision. No virus made it for them. It was made in spring sunshine, one farm at a time, on expected prices, expected costs and expected water. And when that many farmers make the same call, it isn't a mood. It's a verdict on the crop's economics. Everything else in this note, the shuttered ginneries, the mills buying American bales, the import bill, sits downstream of that verdict.</p>
+
+    <p>So here's the argument I want to make. The collapse of Pakistani cotton, from over 14 million bales in 2004&ndash;05 to about half that today, isn't bad luck, and one good monsoon won't fix it. Four policies built it; 1. Sugarcane got a guaranteed price and a captive buyer while cotton got neither. 2. The tax code spent a full year making imported lint cheaper than our own. 3. The seed system ran out of money because the industry stopped paying for it. 4. And water is priced as if it were free. The weather gets a chapter in this story. Policy wrote the book. The mills, the exports, the 60 cents of every export dollar that textiles earn: all of it hangs off what happens in the field, so the field is where we'll spend this note.</p>
+
+    <div class="h2-num">SECTION 01</div>
+    <h2>Two decades of descent</h2>
+
+    <p>Look at the shape of the fall first, because the shape is the argument (Exhibit 1). We peaked at 14.27 million bales in 2004&ndash;05. We held above 11 million for a decade. Then the line steps down, and it keeps stepping down. Yes, the floods are in there. 2010&ndash;11 dents the line, and 2022&ndash;23 craters it to 4.91 million. But look at what happens around the disasters. Production had already sagged to 9 or 10 million before the second flood ever came. And when 2023&ndash;24 bounced back to 10.22 million, proof that the land and the seed can still do it, we gave the whole rebound back within two seasons. No flood. Just 7.08 million, then 7.05 million. A weather story recovers when the weather does. This one doesn't.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 1</div>
+        <div class="ex-title">Two floods, one rebound, and a trend that never turns</div>
+        <div class="ex-sub">Cotton production, million bales (170kg), 2004&ndash;05 to 2025&ndash;26</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 232" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="60" y1="190" x2="640" y2="190" stroke="#c4bba3" stroke-width="1.5"/>
+          <line x1="60" y1="83.3" x2="640" y2="83.3" stroke="#ddd5c2" stroke-width="1" stroke-dasharray="3 4"/>
+          <line x1="60" y1="136.7" x2="640" y2="136.7" stroke="#ddd5c2" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="52" y="34" font-size="10" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">15m</text>
+          <text x="52" y="87" font-size="10" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">10m</text>
+          <text x="52" y="140" font-size="10" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">5m</text>
+          <polyline points="60.0,37.8 87.6,51.1 115.2,52.9 142.9,65.7 170.5,63.9 198.1,52.3 225.7,67.8 253.3,45.0 281.0,51.0 308.6,53.8 336.2,41.1 363.8,84.2 391.4,76.2 419.0,62.6 446.7,84.8 474.3,92.4 501.9,114.7 529.5,101.2 557.1,137.6 584.8,81.0 612.4,114.4 640.0,114.8" fill="none" stroke="#2f3a22" stroke-width="2.5"/>
+          <circle cx="60.0" cy="37.8" r="4.5" fill="#2f3a22"/>
+          <circle cx="225.7" cy="67.8" r="4" fill="#a5402a"/>
+          <circle cx="557.1" cy="137.6" r="4.5" fill="#a5402a"/>
+          <circle cx="584.8" cy="81.0" r="4" fill="#4f6b2f"/>
+          <circle cx="640.0" cy="114.8" r="5" fill="#b5651d" stroke="#fbf8f1" stroke-width="1.5"/>
+          <text x="66" y="30" font-size="11" fill="#2f3a22" font-weight="700">14.27m peak</text>
+          <text x="225.7" y="52" font-size="10" fill="#a5402a" text-anchor="middle" font-weight="600">2010 floods</text>
+          <text x="548" y="163" font-size="10" fill="#a5402a" text-anchor="middle" font-weight="600">4.91m · 2022 floods</text>
+          <text x="584.8" y="70" font-size="10" fill="#4f6b2f" text-anchor="middle" font-weight="600">10.22m rebound</text>
+          <text x="640" y="104" font-size="11" fill="#b5651d" text-anchor="end" font-weight="700">7.05m</text>
+          <text x="60" y="208" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2004-05</text>
+          <text x="225.7" y="208" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2010-11</text>
+          <text x="336.2" y="208" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2014-15</text>
+          <text x="557.1" y="208" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2022-23</text>
+          <text x="640" y="208" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">2025-26</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>Peak to flood-year trough is a 66% fall; peak to today is 51%, with no flood in either of the last two seasons.</b> One caution on the recent numbers: ginners' documented arrivals ran about 1.4 million bales below the official 2025&ndash;26 estimate, a gap the trade attributes partly to ginning gone off the books to avoid sales tax (Section 04). On either basis, the direction is the same.
+        <span class="ex-src">Source: Pakistan Economic Survey 2010&ndash;11, 2019&ndash;20, 2025&ndash;26 (Table 2.4); PBS · bales of 170kg · PCGA arrivals 2025&ndash;26: 5.6m</span></div>
+    </div>
+
+    <div class="h2-num">SECTION 02</div>
+    <h2>The weather alibi</h2>
+
+    <p>Every year the explanation shows up on schedule; the heat, the virus, the rains, and every year it explains one bad season, never the trend. The numbers behind that 1966 comparison, for the record: Punjab's Crop Reporting Service puts final sowing for this season at <strong>2.614 million acres, against the province's own target of 3.2 million</strong>. An 18 percent miss, half a million acres less than last year, and below the 2.96 million acres the province planted in 1966&ndash;67. Cotton Outlook had already called the early-June area the lowest since 1983&ndash;84, and the final count came in under the number they were looking at. Remember, all of this happened at sowing time, before a single monsoon cloud showed up. The weather hasn't even had its turn yet. The retreat came first.</p>
+
+    <p>The long view says the same thing. Cotton had 3.1 million hectares in 2004&ndash;05. It has 2.0 million now. A third of the crop's territory, gone in twenty years, and you can watch the whole reallocation happen, year by year, in Exhibit 2. The fields didn't flood for twenty years; they got handed to other crops, hectare by hectare, by farmers doing the sensible thing with the incentives in front of them. And to be fair to this season, the earliest signals aren't all bad. Ginners received a record 527,900 bales by mid July, up 77 percent on last year, mostly because Sindh sowed early. But early isn't more. The cotton research institute is already warning about heat and boll shedding in south Punjab, and fast arrivals off a shrunken area tell you about timing, not recovery. One more detail worth sitting with: Sindh, the smaller cotton province, out-produced Punjab last season, 2.95 million bales to 2.75. The historical heart of Pakistani cotton is where the surrender is concentrated. It's also, and this is not a coincidence, where the sugar mills went up.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 2 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">The fields, changing hands</div>
+        <div class="ex-sub">Every square is 100,000 hectares of kharif cropland. Drag across the field, scrub the slider, or press play, and watch cotton's ground turn into rice, cane and maize.</div>
+      </div>
+      <div class="ex-body">
+        <div class="fg-top">
+          <div class="fg-year" id="fg-year">2025&ndash;26</div>
+          <div>
+            <div class="fg-chips" id="fg-chips"></div>
+            <div class="fg-delta" id="fg-delta"></div>
+          </div>
+        </div>
+        <svg viewBox="0 0 648 236" xmlns="http://www.w3.org/2000/svg" id="fg-grid" aria-label="Cropland grid"></svg>
+        <div class="fg-ctrl">
+          <button class="play-btn" id="fg-play">&#9654;&nbsp;PLAY THE YEARS</button>
+          <div style="flex:1">
+            <input type="range" id="fg-slider" min="0" max="16" step="1" value="16">
+            <div class="range-ticks"><span>2009-10</span><span>2014-15</span><span>2019-20</span><span>2025-26</span></div>
+          </div>
+        </div>
+        <div class="ex-legend">
+          <span><i style="background:#a5402a"></i>Cotton</span>
+          <span><i style="background:#a9bd85"></i>Rice</span>
+          <span><i style="background:#2f3a22"></i>Sugarcane</span>
+          <span><i style="background:#cf9f1f"></i>Maize</span>
+          <span style="color:#a49a82">each square = 100,000 ha</span>
+        </div>
+        <div class="fg-spark">
+          <div class="fg-spark-label">Cotton area, 000 ha · the same story as a line</div>
+          <svg viewBox="0 0 648 70" xmlns="http://www.w3.org/2000/svg" id="fg-sparksvg"></svg>
+        </div>
+      </div>
+      <div class="ex-foot"><b>Cotton is the only major crop that surrendered ground: roughly a million hectares since 2009&ndash;10, while rice, maize and sugarcane all expanded.</b> Squares are allocated per year by largest remainder, so each year's grid matches the published totals to the nearest 100,000 hectares. Series assembled from the Economic Survey editions covering each period; cotton 2020&ndash;21 to 2022&ndash;23 derived from the Survey's own production and yield tables; the grid starts at 2009&ndash;10, the earliest year all four crops are verifiable in accessible editions. Wheat (rabi season, steady near 9m ha) is not part of the kharif contest shown here.
+        <span class="ex-src">Source: Pakistan Economic Survey 2010&ndash;11, 2015&ndash;16, 2019&ndash;20, 2025&ndash;26, Tables 2.3&ndash;2.5 · areas in 000 hectares</span></div>
+    </div>
+
+    <blockquote>Weather explains a bad year. It doesn't explain TWENTY of them.</blockquote>
+
+    <div class="h2-num">SECTION 03</div>
+    <h2>The deal sugarcane got</h2>
+
+    <p>So what were those incentives? Put yourself in the shoes of a grower in the cotton belt. Sugarcane comes with a legal minimum price, Rs425 per 40kg in Sindh, about $1.53, and the mills are obliged by law to buy your crop. That guarantee has existed, in one form or another, since 1950. Now look at what cotton offers you, no support price, no procurement, and right now, not even a functioning marketplace, because the Karachi Cotton Exchange, where this crop's price was discovered for nearly a century, has been sealed in a property dispute since December. So one crop hands you a floor and a guaranteed buyer. The other hands you pests, heat, and a tax story I'll get to in a minute. Farmers can read a contract and they chose accordingly (Exhibit 3).</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 3</div>
+        <div class="ex-title">One crop got a contract. The other got exposure.</div>
+        <div class="ex-sub">Area under cultivation, indexed to 2009&ndash;10 = 100</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 232" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="60" y1="119.5" x2="620" y2="119.5" stroke="#ddd5c2" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="52" y="123" font-size="10" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">100</text>
+          <polyline points="60.0,119.5 270.0,131.2 305.0,155.0 340.0,142.9 375.0,161.7 410.0,152.8 550.0,158.8 585.0,180.7 620.0,182.5" fill="none" stroke="#a5402a" stroke-width="2.5"/>
+          <polyline points="60.0,119.5 270.0,83.8 305.0,67.3 340.0,43.8 375.0,89.3 410.0,101.1 550.0,74.5 585.0,72.0 620.0,66.5" fill="none" stroke="#4f6b2f" stroke-width="2.5"/>
+          <circle cx="620" cy="182.5" r="5" fill="#a5402a" stroke="#fbf8f1" stroke-width="1.5"/>
+          <circle cx="620" cy="66.5" r="5" fill="#4f6b2f" stroke="#fbf8f1" stroke-width="1.5"/>
+          <text x="614" y="200" font-size="11" fill="#a5402a" text-anchor="end" font-weight="700">Cotton 65</text>
+          <text x="614" y="56" font-size="11" fill="#4f6b2f" text-anchor="end" font-weight="700">Sugarcane 130</text>
+          <text x="60" y="220" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2009-10</text>
+          <text x="340" y="220" font-size="9.5" fill="#a49a82" text-anchor="middle" font-family="IBM Plex Mono,monospace">2017-18</text>
+          <text x="620" y="220" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">2025-26</text>
+        </svg>
+      </div>
+      <div class="ex-legend">
+        <span><i style="background:#a5402a"></i>Cotton area (3.11m &rarr; 2.01m ha)</span>
+        <span><i style="background:#4f6b2f"></i>Sugarcane area (0.94m &rarr; 1.22m ha)</span>
+      </div>
+      <div class="ex-foot"><b>Cotton has lost a third of its area since 2009&ndash;10; sugarcane has added 30%, and its 2025&ndash;26 crop of 89.45m tonnes is a record.</b> The substitution is concentrated in the cotton belt itself: Dawn documents sugarcane spreading through Sindh's cotton districts on the back of mill expansions (Mirpurkhas alone tripling crushing capacity to 12,500 tonnes a day), and Punjab's agriculture department cites new sugar mills among the reasons this year's cotton sowing target was missed. Dots mark years published in the cited Survey tables.
+        <span class="ex-src">Source: Pakistan Economic Survey 2010&ndash;11, 2019&ndash;20, 2025&ndash;26; Dawn 22 Jun &amp; 6 Jul 2026 · USD at ~278 PKR</span></div>
+    </div>
+
+    <p>Now the part that should stop a policymaker cold. You could almost defend this substitution if the favoured crop went easy on our scarcest input. It's the opposite. On PIDE's numbers, an acre of sugarcane drinks about 12.3 million litres of water a season. Cotton takes 3.6 million. <strong>That's 3.4 times as much.</strong> Field measurements in Sindh say sugarcane needs more water than wheat and cotton combined. Think about where we live. This is one of the most water-stressed river systems on earth, and for twenty years policy has paid a premium to the thirstiest crop in the rotation, with the water itself priced at roughly nothing for everyone. Go pour the water back the other way in Exhibit 4 and see what it could grow instead.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 4 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">Pour the water the other way</div>
+        <div class="ex-sub">Drag across the picture, or use the slider, to move acres out of sugarcane. The same water grows nearly three and a half times the cotton, and the bales stack up.</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 308" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="wp-svg" style="cursor:ew-resize;touch-action:none;">
+          <text x="40" y="26" font-size="11" fill="#332d22" font-weight="600">SUGARCANE GIVES UP</text>
+          <text x="40" y="40" font-size="10" fill="#6b6350" font-family="IBM Plex Mono,monospace" id="wp-cane-lab">0 acres</text>
+          <text x="608" y="26" font-size="11" fill="#332d22" font-weight="600" text-anchor="end">COTTON GETS</text>
+          <text x="608" y="40" font-size="10" fill="#6b6350" font-family="IBM Plex Mono,monospace" text-anchor="end" id="wp-cot-lab">0 acres</text>
+          <!-- cane block: full outline = 3.02m acres -->
+          <rect x="40" y="50" width="240" height="78" fill="none" stroke="#c4bba3" stroke-dasharray="4 4"/>
+          <rect x="40" y="50" width="240" height="78" fill="#4f6b2f" id="wp-cane"/>
+          <text x="46" y="120" font-size="9.5" fill="#fbf8f1" font-family="IBM Plex Mono,monospace">3.0m ACRES OF CANE</text>
+          <!-- cotton gained block, grows leftward from x=608 -->
+          <rect x="608" y="50" width="0" height="78" fill="#b5651d" id="wp-cotton"/>
+          <!-- water channel -->
+          <line x1="290" y1="89" x2="598" y2="89" stroke="#7c9a92" stroke-width="7" stroke-linecap="round" stroke-dasharray="14 10" id="wp-flow" opacity="0.15"/>
+          <text x="324" y="146" font-size="9.5" fill="#557066" font-family="IBM Plex Mono,monospace" text-anchor="middle" id="wp-flow-lab"></text>
+          <!-- bales -->
+          <text x="40" y="172" font-size="10" fill="#6b6350" font-family="IBM Plex Mono,monospace">BALES GROWN WITH THAT WATER · each bale = 250,000</text>
+          <g id="wp-bales"></g>
+          <!-- import gap gauge -->
+          <text x="40" y="248" font-size="10" fill="#6b6350" font-family="IBM Plex Mono,monospace">THE 6.4m-BALE IMPORT GAP</text>
+          <rect x="40" y="256" width="568" height="18" fill="#e9e3d2"/>
+          <rect x="40" y="256" width="568" height="18" fill="#a5402a" id="wp-gap"/>
+          <rect x="40" y="256" width="0" height="18" fill="#4f6b2f" id="wp-fill"/>
+          <text x="40" y="292" font-size="10.5" fill="#332d22" font-family="Inter,sans-serif" id="wp-gap-lab"></text>
+        </svg>
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <span class="ctrl-label">Acres shifted out of sugarcane</span>
+            <span class="ctrl-readout" id="ws-acres">100,000 acres</span>
+          </div>
+          <input type="range" id="ws-slider" min="0" max="600" step="25" value="100">
+          <div class="range-ticks"><span>0</span><span>150k</span><span>300k</span><span>450k</span><span>600k</span></div>
+        </div>
+        <div class="live-note" id="ws-note"></div>
+      </div>
+      <div class="ex-foot"><b>The water in one acre of sugarcane can irrigate roughly 3.4 acres of cotton.</b> Sindh field estimates put sugarcane's seasonal demand at 66.9 acre-inches against cotton's 31.5, and PIDE's per-acre figures (12.33m vs 3.58m litres) give the 3.4x used here. Cotton yield at the Federal Committee on Agriculture's own Punjab planning assumption of 1.6 bales per acre; imports valued at FY25's realised cost of ~$1,848 per tonne. Ignores soil suitability and price effects of large supply shifts; an aspiration-sizing exercise, not a forecast.
+        <span class="ex-src">Source: PIDE Policy Viewpoint 19 (2020); Prof. Altaf Siyal, Sindh Agriculture University, via Dawn 6 Jul 2026; PBS · USD at ~278 PKR</span></div>
+    </div>
+
+    <blockquote>We're running out of river, and we continue to pay the premium to a crop that drinks the most.</blockquote>
+
+    <div class="h2-num">SECTION 04</div>
+    <h2>The tax that finished the job</h2>
+
+    <p>If the sugarcane deal pulled the acres away, the tax pushed the buyers away. This part is recent, precise, and entirely self-inflicted, so let me walk through it slowly. Under the Export Facilitation Scheme, exporters could import inputs tax-free. Fine so far. Then the Finance Act 2024 removed zero-rating on <em>local</em> supplies to those same exporters. Put the two together and from July 2024 you had this: a mill buying Pakistani lint paid 18 percent sales tax and waited months for refunds, while the same mill importing American or Brazilian lint paid nothing. For a full year, our own tax code preferred foreign cotton to ours (Exhibit 5).</p>
+
+    <p>Credit where it's earned: in July 2025 the government closed the loophole and put 18 percent on imported cotton and yarn too. The field is level again. But level at 18 percent isn't neutral for a domestic chain that lives on working capital. The tax now sits on everything: phutti, lint, cottonseed, oil cake. And this June's budget kept it there, despite ministers promising relief. You can watch the consequences in real time. Ginners who opened early for those record arrivals are already shutting down again. Lint that sold around Rs22,000 a maund in Punjab at the start of June was under Rs18,000 by mid-July, a slide of about Rs4,000, call it $14 a maund, in six weeks. How does this look from the operator's side? A ginnery is working capital on a clock. Pay 18 percent today against a refund that might arrive next year, and you're carrying a financing cost no thin-margin processor can survive. So what happens? The trade doesn't stop. It goes dark. That's my reading of the 1.4 million bale gap between the official crop estimate and what ginners formally reported last season: the cotton exists, the paper trail doesn't. And notice which part of the chain shrinks first. The documented part. The part that pays the research cess and files the returns.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 5</div>
+        <div class="ex-title">Five years of tax policy, from the ginner's side of the ledger</div>
+        <div class="ex-sub">The GST regime on cotton, 2021 to date</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="40" y1="60" x2="608" y2="60" stroke="#c4bba3" stroke-width="2"/>
+          <circle cx="70" cy="60" r="6" fill="#6f8138"/>
+          <circle cx="240" cy="60" r="6" fill="#a5402a"/>
+          <circle cx="410" cy="60" r="6" fill="#4f6b2f"/>
+          <circle cx="578" cy="60" r="6" fill="#a5402a"/>
+          <text x="70" y="38" font-size="10.5" fill="#6b6350" text-anchor="middle" font-family="IBM Plex Mono,monospace">2021</text>
+          <text x="240" y="38" font-size="10.5" fill="#a5402a" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">JUL 2024</text>
+          <text x="410" y="38" font-size="10.5" fill="#4f6b2f" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">JUL 2025</text>
+          <text x="578" y="38" font-size="10.5" fill="#a5402a" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600">JUN 2026</text>
+          <text x="70" y="82" font-size="11.5" fill="#332d22" text-anchor="middle">EFS: exporters</text>
+          <text x="70" y="97" font-size="11.5" fill="#332d22" text-anchor="middle">import inputs</text>
+          <text x="70" y="112" font-size="11.5" fill="#332d22" text-anchor="middle">tax-free</text>
+          <text x="240" y="82" font-size="11.5" fill="#332d22" text-anchor="middle" font-weight="600">Local lint taxed 18%,</text>
+          <text x="240" y="97" font-size="11.5" fill="#332d22" text-anchor="middle" font-weight="600">imports still free.</text>
+          <text x="240" y="112" font-size="11.5" fill="#a5402a" text-anchor="middle" font-weight="600">The asymmetric year</text>
+          <text x="410" y="82" font-size="11.5" fill="#332d22" text-anchor="middle">SRO 1359: imports</text>
+          <text x="410" y="97" font-size="11.5" fill="#332d22" text-anchor="middle">taxed 18% too.</text>
+          <text x="410" y="112" font-size="11.5" fill="#4f6b2f" text-anchor="middle" font-weight="600">Field levelled</text>
+          <text x="578" y="82" font-size="11.5" fill="#332d22" text-anchor="middle" font-weight="600">Finance Act 2026:</text>
+          <text x="578" y="97" font-size="11.5" fill="#332d22" text-anchor="middle" font-weight="600">18% kept on the</text>
+          <text x="578" y="112" font-size="11.5" fill="#a5402a" text-anchor="middle" font-weight="600">whole domestic chain</text>
+          <line x1="40" y1="140" x2="608" y2="140" stroke="#ddd5c2" stroke-width="1"/>
+          <text x="40" y="168" font-size="13" fill="#241f16" font-weight="700" font-family="Fraunces,serif">75</text>
+          <text x="70" y="168" font-size="11" fill="#6b6350">ginning factories operational nationwide, Jan 2025 (PCGA)</text>
+          <text x="40" y="192" font-size="13" fill="#241f16" font-weight="700" font-family="Fraunces,serif">&minus;Rs4,000</text>
+          <text x="118" y="192" font-size="11" fill="#6b6350">per maund: lint price slide since early June, to ~Rs17,800 spot (~$64)</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>For twelve months the tax code actively preferred imported lint; it now taxes the whole domestic chain at 18% instead.</b> APTMA itself blames the EFS distortion for the closure of over a hundred spinning mills and hundreds of ginning units (industry figures). The July 2025 correction was real and deserved; the refusal to lift the tax off the ginning chain in June 2026 is the current, live policy failure.
+        <span class="ex-src">Source: Finance Act 2024; FBR SRO 1359(I)/2025; Dawn 4 Jul 2026; Profit 1 Jun 2026; Business Recorder 13 Jul 2026; PCGA via Daily Times Feb 2025; APTMA · USD at ~278 PKR</span></div>
+    </div>
+
+    <blockquote>For a full year the tax code preferred Brazilian cotton to Bahawalpur's.</blockquote>
+    <div class="h2-num">SECTION 05</div>
+    <h2>A seed regime running on fumes</h2>
+
+    <p>Behind the price and the tax sits the slowest failure of all: the seed. Our commercial cotton still runs, overwhelmingly, on first-generation single-gene Bt. The kind the world adopted twenty years ago. Leaf curl virus has been grinding away at our yields since the 1990s, and the stacked, virus-resistant varieties our competitors plant are still stuck in trials here. Why? Follow the money. Cotton research is funded by a cess on the mills, and roughly 80 percent of them simply stopped paying after 2016. Collections are down two-thirds. The arrears sit around Rs3.4 billion (around $12 million), a rounding error next to the import bill. The research committee sued, won 63 of its 65 cases, and still can't collect. And the government's answer, so far, has been to move to restructure the committee altogether (Exhibit 6).</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 6</div>
+        <div class="ex-title">The industry defunded its own research arm</div>
+        <div class="ex-sub">Cotton cess collection, Rs million per year</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 180" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="130" y1="14" x2="130" y2="130" stroke="#c4bba3" stroke-width="1.5"/>
+          <text x="124" y="45" font-size="12" fill="#332d22" text-anchor="end">2014&ndash;15</text>
+          <rect x="130" y="28" width="397" height="28" fill="#6f8138"/>
+          <text x="521" y="46" font-size="12" fill="#fbf8f1" text-anchor="end" font-weight="700">Rs632m (~$2.3m)</text>
+          <text x="124" y="103" font-size="12" fill="#332d22" text-anchor="end" font-weight="600">2023&ndash;24</text>
+          <rect x="130" y="86" width="133" height="28" fill="#a5402a"/>
+          <text x="271" y="104" font-size="12" fill="#a5402a" font-weight="700">Rs211m (~$0.8m) · &minus;67%</text>
+          <text x="130" y="160" font-size="11.5" fill="#6b6350">Mill arrears: over Rs3.4bn (~$12m). Roughly 80% of textile mills stopped paying the cess after 2016.</text>
+        </svg>
+      </div>
+      <div class="ex-foot"><b>The mills stopped funding the research, and the seed stagnated exactly as you would expect.</b> A cess dispute worth about $12 million now sits upstream of an import bill measured in the billions. APTMA disputes the arrears figure, putting it at Rs700&ndash;800m; either number is trivial beside what the missing yields cost. USD converted at today's ~278; the rupee amounts accrued over several years.
+        <span class="ex-src">Source: PCCC via Business Recorder 14 Nov 2024; Business Recorder 29 Jul 2024; USDA Biotech Annual Nov 2025 · USD at ~278 PKR</span></div>
+    </div>
+
+    <blockquote>The industry stopped paying for the science, then blamed the seed.</blockquote>
+
+    <div class="h2-num">SECTION 06</div>
+    <h2>The paradox, quantified</h2>
+
+    <p>Now put the pieces together and you get arithmetic no exporter can be proud of (Exhibit 7). Our mills consume the equivalent of about 10.2 million US-size bales a year. Our farms now supply roughly five. The sea supplies the rest. Roughly every second bale in the spinning frame is imported. And this isn't abstract. For two straight weeks at the start of June, Pakistan was the largest buyer of American cotton in the world; in one of those weeks we took 68,000 of the 112,000 bales the US sold, and by early June our mills had already booked over 200,000 bales of the new American crop before our own season had properly begun. The raw cotton bill came to $1.27 billion in FY25. And before anyone celebrates the FY26 import number falling 43 percent, look at why it fell. Textile exports went flat at $17.9 billion. June's shipments were down 17 percent on last year. Mills bought less of everything, while imports of second-hand clothing rose 16 percent. That's not the paradox healing. That's the workshop shrinking to fit its imported fibre supply.</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 7</div>
+        <div class="ex-title">Roughly every second bale now arrives by sea</div>
+        <div class="ex-sub">Pakistan cotton: production, mill use and imports, million 480-lb bales (USDA)</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <line x1="50" y1="185" x2="620" y2="185" stroke="#c4bba3" stroke-width="1.5"/>
+          <g>
+            <rect x="70" y="116.8" width="50" height="68.2" fill="#6f8138"/>
+            <rect x="128" y="40.5" width="50" height="144.5" fill="#2f3a22"/>
+            <rect x="186" y="101.8" width="50" height="83.2" fill="#b5651d"/>
+            <text x="95" y="110" font-size="10.5" fill="#6f8138" text-anchor="middle" font-weight="600">5.0</text>
+            <text x="153" y="34" font-size="10.5" fill="#2f3a22" text-anchor="middle" font-weight="600">10.6</text>
+            <text x="211" y="95" font-size="10.5" fill="#b5651d" text-anchor="middle" font-weight="600">6.1</text>
+            <text x="153" y="205" font-size="10" fill="#6b6350" text-anchor="middle" font-family="IBM Plex Mono,monospace">2024/25</text>
+          </g>
+          <g>
+            <rect x="270" y="112.7" width="50" height="72.3" fill="#6f8138"/>
+            <rect x="328" y="52.7" width="50" height="132.3" fill="#2f3a22"/>
+            <rect x="386" y="127.7" width="50" height="57.3" fill="#b5651d"/>
+            <text x="295" y="106" font-size="10.5" fill="#6f8138" text-anchor="middle" font-weight="600">5.3</text>
+            <text x="353" y="46" font-size="10.5" fill="#2f3a22" text-anchor="middle" font-weight="600">9.7</text>
+            <text x="411" y="121" font-size="10.5" fill="#b5651d" text-anchor="middle" font-weight="600">4.2</text>
+            <text x="353" y="205" font-size="10" fill="#6b6350" text-anchor="middle" font-family="IBM Plex Mono,monospace">2025/26</text>
+          </g>
+          <g>
+            <rect x="470" y="115.5" width="50" height="69.5" fill="#6f8138"/>
+            <rect x="528" y="45.9" width="50" height="139.1" fill="#2f3a22"/>
+            <rect x="586" y="116.8" width="50" height="68.2" fill="#b5651d"/>
+            <text x="495" y="109" font-size="10.5" fill="#6f8138" text-anchor="middle" font-weight="600">5.1</text>
+            <text x="553" y="39" font-size="10.5" fill="#2f3a22" text-anchor="middle" font-weight="600">10.2</text>
+            <text x="611" y="110" font-size="10.5" fill="#b5651d" text-anchor="middle" font-weight="600">5.0</text>
+            <text x="553" y="205" font-size="10" fill="#6b6350" text-anchor="middle" font-family="IBM Plex Mono,monospace">2026/27f</text>
+          </g>
+        </svg>
+      </div>
+      <div class="ex-legend">
+        <span><i style="background:#6f8138"></i>Production</span>
+        <span><i style="background:#2f3a22"></i>Mill use</span>
+        <span><i style="background:#b5651d"></i>Imports</span>
+      </div>
+      <div class="ex-foot"><b>Mill use of ~10.2m bales against farm supply of ~5.1m leaves the sea to provide the difference.</b> Units matter here: these are USDA 480-lb bales; in Pakistan's own 170kg bales the 2026&ndash;27 mill demand is roughly 13m against ~6.5m of production. Circulating press figures of "6.94m production against 14m consumption" are conversions of these same USDA numbers into ~160kg ginned bales, not a separate estimate. The realised FY25 raw-cotton import bill was $1.27bn (PBS); APTMA's cumulative estimate of the economy-wide cost of cotton's decline over FY13&ndash;FY23 is Rs2.7 trillion (about $15.5bn at the exchange rates of those years, an industry-side calculation).
+        <span class="ex-src">Source: USDA Cotton: World Markets and Trade, Jul 2026; PBS via PBC; APTMA Jan 2026 · USD at ~278 PKR</span></div>
+    </div>
+    <div class="h2-num">SECTION 07</div>
+    <h2>What revival actually requires</h2>
+
+    <p>Now, the government isn't blind to any of this. There's a revival plan, and its targets are on the table for the season already underway.</p>
+
+    <div class="announce">
+      <div class="at">The 2026&ndash;27 season so far</div>
+      <ul>
+        <li><b>FCA target:</b> 9.64m bales from 5.33m acres nationally</li>
+        <li><b>Punjab sowing, final:</b> 2.614m acres vs the 3.2m target</li>
+        <li><b>Record early arrivals:</b> 527,900 bales by 15 July, +77% YoY</li>
+        <li><b>Ginners' verdict:</b> the output target publicly called unrealistic</li>
+        <li><b>Karachi Cotton Exchange:</b> sealed since December; no official spot mechanism</li>
+        <li><b>GST relief on ginning:</b> promised before the budget, not delivered</li>
+      </ul>
+      <div class="asrc">Source: Federal Committee on Agriculture · Punjab CRS · PCGA · Dawn · Business Recorder · Apr&ndash;Jul 2026</div>
+    </div>
+
+    <p>A 9.64 million bale target on 5.33 million acres was ambitious the day it was set. With Punjab sowing 18 percent short, the ginners who publicly called it unrealistic will probably be proven right. But here's the deeper point: even hitting the target wouldn't end the paradox, because the binding constraint isn't acres. It's yield. We harvest about 635 kg of lint per hectare on the USDA's measure. Brazil gets three times that. Australia gets nearly three and a half. And both of them were once much closer to our level than they are now. I walked through this same arithmetic for wheat in my last note, and in cotton it bites harder, because every extra bale grown at home is a bale we don't have to buy at import prices (Exhibit 8).</p>
+
+    <div class="exhibit">
+      <div class="ex-head">
+        <div class="ex-num">Exhibit 8 <span class="interactive-tag">Interactive</span></div>
+        <div class="ex-title">Raise the yield, sink the ships</div>
+        <div class="ex-sub">Grab Pakistan's bar and drag it to the right. Every ship you sink is a million bales we no longer import.</div>
+      </div>
+      <div class="ex-body">
+        <svg viewBox="0 0 648 322" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" id="yg-svg" style="touch-action:none;">
+          <line x1="150" y1="10" x2="150" y2="196" stroke="#c4bba3" stroke-width="1.5"/>
+          <text x="144" y="30" font-size="12" fill="#a49a82" text-anchor="end">Australia</text>
+          <rect x="150" y="16" width="450.9" height="20" fill="#c3cba6"/>
+          <text x="594" y="30" font-size="11" fill="#6b6350" text-anchor="end" font-weight="700">2,156</text>
+          <text x="144" y="60" font-size="12" fill="#a49a82" text-anchor="end">Brazil</text>
+          <rect x="150" y="46" width="399.6" height="20" fill="#c3cba6"/>
+          <text x="543" y="60" font-size="11" fill="#6b6350" text-anchor="end" font-weight="700">1,911</text>
+          <text x="144" y="90" font-size="12" fill="#332d22" text-anchor="end" id="yg-us-lab">United States</text>
+          <rect x="150" y="76" width="210.8" height="20" fill="#6f8138" id="yg-us-bar"/>
+          <text x="354" y="90" font-size="11" fill="#fbf8f1" text-anchor="end" font-weight="700">1,008</text>
+          <text x="144" y="120" font-size="12" fill="#332d22" text-anchor="end">India</text>
+          <rect x="150" y="106" width="91.2" height="20" fill="#cf9f1f"/>
+          <text x="247" y="120" font-size="11" fill="#8a6b10" font-weight="700">436</text>
+          <text x="144" y="152" font-size="12" fill="#241f16" text-anchor="end" font-weight="700">Pakistan</text>
+          <line x1="274.6" y1="136" x2="274.6" y2="164" stroke="#a5402a" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <text x="274.6" y="176" font-size="8.5" fill="#a5402a" text-anchor="middle" font-family="IBM Plex Mono,monospace">TODAY 596</text>
+          <rect x="150" y="138" width="124.6" height="24" fill="#b5651d" id="yg-bar" style="cursor:grab;"/>
+          <circle cx="274.6" cy="150" r="10" fill="#241f16" stroke="#fbf8f1" stroke-width="2.5" id="yg-handle" style="cursor:grab;"/>
+          <text x="292" y="154" font-size="11" fill="#8a6b10" font-weight="700" id="yg-val" font-family="IBM Plex Mono,monospace">596</text>
+          <text x="150" y="196" font-size="9.5" fill="#a49a82" font-family="IBM Plex Mono,monospace">0</text>
+          <text x="610" y="196" font-size="9.5" fill="#a49a82" text-anchor="end" font-family="IBM Plex Mono,monospace">2,200 kg lint/ha</text>
+          <!-- ships -->
+          <text x="40" y="222" font-size="10" fill="#6b6350" font-family="IBM Plex Mono,monospace">THE IMPORT FLEET · each ship = 1m bales</text>
+          <g id="yg-ships"></g>
+          <text x="40" y="316" font-size="10.5" fill="#332d22" font-family="Inter,sans-serif" id="yg-flag"></text>
+        </svg>
+        <div class="ctrl">
+          <div class="ctrl-row">
+            <span class="ctrl-label">Pakistan's average yield</span>
+            <span class="ctrl-readout" id="yg-kg">596 kg/ha</span>
+          </div>
+          <input type="range" id="yg-slider" min="596" max="1200" step="4" value="596">
+          <div class="range-ticks"><span>596 today</span><span>~900</span><span>1,200 (past US levels)</span></div>
+        </div>
+        <div class="live-note" id="yg-note"></div>
+      </div>
+      <div class="ex-foot"><b>At US-level yields on today's shrunken acreage, Pakistan would grow ~12m bales and the import fleet would all but disappear.</b> Country bars use USDA data (2023&ndash;24 marketing year, lint per harvested hectare); the drag arithmetic uses Pakistan's own accounting basis (596 kg/ha on 2.01m ha = 7.05m bales of 170kg) so the numbers reconcile with Exhibit 1. Each ship is one million local bales of the ~6.4m-bale import gap projected for 2026&ndash;27; import substitution valued at FY25's realised ~$1,848 per tonne. Gross values, price effects ignored; aspirational, not a forecast.
+        <span class="ex-src">Source: USDA PSD; Pakistan Economic Survey 2025&ndash;26; PBS · USD at ~278 PKR</span></div>
+    </div>
+
+    <p>Yields won't move while the causes stand. So the honest scorecard for any revival isn't the output target. It's whether the four policies that built this collapse actually get dismantled. Here's the test I'll be applying, exhibit by exhibit.</p>
+
+    <div class="scorecard">
+      <div class="sc-row">
+        <div class="sc-n">01</div>
+        <div class="sc-q"><b>Does cotton get a price it can plant against?</b><span>Sugarcane has a statutory floor and a captive buyer; cotton currently lacks even a functioning exchange. An indicative price, working futures, or a reopened exchange would each count. Until then, acres keep walking.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">Exhibits 3 &amp; 4</div></div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-n">02</div>
+        <div class="sc-q"><b>Does the 18% GST come off the ginning chain?</b><span>Relief was promised before the June budget and not delivered. Every month it stays, more of the crop goes off the books and more documented ginners go dark.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">Exhibit 5</div></div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-n">03</div>
+        <div class="sc-q"><b>Does anyone actually fund the seed?</b><span>Enforce the cess or replace it, but the research has to be paid for by someone. Stacked, virus-resistant varieties reaching farmers at scale is the deliverable; everything else is a press release.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">Exhibit 6</div></div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-n">04</div>
+        <div class="sc-q"><b>Do yields move at all?</b><span>The one number that ends the paradox. 635 kg/ha is a choice, not a ceiling; the question is whether the state can get better seed, water discipline and extension onto the median acre.</span></div>
+        <div class="sc-tag test">The test<div class="sc-maps">Exhibit 8</div></div>
+      </div>
+    </div>
+
+    <div class="h2-num">SECTION 08</div>
+    <h2>The choice</h2>
+
+    <p>Cotton answers to contracts. To prices, taxes, seed catalogues and water allocations. Every one of those is written by the state or by the industry. None of them is written by the sky. That's the uncomfortable core of this note, and honestly, it's also the hopeful part, because what policy broke, policy can repair. Give cotton the same quality of deal sugarcane has enjoyed for seventy years. Take the tax off the part of the chain that documents the crop. Fund the science with something steadier than lawsuits. Price water honestly for everyone. Do that, and the acres come back the same way they left: one rational farmer at a time.</p>
+
+    <p>Until then, the paradox renews itself every budget season, and we should call it what it is. Pakistan hasn't lost the ability to grow cotton. We've chosen, through a pile of specific and reversible decisions, not to. The workshop still hums, three shifts a day, sixty cents of every export dollar. For now, it hums on borrowed thread.</p>
+
+    <div class="endnote">
+      <b>Sources, and some corrections.</b> Figures are drawn from the Pakistan Economic Survey (2010&ndash;11, 2019&ndash;20 and 2025&ndash;26 editions), PBS trade data, the Punjab Crop Reporting Service via Dawn, PCGA ginning reports, USDA FAS (Cotton: World Markets and Trade, July 2026; PSD database; Biotech Annual 2025), FBR budget documents and SRO 1359(I)/2025, PIDE Policy Viewpoint 19, Business Recorder, Profit/Pakistan Today June 2026 reporting (including Cotton Outlook estimates, the 1966&ndash;67 Punjab acreage comparison, and US export sales data), and APTMA publications. USD conversions at ~278 PKR (interbank, July 2026) unless noted. A caution for fellow readers: several figures circulating in commentary on this subject do not survive contact with the primary tables. The production peak was 14.265 million bales, not 14.6 million; the 4.9 million bale collapse belongs to flood-hit 2022&ndash;23, not 2023&ndash;24, which in fact rebounded to 10.22 million; and FY24 textile exports were $16.66 billion (up 0.9 percent), not $13.7 billion. Widely quoted economic-loss estimates attributed to PIDE and SDPI could not be traced to any primary publication, so this note uses APTMA's own cumulative estimate, labelled as the industry calculation it is. <b>Views are my own.</b>
+    </div>
+  </div>
+  <div class="closing-rule"></div>
+</div>
+<script>
+(function(){
+  // ---------- Exhibit 2: the fields, changing hands ----------
+  var YEARS=['2009–10','2010–11','2011–12','2012–13','2013–14','2014–15','2015–16','2016–17','2017–18','2018–19','2019–20','2020–21','2021–22','2022–23','2023–24','2024–25','2025–26'];
+  var FG={
+    cotton:[3106,2689,2835,2879,2806,2961,2902,2489,2700,2373,2527,2078,1937,2140,2424,2043,2012],
+    rice:  [2883,2365,2571,2309,2789,2891,2739,2724,2901,2810,3034,3335,3537,2976,3637,3899,3759],
+    cane:  [943,988,1058,1129,1173,1141,1131,1218,1342,1102,1040,1165,1260,1319,1180,1193,1222],
+    maize: [935,974,1087,1060,1168,1142,1191,1348,1251,1374,1404,1418,1653,1719,1641,1588,1587]
+  };
+  var FG_CROPS=['cotton','rice','cane','maize'];
+  var FG_COLS={cotton:'#a5402a',rice:'#a9bd85',cane:'#2f3a22',maize:'#cf9f1f'};
+  var FG_NAMES={cotton:'Cotton',rice:'Rice',cane:'Sugarcane',maize:'Maize'};
+  var NCOL=16,NROW=6,CELL=36,CGAP=4.5;
+  var fgGrid=document.getElementById('fg-grid'), fgCells=[];
+  (function(){
+    for(var r=0;r<NROW;r++) for(var c=0;c<NCOL;c++){
+      var rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x',(c*(CELL+CGAP)).toFixed(1)); rect.setAttribute('y',(r*(CELL+CGAP)).toFixed(1));
+      rect.setAttribute('width',CELL); rect.setAttribute('height',CELL); rect.setAttribute('rx',3);
+      rect.setAttribute('class','cell'); rect.setAttribute('fill','none'); rect.setAttribute('stroke','#e9e3d2');
+      fgGrid.appendChild(rect); fgCells.push(rect);
+    }
+  })();
+  function fgAlloc(yi){
+    var vals=FG_CROPS.map(function(cr){return FG[cr][yi]/100;});
+    var total=Math.round(vals.reduce(function(a,b){return a+b;},0));
+    var floors=vals.map(Math.floor);
+    var used=floors.reduce(function(a,b){return a+b;},0);
+    var rema=vals.map(function(v,i){return [v-floors[i],i];}).sort(function(a,b){return b[0]-a[0];});
+    for(var k=0;k<total-used;k++) floors[rema[k%4][1]]++;
+    return floors;
+  }
+  var fgYi=16, fgTimer=null;
+  var fgSlider=document.getElementById('fg-slider');
+  var fgYear=document.getElementById('fg-year');
+  var fgChips=document.getElementById('fg-chips');
+  var fgDelta=document.getElementById('fg-delta');
+  var fgPlay=document.getElementById('fg-play');
+  var fgSpark=document.getElementById('fg-sparksvg');
+  function fgSx(i){ return 8+i*(632/16); }
+  function fgSy(v){ return 62-(v-1800)/1400*54; }
+  var fgPl=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+  fgPl.setAttribute('points',FG.cotton.map(function(v,i){return fgSx(i).toFixed(1)+','+fgSy(v).toFixed(1);}).join(' '));
+  fgPl.setAttribute('fill','none'); fgPl.setAttribute('stroke','#a5402a'); fgPl.setAttribute('stroke-width','2');
+  fgSpark.appendChild(fgPl);
+  var fgCur=document.createElementNS('http://www.w3.org/2000/svg','line');
+  fgCur.setAttribute('y1',4); fgCur.setAttribute('y2',66); fgCur.setAttribute('stroke','#241f16'); fgCur.setAttribute('stroke-width','1.2');
+  fgSpark.appendChild(fgCur);
+  var fgDot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  fgDot.setAttribute('r',4); fgDot.setAttribute('fill','#a5402a'); fgDot.setAttribute('stroke','#fbf8f1'); fgDot.setAttribute('stroke-width','1.5');
+  fgSpark.appendChild(fgDot);
+  function fgRender(){
+    var n=fgAlloc(fgYi), order=[];
+    FG_CROPS.forEach(function(cr,ci){ for(var k=0;k<n[ci];k++) order.push(FG_COLS[cr]); });
+    fgCells.forEach(function(rect,i){
+      if(i<order.length){ rect.setAttribute('fill',order[i]); rect.setAttribute('stroke','none'); }
+      else { rect.setAttribute('fill','none'); rect.setAttribute('stroke','#e9e3d2'); }
+    });
+    fgYear.innerHTML=YEARS[fgYi].replace('–','&ndash;');
+    var chips=''; FG_CROPS.forEach(function(cr){
+      chips+='<span class="chip"><i style="background:'+FG_COLS[cr]+'"></i>'+FG_NAMES[cr]+' <b>'+(FG[cr][fgYi]/1000).toFixed(2)+'m</b></span>';
+    });
+    fgChips.innerHTML=chips;
+    var d=Math.round((FG.cotton[fgYi]/FG.cotton[0]-1)*100);
+    fgDelta.textContent='Cotton vs 2009–10: '+(d>0?'+':'')+d+'%'+(fgYi===0?' · drag or press play':'');
+    fgSlider.value=fgYi;
+    fgCur.setAttribute('x1',fgSx(fgYi)); fgCur.setAttribute('x2',fgSx(fgYi));
+    fgDot.setAttribute('cx',fgSx(fgYi)); fgDot.setAttribute('cy',fgSy(FG.cotton[fgYi]));
+  }
+  function fgStep(){ if(fgYi>=16){ fgStop(); return; } fgYi++; fgRender(); }
+  function fgStart(){ if(fgYi>=16) fgYi=-1; fgPlay.innerHTML='&#10074;&#10074;&nbsp;PAUSE'; fgStep(); fgTimer=setInterval(fgStep,750); }
+  function fgStop(){ fgPlay.innerHTML='&#9654;&nbsp;PLAY THE YEARS'; if(fgTimer){ clearInterval(fgTimer); fgTimer=null; } }
+  fgPlay.addEventListener('click',function(){ fgTimer?fgStop():fgStart(); });
+  fgSlider.addEventListener('input',function(){ fgStop(); fgYi=+fgSlider.value; fgRender(); });
+  function fgFromPointer(ev){
+    var r=fgGrid.getBoundingClientRect();
+    var i=Math.round((ev.clientX-r.left)/r.width*16);
+    i=Math.max(0,Math.min(16,i));
+    if(i!==fgYi){ fgYi=i; fgRender(); }
+  }
+  var fgDrag=false;
+  fgGrid.addEventListener('pointerdown',function(e){ fgStop(); fgDrag=true; fgGrid.setPointerCapture(e.pointerId); fgFromPointer(e); });
+  fgGrid.addEventListener('pointermove',function(e){ if(fgDrag) fgFromPointer(e); });
+  fgGrid.addEventListener('pointerup',function(){ fgDrag=false; });
+  fgRender();
+
+  // ---------- Exhibit 4: pour the water ----------
+  // PIDE per-acre water: sugarcane 12.33m L, cotton 3.58m L (ratio ~3.44).
+  // Cotton yield: FCA 2026-27 Punjab planning assumption 1.6 bales/acre (170kg).
+  // Import parity: FY25 realised ~$1,848/tonne. Import gap: ~6.4m local bales (USDA 5.0m 480-lb).
+  var WP_RATIO=12.33/3.58, WP_BPA=1.6, WP_USD=1848, WP_GAP=6400;
+  var wsSlider=document.getElementById('ws-slider');
+  var wsAcres=document.getElementById('ws-acres');
+  var wsNote=document.getElementById('ws-note');
+  var wpSvg=document.getElementById('wp-svg');
+  var wpCane=document.getElementById('wp-cane');
+  var wpCot=document.getElementById('wp-cotton');
+  var wpFlow=document.getElementById('wp-flow');
+  var wpFlowLab=document.getElementById('wp-flow-lab');
+  var wpCaneLab=document.getElementById('wp-cane-lab');
+  var wpCotLab=document.getElementById('wp-cot-lab');
+  var wpBales=document.getElementById('wp-bales');
+  var wpGapBar=document.getElementById('wp-gap');
+  var wpFill=document.getElementById('wp-fill');
+  var wpGapLab=document.getElementById('wp-gap-lab');
+  // pre-build 14 bale glyphs
+  var wpBaleEls=[];
+  (function(){
+    for(var i=0;i<14;i++){
+      var g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      var x=40+i*40, y=182;
+      var r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',30); r.setAttribute('height',20); r.setAttribute('rx',3); r.setAttribute('fill','#cf9f1f');
+      g.appendChild(r);
+      [10,20].forEach(function(off){
+        var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+        l.setAttribute('x1',x+off); l.setAttribute('y1',y); l.setAttribute('x2',x+off); l.setAttribute('y2',y+20);
+        l.setAttribute('stroke','#8a6b10'); l.setAttribute('stroke-width','1.5');
+        g.appendChild(l);
+      });
+      g.style.transition='opacity .3s ease'; g.setAttribute('opacity','0.12');
+      wpBales.appendChild(g); wpBaleEls.push(g);
+    }
+  })();
+  function wpRender(){
+    var k=+wsSlider.value;               // thousand acres shifted
+    wsAcres.textContent=(k*1000).toLocaleString('en-US')+' acres';
+    var gained=WP_RATIO*k;               // thousand cotton acres
+    var bales=gained*WP_BPA;             // thousand bales
+    var tonnes=bales*0.17, usdM=tonnes*WP_USD/1000;
+    var caneW=(3020-k)/3020*240, cotW=Math.min(300,gained/3020*240);
+    wpCane.setAttribute('width',caneW.toFixed(1));
+    wpCot.setAttribute('x',(608-cotW).toFixed(1)); wpCot.setAttribute('width',cotW.toFixed(1));
+    wpCaneLab.textContent='−'+(k*1000).toLocaleString('en-US')+' acres';
+    wpCotLab.textContent='+'+Math.round(gained*1000).toLocaleString('en-US')+' acres';
+    wpFlow.setAttribute('x1',(40+caneW+8).toFixed(1));
+    wpFlow.setAttribute('x2',(600-cotW).toFixed(1));
+    wpFlow.setAttribute('opacity', k===0 ? '0.15' : Math.min(1,0.3+k/600*0.7).toFixed(2));
+    wpFlowLab.textContent = k===0 ? 'drag to open the channel' : (k*12.33/1000).toFixed(1)+' trillion litres moves across';
+    var nb=Math.round(bales/250);
+    wpBaleEls.forEach(function(g,i){ g.setAttribute('opacity', i<nb ? '1' : '0.12'); });
+    var covered=Math.min(1,bales/WP_GAP);
+    wpFill.setAttribute('width',(568*covered).toFixed(1));
+    wpGapBar.setAttribute('x',(40+568*covered).toFixed(1));
+    wpGapBar.setAttribute('width',(568*(1-covered)).toFixed(1));
+    wpGapLab.textContent = k===0 ? 'The gap stands at 6.4m bales. Start pouring.'
+      : (bales/1000).toFixed(2)+'m bales grown at home covers '+Math.round(covered*100)+'% of the import gap, roughly $'+(usdM>=1000?(usdM/1000).toFixed(2)+'bn':Math.round(usdM)+'m')+' kept onshore.';
+    wsNote.innerHTML = k===0
+      ? 'Pakistan has about <b>3.0 million acres</b> under sugarcane. The water in each one could irrigate roughly <b>3.4 acres of cotton</b>. Drag the picture.'
+      : 'Shifting <b>'+(k*1000).toLocaleString('en-US')+' acres</b> out of sugarcane waters roughly <b>'+Math.round(gained*1000).toLocaleString('en-US')+' acres of cotton</b>: about <b>'+(bales/1000).toFixed(2)+'m bales</b> at current Punjab yields.';
+  }
+  wsSlider.addEventListener('input',wpRender);
+  function wpFromPointer(ev){
+    var r=wpSvg.getBoundingClientRect();
+    var k=Math.round(((ev.clientX-r.left)/r.width)*600/25)*25;
+    k=Math.max(0,Math.min(600,k));
+    if(k!==+wsSlider.value){ wsSlider.value=k; wpRender(); }
+  }
+  var wpDrag=false;
+  wpSvg.addEventListener('pointerdown',function(e){ wpDrag=true; wpSvg.setPointerCapture(e.pointerId); wpFromPointer(e); });
+  wpSvg.addEventListener('pointermove',function(e){ if(wpDrag) wpFromPointer(e); });
+  wpSvg.addEventListener('pointerup',function(){ wpDrag=false; });
+  wpRender();
+
+  // ---------- Exhibit 8: raise the yield, sink the ships ----------
+  var YG_AREA=2012, YG_BASE=596, YG_BASE_BALES=7052, YG_GAP=6400, YG_USD=1848;
+  var YG_X0=150, YG_FULL=460, YG_MAX=2200, YG_MIN=596, YG_CAP=1200;
+  var ygSlider=document.getElementById('yg-slider');
+  var ygBar=document.getElementById('yg-bar');
+  var ygHandle=document.getElementById('yg-handle');
+  var ygVal=document.getElementById('yg-val');
+  var ygKg=document.getElementById('yg-kg');
+  var ygNote=document.getElementById('yg-note');
+  var ygSvg=document.getElementById('yg-svg');
+  var ygShips=document.getElementById('yg-ships');
+  var ygFlag=document.getElementById('yg-flag');
+  var ygUsLab=document.getElementById('yg-us-lab');
+  // build 6 ships (hull + mast + sail)
+  var ygShipEls=[];
+  (function(){
+    for(var i=0;i<6;i++){
+      var g=document.createElementNS('http://www.w3.org/2000/svg','g');
+      var x=40+i*70, y=236;
+      var hull=document.createElementNS('http://www.w3.org/2000/svg','path');
+      hull.setAttribute('d','M'+x+','+(y+22)+' h44 l-9,12 h-26 z');
+      hull.setAttribute('fill','#2f3a22');
+      var mast=document.createElementNS('http://www.w3.org/2000/svg','line');
+      mast.setAttribute('x1',x+22); mast.setAttribute('y1',y+22); mast.setAttribute('x2',x+22); mast.setAttribute('y2',y);
+      mast.setAttribute('stroke','#2f3a22'); mast.setAttribute('stroke-width','2');
+      var sail=document.createElementNS('http://www.w3.org/2000/svg','path');
+      sail.setAttribute('d','M'+(x+22)+','+y+' l20,16 h-20 z');
+      sail.setAttribute('fill','#b5651d');
+      g.appendChild(hull); g.appendChild(mast); g.appendChild(sail);
+      g.style.transition='opacity .35s ease, transform .35s ease';
+      ygShips.appendChild(g); ygShipEls.push({g:g,x:x,y:y});
+    }
+  })();
+  function ygRender(){
+    var y=+ygSlider.value;
+    var w=YG_FULL*(y/YG_MAX);
+    ygBar.setAttribute('width',w.toFixed(1));
+    ygHandle.setAttribute('cx',(YG_X0+w).toFixed(1));
+    ygVal.setAttribute('x',(YG_X0+w+16).toFixed(0));
+    ygVal.textContent=y;
+    ygKg.textContent=y.toLocaleString('en-US')+' kg/ha';
+    var bales=YG_AREA*y/170, extra=Math.max(0,bales-YG_BASE_BALES);
+    var tonnes=extra*0.17, usdM=tonnes*YG_USD/1000;
+    // ships: each 1m bales of the 6.4m gap; remaining gap
+    var remaining=Math.max(0,YG_GAP-extra);
+    var afloat=Math.ceil(remaining/1000-0.0001); if(remaining<=0) afloat=0; if(afloat>6) afloat=6;
+    ygShipEls.forEach(function(s,i){
+      if(i<afloat){ s.g.setAttribute('opacity','1'); s.g.style.transform='none'; }
+      else { s.g.setAttribute('opacity','0.12'); s.g.style.transform='translateY(10px) rotate(8deg)'; s.g.style.transformOrigin=(s.x+22)+'px '+(s.y+30)+'px'; }
+    });
+    // US overtaken state
+    if(y>=1008){ ygUsLab.setAttribute('fill','#a5402a'); ygUsLab.textContent='United States · overtaken'; }
+    else { ygUsLab.setAttribute('fill','#332d22'); ygUsLab.textContent='United States'; }
+    if(y<=YG_BASE){
+      ygFlag.textContent='Six ships a year feed the mills. Drag the orange bar and start sinking them.';
+      ygNote.innerHTML='At today’s 596 kg/ha, the 2.01m hectares sown produce about <b>7.05 million bales</b>, roughly half of what the mills need.';
+    } else {
+      var sunk=6-afloat;
+      ygFlag.textContent = remaining<=0
+        ? 'Fleet sunk. At '+y.toLocaleString('en-US')+' kg/ha Pakistan grows its own mill demand: self-sufficiency.'
+        : sunk+' of 6 ships sunk. '+(remaining/1000).toFixed(1)+'m bales still arrive by sea.';
+      ygNote.innerHTML='At <b>'+y.toLocaleString('en-US')+' kg/ha</b> the same acreage grows about <b>'+(bales/1000).toFixed(1)+'m bales</b>, an extra '+(extra/1000).toFixed(1)+'m, worth roughly <b>$'+(usdM>=1000?(usdM/1000).toFixed(2)+'bn':Math.round(usdM)+'m')+'</b> at import parity.';
+    }
+  }
+  ygSlider.addEventListener('input',ygRender);
+  function ygFromPointer(ev){
+    var r=ygSvg.getBoundingClientRect();
+    var px=(ev.clientX-r.left)/r.width*648;
+    var y=Math.round((px-YG_X0)/YG_FULL*YG_MAX/4)*4;
+    y=Math.max(YG_MIN,Math.min(YG_CAP,y));
+    if(y!==+ygSlider.value){ ygSlider.value=y; ygRender(); }
+  }
+  var ygDrag=false;
+  function ygStart(e){ ygDrag=true; ygSvg.setPointerCapture(e.pointerId); ygFromPointer(e); }
+  ygBar.addEventListener('pointerdown',ygStart);
+  ygHandle.addEventListener('pointerdown',ygStart);
+  ygSvg.addEventListener('pointermove',function(e){ if(ygDrag) ygFromPointer(e); });
+  ygSvg.addEventListener('pointerup',function(){ ygDrag=false; });
+  ygRender();
+
+  // ---------- Voice-over player ----------
+  var au = document.getElementById('narration');
+  var bar = document.getElementById('listen-bar');
+  var btn = document.getElementById('listen-btn');
+  var track = document.getElementById('listen-track');
+  var fill = document.getElementById('listen-fill');
+  var tdisp = document.getElementById('listen-time');
+
+  function fmtT(s){ s=Math.max(0,Math.floor(s)); var m=Math.floor(s/60); return m+':'+('0'+(s%60)).slice(-2); }
+
+  au.addEventListener('loadedmetadata', function(){
+    bar.hidden = false;
+    tdisp.textContent = '0:00 / ' + fmtT(au.duration);
+  });
+  btn.addEventListener('click', function(){
+    if (au.paused) { au.play(); } else { au.pause(); }
+  });
+  au.addEventListener('play', function(){ btn.innerHTML='&#10074;&#10074;'; btn.classList.add('playing'); btn.setAttribute('aria-label','Pause narration'); });
+  au.addEventListener('pause', function(){ btn.innerHTML='&#9654;'; btn.classList.remove('playing'); btn.setAttribute('aria-label','Play narration'); });
+  au.addEventListener('timeupdate', function(){
+    if (!au.duration) return;
+    fill.style.width = (au.currentTime/au.duration*100).toFixed(2)+'%';
+    tdisp.textContent = fmtT(au.currentTime)+' / '+fmtT(au.duration);
+  });
+  au.addEventListener('ended', function(){ fill.style.width='0%'; tdisp.textContent='0:00 / '+fmtT(au.duration); });
+  track.addEventListener('click', function(e){
+    if (!au.duration) return;
+    var r = track.getBoundingClientRect();
+    au.currentTime = ((e.clientX - r.left)/r.width) * au.duration;
+  });
+})();
+</script>
+</body>
+</html>
