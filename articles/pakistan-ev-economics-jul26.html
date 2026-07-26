@@ -590,6 +590,10 @@ a{color:var(--accent-deep);}
     $(id).addEventListener('input',calc);$(id).addEventListener('change',calc);
   });
   calc();
+  /* Live default: pull the current pump price from /fuel.json; prose stays date-stamped by design */
+  fetch('/fuel.json').then(function(r){return r.json();}).then(function(d){
+    if(d&&d.petrol){$('ex3-petrol').value=Math.round(d.petrol);$('ex3-petrol-n').value=Math.round(d.petrol);calc();}
+  }).catch(function(){});
 })();
 </script>
 </body>

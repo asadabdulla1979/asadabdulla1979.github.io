@@ -188,7 +188,7 @@ details p{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.6;}
     </div>
     <div class="footnote">The petrol rows show your bill if pump prices move; Rs 458.40 was the April 2026 crisis peak. The grid row stress-tests a 15% tariff increase on your selected charging source. PHEVs at 70% electric share.</div>
     <details><summary>Assumptions in this tab</summary>
-      <p>Same vehicle data and efficiency assumptions as the payback tab. Current petrol Rs 310.71/litre (10 July 2026 notification; revisions are currently weekly). Scenarios are illustrative, not forecasts. Fixed costs (insurance, maintenance) are excluded here; this tab isolates the energy bill.</p>
+      <p>Same vehicle data and efficiency assumptions as the payback tab. Current petrol Rs <span class="js-petrol"></span>/litre, notified <span class="js-fuel-date"></span>; revisions are currently weekly. Scenarios are illustrative, not forecasts. Fixed costs (insurance, maintenance) are excluded here; this tab isolates the energy bill.</p>
     </details>
   </div>
 
@@ -221,19 +221,21 @@ details p{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.6;}
     </div>
     <div class="footnote" id="t3-note"></div>
     <details><summary>Assumptions in this tab</summary>
-      <p>10 kW turnkey systems were quoted around Rs 850,000-945,000 installed in mid-2026, hence the Rs 90,000/kW default; override to match your quote. Generation default 4.2 units/kW/day. Solar units sent to the car are valued at the ~Rs 11 net-billing export price you forgo; charging not covered by solar is billed at Rs 57 (top slab). Petrol at Rs 310.71. PHEVs charge only their electric share (70%) this way; their remaining kilometres burn petrol at the model's hybrid-mode economy. Joint payback divides system cost plus vehicle premium by the combined annual saving versus the petrol benchmark. USD at ~278 PKR.</p>
+      <p>10 kW turnkey systems were quoted around Rs 850,000-945,000 installed in mid-2026, hence the Rs 90,000/kW default; override to match your quote. Generation default 4.2 units/kW/day. Solar units sent to the car are valued at the ~Rs 11 net-billing export price you forgo; charging not covered by solar is billed at Rs 57 (top slab). Petrol at Rs <span class="js-petrol"></span>. PHEVs charge only their electric share (70%) this way; their remaining kilometres burn petrol at the model's hybrid-mode economy. Joint payback divides system cost plus vehicle premium by the combined annual saving versus the petrol benchmark. USD at ~278 PKR.</p>
     </details>
   </div>
 </div>
 
 <div class="pagefoot">
-  Prices as of July 2026; petrol Rs 310.71/litre (10 July notification, revised weekly). Verify current lists before purchase.
+  Vehicle prices as of July 2026; petrol Rs <span class="js-petrol"></span>/litre, notified <span class="js-fuel-date"></span>, revised weekly. Verify current lists before purchase.
   This tool accompanies <a href="pakistan-ev-economics-jul26.html">"Petrol or Battery? Doing the Math on My First EV"</a>. Independent analysis. Views are my own.
 </div>
 
 <script>
 (function(){
-var FX=278, PETROL=310.71, EXPORT_RATE=11, TOP_SLAB=57;
+/* ===== PETROL PRICE is maintained in /fuel.json at the repo root. ===== */
+/* ===== The values below are only the fallback if that file is unreachable. ===== */
+var FX=278, PETROL=310.71, FUEL_DATE='10 July 2026', EXPORT_RATE=11, TOP_SLAB=57;
 var ICE=[
   {id:'swift',mnt:2.4,name:'Suzuki Swift GLX CVT',price:4.766,kml:14},
   {id:'yaris',mnt:2.6,name:'Toyota Yaris ATIV X 1.5',price:6.049,kml:13},
@@ -362,7 +364,7 @@ function t2(){
   var now=cost(PETROL,tariff);
   $('t2-cards').innerHTML=card(v.vt==='ice'?'ice':'',v.name,now,'Rs '+fmt(now*km)+'/month · Rs '+fmt(now*kmYr)+'/yr (≈$'+fmt(now*kmYr/FX)+') at today’s prices');
   var rows=[
-    ['Petrol Rs 310.71 (today)',cost(310.71,tariff)],
+    ['Petrol Rs '+PETROL.toFixed(2)+' (today)',cost(PETROL,tariff)],
     ['Petrol Rs 350 (stress)',cost(350,tariff)],
     ['Petrol Rs 458.40 (April peak)',cost(458.40,tariff)],
     ['Your tariff +15% (grid stress)',cost(PETROL,tariff*1.15)]
@@ -409,10 +411,22 @@ function pair(sid,nid,fn){
   n.addEventListener('input',function(){var v=parseFloat(n.value);if(!isNaN(v)&&v>=+n.min&&v<=+n.max){s.value=v;fn();}});
   n.addEventListener('change',function(){var v=parseFloat(n.value);if(isNaN(v))v=+s.value;v=Math.min(+n.max,Math.max(+n.min,v));n.value=v;s.value=v;fn();});
 }
+/* Seed slider defaults and text mentions from the current fuel price */
+function seedFuel(){
+  $('t1-petrol').value=Math.round(PETROL);
+  $('t1-petrol-n').value=Math.round(PETROL);
+  document.querySelectorAll('.js-petrol').forEach(function(e){e.textContent=PETROL.toFixed(2);});
+  document.querySelectorAll('.js-fuel-date').forEach(function(e){e.textContent=FUEL_DATE;});
+}
+seedFuel();
 pair('t1-km','t1-km-n',t1);pair('t1-petrol','t1-petrol-n',t1);pair('t1-share','t1-share-n',t1);
 pair('t2-km','t2-km-n',t2);
 pair('t3-kw','t3-kw-n',t3);pair('t3-km','t3-km-n',t3);pair('t3-share','t3-share-n',t3);
 t1();t2();t3();
+/* Live price: pull /fuel.json from the repo root; fall back silently to the constants above */
+fetch('/fuel.json').then(function(r){return r.json();}).then(function(d){
+  if(d&&d.petrol){PETROL=+d.petrol;if(d.date)FUEL_DATE=d.date;seedFuel();t1();t2();t3();}
+}).catch(function(){});
 })();
 </script>
 </body>
