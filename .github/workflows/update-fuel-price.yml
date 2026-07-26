@@ -1,0 +1,35 @@
+# Nightly petrol price update from PSO's official page.
+name: Update fuel price
+
+on:
+  schedule:
+    - cron: '45 20 * * *'   # 01:45 Pakistan time, daily
+  workflow_dispatch: {}      # allows manual runs from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Scrape PSO price into fuel.json
+        run: python scripts/update_fuel_price.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "fuel-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if ! git diff --quiet fuel.json; then
+            git add fuel.json
+            git commit -m "Update petrol price [auto]"
+            git push
+          else
+            echo "No change to commit."
+          fi
