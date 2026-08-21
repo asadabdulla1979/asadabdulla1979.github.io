@@ -1,5 +1,5 @@
 {
-  "petrol": 337.78,
-  "date": "5 August 2026",
+  "petrol": 341.59,
+  "date": "22 August 2026",
   "note": "Edit petrol and date after each fuel price notification. This file feeds the petrol default in the article calculator and everything in the simulator. Keep the format exactly as is: number for petrol, text for date."
 }
